@@ -1,0 +1,33 @@
+{
+	"name": "vitepress-preview-sfc",
+	"private": true,
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"comp:dev": "pnpm run -C packages/components dev",
+		"comp:dev-watch": "pnpm run -C packages/components watch",
+		"core:dev-watch": "pnpm run -C packages/core watch",
+		"build:core": "pnpm run -C packages/core build",
+		"build:comp": "pnpm run -C packages/components build",
+		"docs:dev": "pnpm build:core && pnpm build:comp && vitepress dev docs",
+		"docs:dev-no-comp": "pnpm build:core && vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"docs:preview": "vitepress preview docs"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.14.0",
+	"dependencies": {
+		"@vitepress-preview-sfc/components": "workspace:./packages/components",
+		"@vitepress-preview-sfc/core": "workspace:./packages/core",
+		"tsdown": "^0.13.0",
+		"typescript": "^5.8.3"
+	},
+	"peerDependencyRules": {},
+	"devDependencies": {
+		"@types/node": "^24.1.0",
+		"vitepress": "^1.6.3"
+	}
+}

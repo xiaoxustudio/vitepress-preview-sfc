@@ -1,0 +1,87 @@
+.view-sfc + .view-sfc {
+	margin-top: 20px;
+}
+
+.view-sfc {
+	border: var(--view-sfc-border);
+	padding: 20px;
+	position: relative;
+
+	/* 预览 */
+	.preview {
+		padding: 42px 24px 50px;
+		border-bottom: var(--view-sfc-preview-bottom-border);
+	}
+
+	.content {
+		position: relative;
+
+		.code {
+			white-space: pre-wrap;
+			line-height: 1.5;
+			padding: 0 12px;
+			display: grid;
+			grid-template-rows: 0fr;
+			transition: grid 0.3s linear;
+			overflow: hidden;
+			padding: 0;
+
+			pre {
+				&::-webkit-scrollbar {
+					width: 0 !important;
+					display: none !important;
+				}
+			}
+
+			&.closed > pre {
+				padding: 0;
+			}
+		}
+
+		.title {
+			font-weight: 600;
+			margin-bottom: 10px;
+			background-color: var(--view-sfc-bg);
+			transform: translateY(-50%);
+			display: inline-block;
+			padding-right: 8px;
+		}
+
+		.description {
+			font-size: 14px;
+			color: #999;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		.btn-group {
+			right: 24px;
+			top: 24px;
+			display: flex;
+			align-items: center;
+			justify-content: right;
+
+			button.viewBtn {
+				min-width: 32px;
+				min-height: 32px;
+				margin-left: 8px;
+				padding: 0 12px;
+				background-color: var(--view-sfc-bg);
+				border: var(--view-sfc-border);
+				border-radius: 4px;
+				font-size: 14px;
+				color: #666;
+				cursor: pointer;
+				transition: all 0.3s;
+
+				&:hover {
+					background-color: #f0f0f0;
+				}
+
+				&.active {
+					border-bottom: 2px solid var(--view-sfc-code-active);
+				}
+			}
+		}
+	}
+}

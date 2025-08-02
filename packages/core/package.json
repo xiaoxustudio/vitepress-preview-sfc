@@ -1,0 +1,23 @@
+{
+	"name": "core",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"module": "dist/index.mjs",
+	"scripts": {
+		"watch": "tsdown -c tsdown.config.ts -w",
+		"build": "tsdown -c tsdown.config.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.13.1",
+	"devDependencies": {
+		"@types/markdown-it": "^14.1.2",
+		"@vitejs/plugin-vue": "^6.0.1",
+		"tsdown": "^0.13.0",
+		"typescript": "^5.8.3",
+		"vue": "^3.5.18"
+	}
+}

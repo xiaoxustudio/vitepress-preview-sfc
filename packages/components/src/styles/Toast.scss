@@ -1,0 +1,88 @@
+.toast {
+	display: flex;
+	align-items: center;
+	padding: 8px 16px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	background-color: #fff;
+	min-width: 250px;
+	max-width: 400px;
+	position: relative;
+	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&-content {
+		flex: 1;
+		font-size: 14px;
+		line-height: 1.4;
+		color: #333;
+	}
+
+	&-close {
+		margin-left: 10px;
+		font-size: 18px;
+		cursor: pointer;
+		color: #999;
+		transition: color 0.2s;
+
+		&:hover {
+			color: #333;
+		}
+	}
+
+	&-top-right {
+		position: fixed;
+		top: 20px;
+		right: 20px;
+		z-index: 9999;
+	}
+
+	&-top-left {
+		position: fixed;
+		top: 20px;
+		left: 20px;
+		z-index: 9999;
+	}
+
+	&-bottom-right {
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+		z-index: 9999;
+	}
+
+	&-bottom-left {
+		position: fixed;
+		bottom: 20px;
+		left: 20px;
+		z-index: 9999;
+	}
+
+	&-success {
+		background-color: #f0f9eb;
+	}
+
+	&-error {
+		background-color: #fef0f0;
+	}
+
+	&-warning {
+		background-color: #fdf6ec;
+	}
+
+	&-info {
+		background-color: #f4f4f5;
+	}
+}
+
+/* 动画效果 */
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+	transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast-fade-enter-from,
+.toast-fade-leave-to {
+	opacity: 0;
+	transform: translateY(-20px);
+}
