@@ -52,8 +52,8 @@
     }
 
     const props = withDefaults(defineProps<ViewSfcProps>(), {
-        title: '默认标题',
-        description: '描述内容',
+        title: 'Title',
+        description: 'Description',
         src: '',
         code: '',
         htmlCode: '',
