@@ -130,13 +130,14 @@ export function transformPreview(
 	// add script to import component
 	injectComponentImportScript(toProperties, env);
 
-	return `<${CompName} src="${toProperties.src}" title="${
+	return `<${CompName} 
+	src="${toProperties.src}" title="${
 		toProperties.title || basePath
 	}" code="${encodeURIComponent(
 		toProperties.code
 	)}" htmlCode="${encodeURIComponent(
 		transformHTMLCode(md, toProperties.code, suffixName || "plain")
-	)}"><template #preview><${componentName} /></template></${CompName}>`;
+	)}" extension="${suffixName}" ><template #preview><${componentName} /></template></${CompName}>`;
 }
 
 function injectComponentImportScript(toProperties: any, env: any) {

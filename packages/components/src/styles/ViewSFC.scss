@@ -17,24 +17,39 @@
 		position: relative;
 
 		.code {
-			white-space: pre-wrap;
-			line-height: 1.5;
 			padding: 0 12px;
 			display: grid;
 			grid-template-rows: 0fr;
-			transition: grid 0.3s linear;
+			transition: grid var(--view-sfc-duration-time) ease-in-out;
 			overflow: hidden;
-			padding: 0;
-
+			position: relative;
+			margin-bottom: 0;
 			pre {
+				min-height: 0;
+				margin: 0;
+				transition: padding var(--view-sfc-duration-time) ease-in-out;
 				&::-webkit-scrollbar {
 					width: 0 !important;
 					display: none !important;
 				}
 			}
+			&.closed pre {
+				padding: 0 !important;
+			}
+		}
 
-			&.closed > pre {
-				padding: 0;
+		.closeBtn {
+			background-color: var(--view-sfc-bg);
+			border-radius: 4px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			transition: all 0.3s;
+			padding: 10px 0;
+
+			&:hover {
+				color: #acacac;
 			}
 		}
 
