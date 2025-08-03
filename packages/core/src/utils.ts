@@ -131,13 +131,15 @@ export function transformPreview(
 	injectComponentImportScript(toProperties, env);
 
 	return `<${CompName} 
-	src="${toProperties.src}" title="${
-		toProperties.title || basePath
-	}" code="${encodeURIComponent(
-		toProperties.code
-	)}" htmlCode="${encodeURIComponent(
+	src="${toProperties.src}" 
+	title="${toProperties.title || basePath}" 
+	description="${toProperties.description}" 
+	code="${encodeURIComponent(toProperties.code)}" 
+	htmlCode="${encodeURIComponent(
 		transformHTMLCode(md, toProperties.code, suffixName || "plain")
-	)}" extension="${suffixName}" ><template #preview><${componentName} /></template></${CompName}>`;
+	)}" 
+	extension="${suffixName}" 
+	><template #preview><${componentName} /></template></${CompName}>`;
 }
 
 function injectComponentImportScript(toProperties: any, env: any) {
