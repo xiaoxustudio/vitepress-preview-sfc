@@ -15,15 +15,27 @@
 	import ViewSfc from "@vitepress-preview-sfc/components";
 	import "@vitepress-preview-sfc/components/dist/view-sfc.css";
 	// @ts-ignore
-	import { useSlots, ref, onMounted } from "vue";
+	import { useSlots, useAttrs, ref, onMounted } from "vue";
 	const slots = useSlots();
 	const vsfc = ref(null);
+	const attr = useAttrs();
 	onMounted(() => {
 		vsfc.value.btnGroup.unshift({
 			key: "toast",
-			title: "提示",
+			title: "other",
 			onClick: () => {
-				alert("提示");
+				alert(
+					JSON.stringify({
+						...Object.keys(attr).reduce(
+							(p, c) =>
+								c.startsWith("markdown")
+									? (p[c] = attr[c]) && p
+									: p,
+							{}
+						),
+						file: attr["file"]
+					})
+				);
 			}
 		});
 	});

@@ -1,5 +1,5 @@
 <template>
-	<div id="data">测试</div>
+	<div id="data">Test</div>
 </template>
 <script setup lang="ts"></script>
 <style scope lang="scss">

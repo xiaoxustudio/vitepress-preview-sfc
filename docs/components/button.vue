@@ -1,5 +1,5 @@
 <template>
-	<button class="btn">按钮</button>
+	<button class="btn">Button</button>
 </template>
 <script setup lang="ts"></script>
 <style scope lang="scss">
