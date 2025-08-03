@@ -9,7 +9,7 @@
 
 	/* 预览 */
 	.preview {
-		padding: 42px 24px 50px;
+		padding: 22px 24px 50px;
 		border-bottom: var(--view-sfc-preview-bottom-border);
 	}
 
@@ -47,9 +47,10 @@
 			cursor: pointer;
 			transition: all 0.3s;
 			padding: 10px 0;
+			font-size: 14px;
 
 			&:hover {
-				color: #acacac;
+				color: var(--view-sfc-btn-close-hover);
 			}
 		}
 
@@ -90,7 +91,7 @@
 				transition: all 0.3s;
 
 				&:hover {
-					background-color: #f0f0f0;
+					background-color: var(--view-sfc-btn-hover);
 				}
 
 				&.active {

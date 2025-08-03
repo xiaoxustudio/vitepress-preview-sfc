@@ -131,11 +131,13 @@
 </script>
 <style>
 	:root {
-		--view-sfc-duration-time: 0.15s;
+		--view-sfc-duration-time: 0.22s;
 		--view-sfc-bg: #fff;
 		--view-sfc-code-active: rgba(0, 0, 0, 0.3);
 		--view-sfc-border: 1px solid rgba(5, 5, 5, 0.1);
 		--view-sfc-preview-bottom-border: 1px solid rgba(5, 5, 5, 0.06);
+		--view-sfc-btn-hover: #f0f0f0;
+		--view-sfc-btn-close-hover: #acacac;
 	}
 
 	html.dark {
@@ -143,6 +145,8 @@
 		--view-sfc-code-active: rgba(255, 255, 255, 0.3);
 		--view-sfc-border: 1px solid rgba(255, 255, 255, 0.06);
 		--view-sfc-preview-bottom-border: 1px solid rgba(255, 255, 255, 0.15);
+		--view-sfc-btn-hover: #404040;
+		--view-sfc-btn-close-hover: #acacac;
 	}
 </style>
 <style src="../styles/ViewSFC.scss" lang="scss" module></style>
