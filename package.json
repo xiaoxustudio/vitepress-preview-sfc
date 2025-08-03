@@ -1,7 +1,6 @@
 {
 	"name": "@vitepress-preview-sfc/root",
 	"version": "1.0.0",
-	"private": "true",
 	"description": "a plugin for vitepress to preview sfc",
 	"repository": {
 		"type": "git",
