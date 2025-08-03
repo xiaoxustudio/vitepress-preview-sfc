@@ -5,6 +5,11 @@
 	"type": "module",
 	"main": "dist/view-sfc.es.js",
 	"types": "dist/types/view-sfc.es.d.ts",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/antfu/vitepress-preview-sfc.git",
+		"directory": "packages/components"
+	},
 	"scripts": {
 		"dev": "vite",
 		"watch": "vite build -c vite.config.build.ts --watch",

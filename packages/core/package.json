@@ -9,6 +9,11 @@
 		"watch": "tsdown -c tsdown.config.ts -w",
 		"build": "tsdown -c tsdown.config.ts"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/antfu/vitepress-preview-sfc.git",
+		"directory": "packages/core"
+	},
 	"publishConfig": {
 		"access": "public"
 	},
