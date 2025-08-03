@@ -1,5 +1,5 @@
 {
-	"name": "core",
+	"name": "@vitepress-preview-sfc/core",
 	"version": "1.0.0",
 	"description": "",
 	"main": "dist/index.js",
@@ -8,6 +8,9 @@
 	"scripts": {
 		"watch": "tsdown -c tsdown.config.ts -w",
 		"build": "tsdown -c tsdown.config.ts"
+	},
+	"publishConfig": {
+		"access": "public"
 	},
 	"keywords": [],
 	"author": "",

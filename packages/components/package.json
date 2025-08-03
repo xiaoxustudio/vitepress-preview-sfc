@@ -1,5 +1,5 @@
 {
-	"name": "components",
+	"name": "@vitepress-preview-sfc/components",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -10,6 +10,9 @@
 		"watch": "vite build -c vite.config.build.ts --watch",
 		"build": "vue-tsc -b && vite build -c vite.config.build.ts",
 		"preview": "vite preview"
+	},
+	"publishConfig": {
+		"access": "public"
 	},
 	"dependencies": {
 		"vue": "^3.5.17"

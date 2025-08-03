@@ -1,25 +1,41 @@
 {
-	"name": "vitepress-preview-sfc",
-	"private": true,
+	"name": "@vitepress-preview-sfc/root",
 	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
+	"description": "a plugin for vitepress to preview sfc",
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/xiaoxustudio/vitepress-preview-sfc.git"
+	},
+	"bugs": {
+		"url": "https://github.com/xiaoxustudio/vitepress-preview-sfc/issues"
+	},
+	"homepage": "https://github.com/xiaoxustudio/vitepress-preview-sfc#readme",
+	"engines": {
+		"node": ">=16.0.0"
+	},
 	"scripts": {
 		"comp:dev": "pnpm run -C packages/components dev",
 		"comp:dev-watch": "pnpm run -C packages/components watch",
+		"comp:build": "pnpm run -C packages/components build",
 		"core:dev-watch": "pnpm run -C packages/core watch",
-		"build:core": "pnpm run -C packages/core build",
-		"build:comp": "pnpm run -C packages/components build",
-		"docs:dev": "pnpm build:core && pnpm build:comp && vitepress dev docs",
-		"docs:dev-no-comp": "pnpm build:core && vitepress dev docs",
+		"core:build": "pnpm run -C packages/core build",
+		"docs:dev": "pnpm core:build && pnpm comp:build && vitepress dev docs",
+		"docs:dev-no-comp": "pnpm core:build && vitepress dev docs",
 		"docs:build": "vitepress build docs",
 		"docs:preview": "vitepress preview docs",
 		"prepare": "husky",
 		"format": "prettier --write --config .prettierrc.json --ignore-path .prettierignore \"packages/**/*.*\" \"docs/**/*.*\""
 	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
+	"keywords": [
+		"vitepress",
+		"sfc",
+		"preview"
+	],
+	"author": "xuran",
+	"license": "MIT",
 	"packageManager": "pnpm@10.14.0",
 	"dependencies": {
 		"@vitepress-preview-sfc/components": "workspace:./packages/components",
