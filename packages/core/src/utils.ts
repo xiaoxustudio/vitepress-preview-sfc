@@ -70,7 +70,7 @@ export const composeComponentName = (path: string) => {
 		}
 	}
 	componentList = componentList.filter(
-		item => item !== "" && item !== "." && item !== ".."
+		(item) => item !== "" && item !== "." && item !== ".."
 	);
 	return componentList.join("-").split(".")[0];
 };
@@ -99,17 +99,17 @@ export function transformPreview(
 	// 当前可匹配组件名称
 
 	const attr = checksArr(config)
-		.filter(v => v.test(originText))[0]
+		.filter((v) => v.test(originText))[0]
 		.exec(originText);
 	const CompName = attr[1];
 	const toAttrFilter = attr[2].match(matchAttr);
 	if (!toAttrFilter) return originText;
 	const toProperties = toAttrFilter
-		.map(v =>
+		.map((v) =>
 			getAttr().test(v)
 				? {
-						[getAttr().exec(v)![1]]: getAttr().exec(v)![2],
-				  }
+						[getAttr().exec(v)![1]]: getAttr().exec(v)![2]
+					}
 				: null
 		)
 		.reduce((acc, cur) => {
@@ -147,7 +147,7 @@ function injectComponentImportScript(toProperties: any, env: any) {
 	const scriptsCode = env.sfcBlocks.scripts as any[];
 	const isScript =
 		scriptSetup.test(content) ||
-		scriptsCode.some(v => scriptSetup.test(v.tagOpen));
+		scriptsCode.some((v) => scriptSetup.test(v.tagOpen));
 
 	const importScript = `import ${componentName} from '${src}';`;
 	if (isScript) {
@@ -166,7 +166,7 @@ function injectComponentImportScript(toProperties: any, env: any) {
 			content: `<script setup lang='ts'>
         ${importScript}
         </script>`,
-			contentStripped: `import ${componentName} from '${src}'`,
+			contentStripped: `import ${componentName} from '${src}'`
 		});
 	}
 }

@@ -1,9 +1,9 @@
 # 安装
 
 ```bash
-npm install vitepress-preview-sfc 
-# or 
-pnpm install vitepress-preview-sfc 
+npm install vitepress-preview-sfc
+# or
+pnpm install vitepress-preview-sfc
 ```
 
 # 使用
@@ -36,7 +36,6 @@ export default {
 	extends: DefaultTheme,
 	enhanceApp({ app }) {
 		app.component("ViewSfc", ViewSfc);
-	},
+	}
 } satisfies Theme;
 ```
-

@@ -6,11 +6,11 @@ import path from "path";
 export default defineConfig({
 	plugins: [vue()],
 	server: {
-		port: 3434,
+		port: 3434
 	},
 	resolve: {
 		alias: {
-			"@": path.resolve(__dirname, "./src"),
-		},
-	},
+			"@": path.resolve(__dirname, "./src")
+		}
+	}
 });

@@ -9,25 +9,25 @@ export default defineConfig({
 	plugins: [vue(), dts({ insertTypesEntry: true })],
 	resolve: {
 		alias: {
-			"@": path.resolve(__dirname, "./src"),
-		},
+			"@": path.resolve(__dirname, "./src")
+		}
 	},
 	build: {
 		lib: {
 			entry: "src/index.ts",
 			name: "ViewSfc",
-			fileName: format => `view-sfc.${format}.js`,
+			fileName: (format) => `view-sfc.${format}.js`,
 			formats: ["es"],
-			cssFileName: "view-sfc",
+			cssFileName: "view-sfc"
 		},
 		rollupOptions: {
 			external: ["vue"],
 			output: {
 				globals: {
-					vue: "Vue",
-				},
-			},
+					vue: "Vue"
+				}
+			}
 		},
-		outDir: "dist",
-	},
+		outDir: "dist"
+	}
 });

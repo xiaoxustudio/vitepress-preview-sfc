@@ -13,7 +13,9 @@
 		"docs:dev": "pnpm build:core && pnpm build:comp && vitepress dev docs",
 		"docs:dev-no-comp": "pnpm build:core && vitepress dev docs",
 		"docs:build": "vitepress build docs",
-		"docs:preview": "vitepress preview docs"
+		"docs:preview": "vitepress preview docs",
+		"prepare": "husky",
+		"format": "prettier --write --config .prettierrc.json --ignore-path .prettierignore \"packages/**/*.*\" \"docs/**/*.*\""
 	},
 	"keywords": [],
 	"author": "",
@@ -28,6 +30,15 @@
 	"peerDependencyRules": {},
 	"devDependencies": {
 		"@types/node": "^24.1.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.1.2",
+		"prettier": "^3.6.2",
 		"vitepress": "^1.6.3"
+	},
+	"lint-staged": {
+		"*.{js,ts,mts,md,json,css,scss,vue}": [
+			"prettier --write --config .prettierrc.json --ignore-path .prettierignore",
+			"git add -u"
+		]
 	}
 }

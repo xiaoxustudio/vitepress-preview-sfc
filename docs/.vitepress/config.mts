@@ -9,7 +9,7 @@ export default defineConfig({
 		// https://vitepress.dev/reference/default-theme-config
 		nav: [
 			{ text: "Home", link: "/" },
-			{ text: "Guide", link: "/guide" },
+			{ text: "Guide", link: "/guide" }
 		],
 
 		sidebar: [
@@ -17,18 +17,18 @@ export default defineConfig({
 				text: "Guide",
 				items: [
 					{ text: "Guide", link: "/guide" },
-					{ text: "Preview", link: "/preview" },
-				],
-			},
+					{ text: "Preview", link: "/preview" }
+				]
+			}
 		],
 
 		socialLinks: [
-			{ icon: "github", link: "https://github.com/vuejs/vitepress" },
-		],
+			{ icon: "github", link: "https://github.com/vuejs/vitepress" }
+		]
 	},
 	markdown: {
-		config: md => {
+		config: (md) => {
 			md.use(previewSfcCore, { alias: "PreView" });
-		},
-	},
+		}
+	}
 });

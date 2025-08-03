@@ -8,5 +8,5 @@ export default {
 	enhanceApp({ app }) {
 		app.component("ViewSfc", ViewSfc);
 		app.component("PreView", preview);
-	},
+	}
 } satisfies Theme;

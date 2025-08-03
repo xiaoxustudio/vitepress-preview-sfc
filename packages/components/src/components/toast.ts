@@ -34,7 +34,7 @@ const showToast = (options: ToastOptions) => {
 				toastContainer.remove();
 				toastContainer = null;
 			}
-		},
+		}
 	};
 
 	toastApp = createApp(ToastComponent, props);
@@ -47,7 +47,7 @@ const toast = {
 	show(message: string, options?: Omit<ToastOptions, "message">) {
 		return showToast({
 			message,
-			...options,
+			...options
 		});
 	},
 
@@ -55,7 +55,7 @@ const toast = {
 		return showToast({
 			message,
 			type: "success",
-			...options,
+			...options
 		});
 	},
 
@@ -63,7 +63,7 @@ const toast = {
 		return showToast({
 			message,
 			type: "error",
-			...options,
+			...options
 		});
 	},
 
@@ -71,7 +71,7 @@ const toast = {
 		return showToast({
 			message,
 			type: "warning",
-			...options,
+			...options
 		});
 	},
 
@@ -79,9 +79,9 @@ const toast = {
 		return showToast({
 			message,
 			type: "info",
-			...options,
+			...options
 		});
-	},
+	}
 };
 
 export default toast;

@@ -3,7 +3,7 @@ import { checksArr, transformPreview } from "./utils";
 import { IConfig } from "./types";
 
 const defaultConfig: IConfig = {
-	alias: "ViewSfc",
+	alias: "ViewSfc"
 };
 
 export default function xuranPlugin(md: MarkdownIt, options?: any) {
@@ -17,12 +17,14 @@ export default function xuranPlugin(md: MarkdownIt, options?: any) {
 	) => {
 		const config = { ...defaultConfig, ...options };
 		if (Array.isArray(config.alias)) {
-			config.alias = [...new Set(config.alias.concat(defaultConfig.alias))];
+			config.alias = [
+				...new Set(config.alias.concat(defaultConfig.alias))
+			];
 		} else {
 			config.alias = [...new Set([config.alias, defaultConfig.alias])];
 		}
 		const token = tokens[idx];
-		if (checksArr(config).some(v => v.test(token.content))) {
+		if (checksArr(config).some((v) => v.test(token.content))) {
 			return transformPreview(md, env, token, config);
 		}
 		return defaultHtmlInlineRender(tokens, idx, mdOptions, env, self);

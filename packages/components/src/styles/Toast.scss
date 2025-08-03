@@ -78,7 +78,9 @@
 /* 动画效果 */
 .toast-fade-enter-active,
 .toast-fade-leave-active {
-	transition: opacity 0.3s, transform 0.3s;
+	transition:
+		opacity 0.3s,
+		transform 0.3s;
 }
 
 .toast-fade-enter-from,
