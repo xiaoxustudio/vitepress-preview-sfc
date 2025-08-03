@@ -1,10 +1,8 @@
 {
 	"name": "@vitepress-preview-sfc/root",
 	"version": "1.0.0",
+	"private": "true",
 	"description": "a plugin for vitepress to preview sfc",
-	"publishConfig": {
-		"access": "public"
-	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/xiaoxustudio/vitepress-preview-sfc.git"
@@ -28,6 +26,7 @@
 		"docs:preview": "vitepress preview docs",
 		"build": " pnpm run comp:build && pnpm run core:build",
 		"prepare": "husky",
+		"publish": "npx changeset publish",
 		"format": "prettier --write --config .prettierrc.json --ignore-path .prettierignore \"packages/**/*.*\" \"docs/**/*.*\""
 	},
 	"keywords": [

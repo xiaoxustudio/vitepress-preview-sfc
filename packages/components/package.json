@@ -1,13 +1,12 @@
 {
 	"name": "@vitepress-preview-sfc/components",
-	"private": true,
 	"version": "1.0.0",
 	"type": "module",
 	"main": "dist/view-sfc.es.js",
 	"types": "dist/types/view-sfc.es.d.ts",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/antfu/vitepress-preview-sfc.git",
+		"url": "git+https://github.com/xiaoxustudio/vitepress-preview-sfc.git",
 		"directory": "packages/components"
 	},
 	"scripts": {

@@ -1,6 +1,6 @@
 {
 	"name": "@vitepress-preview-sfc/core",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/antfu/vitepress-preview-sfc.git",
+		"url": "git+https://github.com/xiaoxustudio/vitepress-preview-sfc.git",
 		"directory": "packages/core"
 	},
 	"publishConfig": {
