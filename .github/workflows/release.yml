@@ -2,6 +2,7 @@ name: Release
 
 permissions:
     contents: write
+    pull-requests: write
     id-token: write
 
 on:
@@ -28,13 +29,11 @@ jobs:
                   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
             - run: pnpm run build
             - run: npm install -g npm
-            - name: Create Release Pull Request or Publish
+            - name: Publish packages
               id: changesets
               uses: changesets/action@v1
               with:
                   publish: pnpm changeset publish
-                  title: "chore(release): publish packages"
-                  commit: "chore(release): update versions"
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
