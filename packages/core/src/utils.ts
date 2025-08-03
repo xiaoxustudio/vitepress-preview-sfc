@@ -139,6 +139,9 @@ export function transformPreview(
 		transformHTMLCode(md, toProperties.code, suffixName || "plain")
 	)}" 
 	extension="${suffixName}" 
+	file="${path.basename(toProperties.src)}" 
+	markdownFile="${env.relativePath}" 
+	markdownTitle="${env.title}"
 	><template #preview><${componentName} /></template></${CompName}>`;
 }
 
