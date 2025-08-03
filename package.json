@@ -25,7 +25,6 @@
 		"docs:preview": "vitepress preview docs",
 		"build": " pnpm run comp:build && pnpm run core:build",
 		"prepare": "husky",
-		"publish": "npx changeset publish",
 		"format": "prettier --write --config .prettierrc.json --ignore-path .prettierignore \"packages/**/*.*\" \"docs/**/*.*\""
 	},
 	"keywords": [
