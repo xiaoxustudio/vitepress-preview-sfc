@@ -5,6 +5,7 @@ import previewSfcCore from "@vitepress-preview-sfc/core";
 export default defineConfig({
 	title: "vitepress-preview-sfc",
 	description: "vitepress-preview-sfc",
+	base: "/vitepress-preview-sfc/",
 	themeConfig: {
 		// https://vitepress.dev/reference/default-theme-config
 		nav: [
