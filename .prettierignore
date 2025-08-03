@@ -31,8 +31,6 @@ yarn.lock
 package-lock.json
 
 LICENSE
-tsconfig.json
-tsconfig.*.json
 .gitignore
 .prettierignore
 .prettierrc
