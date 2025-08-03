@@ -5,9 +5,9 @@
 ## Install
 
 ```bash
-npm install vitepress-preview-sfc
+npm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 # or pnpm
-pnpm install vitepress-preview-sfc
+pnpm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 ```
 
 ## Usage
@@ -22,10 +22,10 @@ import previewSfcCore from "@vitepress-preview-sfc/core";
 export default defineConfig({
 	// ...other config
 	markdown: {
-		config: md => {
+		config: (md) => {
 			md.use(previewSfcCore);
-		},
-	},
+		}
+	}
 });
 ```
 
@@ -40,7 +40,7 @@ export default {
 	extends: DefaultTheme,
 	enhanceApp({ app }) {
 		app.component("ViewSfc", ViewSfc);
-	},
+	}
 } satisfies Theme;
 ```
 
@@ -51,7 +51,6 @@ and use it in markdown:
 ```
 
 ## Configuration
-
 
 | Name    | Type               | Default | Description                             |
 | ------- | ------------------ | ------- | --------------------------------------- |
@@ -73,7 +72,6 @@ and use it in markdown:
 | `buttonGroup` | ViewSfcBtn[] | -           | Button group of the component, required |
 | `extension`   | string       | -           | Extension of the component, required    |
 
-
 #### ViewSfcBtn
 
 | Name    | Type            | Default | Description          |
@@ -84,7 +82,7 @@ and use it in markdown:
 
 ## Custom component
 
-You can custom your component by extending `ViewSfc` component  
+You can custom your component by extending `ViewSfc` component
 
 See `docs` folder for more details
 
