@@ -26,6 +26,7 @@
 		"docs:dev-no-comp": "pnpm core:build && vitepress dev docs",
 		"docs:build": "vitepress build docs",
 		"docs:preview": "vitepress preview docs",
+		"build": " pnpm run comp:build && pnpm run core:build",
 		"prepare": "husky",
 		"format": "prettier --write --config .prettierrc.json --ignore-path .prettierignore \"packages/**/*.*\" \"docs/**/*.*\""
 	},
