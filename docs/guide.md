@@ -1,14 +1,14 @@
-# 安装
+# Install
 
 ```bash
-npm install vitepress-preview-sfc
-# or
-pnpm install vitepress-preview-sfc
+npm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
+# or pnpm
+pnpm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 ```
 
-# 使用
+# Usege
 
-`.vitepress/config.mts` 中注册插件
+Registering plugins in `.vitepress/config.mts`
 
 ```typescript
 import { defineConfig } from "vitepress";
@@ -25,7 +25,7 @@ export default defineConfig({
 
 ```
 
-在 `.vitepress/theme/index.ts` 中导入预览组件
+Register the plugin in `.vitepress/config.mts`, and import the preview component in `.vitepress/theme/index.ts`
 
 ```typescript
 import type { Theme } from "vitepress";
