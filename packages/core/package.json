@@ -17,6 +17,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"files": [
+		"dist"
+	],
 	"keywords": [],
 	"author": "",
 	"license": "ISC",

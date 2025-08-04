@@ -9,6 +9,9 @@
 		"url": "git+https://github.com/xiaoxustudio/vitepress-preview-sfc.git",
 		"directory": "packages/components"
 	},
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"dev": "vite",
 		"watch": "vite build -c vite.config.build.ts --watch",
