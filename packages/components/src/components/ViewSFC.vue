@@ -48,32 +48,19 @@
 				v-if="isCodeActive"
 				@click="onCollapse"
 			>
-				收起
+				{{ config.collapseText }}
 			</div>
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
-	import { computed, h, onBeforeMount, ref, toRef, type VNode } from "vue";
+	import { computed, h, onBeforeMount, ref, toRef } from "vue";
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
 	import toast from "./toast";
-
-	export interface ViewSfcBtn {
-		key: string;
-		title: VNode | string;
-		onClick: () => void;
-	}
-
-	export interface ViewSfcProps {
-		title: string;
-		description: string;
-		src: string;
-		code: string;
-		htmlCode: string;
-		buttonGroup: ViewSfcBtn[];
-		extension: string; // 后缀
-	}
+	import { inject } from "vue";
+	import type { ViewSfcBtn, ViewSfcProps } from "@/types";
+	import { ViewSfcConfig, ViewSfcTagSymbol } from "@/config";
 
 	const props = withDefaults(defineProps<ViewSfcProps>(), {
 		title: "Title",
@@ -89,11 +76,13 @@
 
 	defineExpose({ btnGroup });
 
+	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
+
 	const closeDom = ref(null); // 关闭按钮
 
 	const showSourceCode = computed(() => decodeURIComponent(props.htmlCode));
 
-	const isCodeActive = ref(false);
+	const isCodeActive = ref(false); // 是否显示代码
 
 	const onCollapse = () => (isCodeActive.value = !isCodeActive.value);
 
@@ -102,13 +91,13 @@
 			navigator.clipboard
 				.writeText(decodeURIComponent(props.code))
 				.then(() => {
-					toast.success("复制成功");
+					toast.success(config.copyTextSuccess.value);
 				})
 				.catch(() => {
-					toast.error("复制失败");
+					toast.error(config.copyTextError.value);
 				});
 		} catch {
-			toast.error("复制失败");
+			toast.error(config.copyTextError.value);
 		}
 	};
 

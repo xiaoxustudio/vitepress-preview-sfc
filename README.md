@@ -84,7 +84,11 @@ and use it in markdown:
 
 You can custom your component by extending `ViewSfc` component
 
-See `docs` folder for more details
+See `docs/.vitepress/theme/preview.vue` for more details
+
+a simple example, include Add button, replace text, etc.
+
+or see [./packages/components/README.md](./packages/components/README.md) for more details
 
 ## License
 

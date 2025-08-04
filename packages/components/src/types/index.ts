@@ -1,3 +1,5 @@
+import type { VNode } from "vue";
+
 // src/types/toast.ts
 export type ToastType = "success" | "error" | "warning" | "info";
 export type ToastPosition =
@@ -21,4 +23,20 @@ export interface ToastInstance extends ToastOptions {
 	timer?: ReturnType<typeof setTimeout>;
 	remainingTime?: number;
 	paused?: boolean;
+}
+
+export interface ViewSfcBtn {
+	key: string;
+	title: VNode | string;
+	onClick: () => void;
+}
+
+export interface ViewSfcProps {
+	title: string;
+	description: string;
+	src: string;
+	code: string;
+	htmlCode: string;
+	buttonGroup: ViewSfcBtn[];
+	extension: string; // 后缀
 }

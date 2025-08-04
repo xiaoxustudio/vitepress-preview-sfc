@@ -12,14 +12,34 @@
 	</ViewSfc>
 </template>
 <script setup lang="ts">
-	import ViewSfc from "@vitepress-preview-sfc/components";
+	import ViewSfc, {
+		ViewSfcConfig,
+		ViewSfcTagSymbol
+	} from "@vitepress-preview-sfc/components";
 	import "@vitepress-preview-sfc/components/dist/view-sfc.css";
 	// @ts-ignore
-	import { useSlots, useAttrs, ref, onMounted } from "vue";
+	import { useSlots, useAttrs, ref, onMounted, inject } from "vue";
 	const slots = useSlots();
 	const vsfc = ref(null);
 	const attr = useAttrs();
+	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
+
+	const lang = ref("zh");
+
 	onMounted(() => {
+		vsfc.value.btnGroup.unshift({
+			key: "change",
+			title: "change-lang",
+			onClick() {
+				lang.value = lang.value === "en" ? "zh" : "en";
+				config.collapseText.value =
+					lang.value === "en" ? "Collapse" : "收起";
+				config.copyTextSuccess.value =
+					lang.value === "en" ? "Copy Success" : "复制成功";
+				config.copyTextError.value =
+					lang.value === "en" ? "Copy Error" : "复制失败";
+			}
+		});
 		vsfc.value.btnGroup.unshift({
 			key: "toast",
 			title: "other",
