@@ -10,6 +10,13 @@ npm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 pnpm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 ```
 
+## Packages
+
+| Package                                                  | Version                                                                          |
+| -------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [@vitepress-preview-sfc/components](packages/components) | ![component version](https://badgen.net/npm/v/@vitepress-preview-sfc/components) |
+| [@vitepress-preview-sfc/core](packages/core)             | ![core version](https://badgen.net/npm/v/@vitepress-preview-sfc/core)            |
+
 ## Usage
 
 in `.vitepress/config.mts`， add `@vitepress-preview-sfc/core` to `markdown.config`:
