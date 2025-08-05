@@ -2,7 +2,7 @@
 
 > 一款用于 vitepress 的插件，可预览 Vue SFC
 >
-> > [English](./README.md) | [中文](./README_CN.md)
+> [English](./README.md) | [中文](./README_CN.md)
 
 ## 安装
 
@@ -93,23 +93,26 @@ export default defineConfig({
 
 #### 属性
 
-| Name          | Type         | Default     | Description                             |
-| ------------- | ------------ | ----------- | --------------------------------------- |
-| `src`         | string       | -           | Vue SFC path, required                  |
-| `code`        | string       | -           | Vue SFC code, required                  |
-| `htmlCode`    | string       | -           | Vue SFC html code, required             |
-| `title`       | string       | Title       | Title of the component, required        |
-| `description` | string       | Description | Description of the component, required  |
-| `buttonGroup` | ViewSfcBtn[] | -           | Button group of the component, required |
-| `extension`   | string       | -           | Extension of the component, required    |
+| Name            | Type         | Default     | Description                                        |
+| --------------- | ------------ | ----------- | -------------------------------------------------- |
+| `src`           | string       | -           | 路径, required                                     |
+| `code`          | string       | -           | 代码 （自动解析，无需手动输入）,                   |
+| `htmlCode`      | string       | -           | 渲染的html （自动解析，无需手动输入）              |
+| `title`         | string       | Title       | 标题                                               |
+| `description`   | string       | Description | 描述                                               |
+| `buttonGroup`   | ViewSfcBtn[] | -           | 按钮组（默认展开、复制按钮）                       |
+| `extension`     | string       | -           | 扩展名（自动解析，无需手动输入）                   |
+| `file`          | string       | -           | SFC 文件名称 （自动解析，无需手动输入）            |
+| `markdownFile`  | string       | -           | 当前 MarknDown 文件名称 （自动解析，无需手动输入） |
+| `markdownTitle` | string       | -           | 当前 MarknDown 标题 （自动解析，无需手动输入）     |
 
 #### ViewSfcBtn
 
-| Name    | Type            | Default | Description          |
-| ------- | --------------- | ------- | -------------------- |
-| key     | string          | -       | Button key           |
-| title   | vnode or string | -       | Button title or icon |
-| onClick | () => void      | -       | Button click event   |
+| Name    | Type            | Default | Description         |
+| ------- | --------------- | ------- | ------------------- |
+| key     | string          | -       | 按钮 key , required |
+| title   | vnode or string | -       | 按钮文本或图标      |
+| onClick | () => void      | -       | 点击事件            |
 
 ## Custom component
 

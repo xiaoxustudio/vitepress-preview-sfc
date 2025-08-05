@@ -91,15 +91,18 @@ and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
 
 #### Props
 
-| Name          | Type         | Default     | Description                             |
-| ------------- | ------------ | ----------- | --------------------------------------- |
-| `src`         | string       | -           | Vue SFC path, required                  |
-| `code`        | string       | -           | Vue SFC code, required                  |
-| `htmlCode`    | string       | -           | Vue SFC html code, required             |
-| `title`       | string       | Title       | Title of the component, required        |
-| `description` | string       | Description | Description of the component, required  |
-| `buttonGroup` | ViewSfcBtn[] | -           | Button group of the component, required |
-| `extension`   | string       | -           | Extension of the component, required    |
+| Name            | Type         | Default     | Description                                                   |
+| --------------- | ------------ | ----------- | ------------------------------------------------------------- |
+| `src`           | string       | -           | Vue SFC path, required                                        |
+| `code`          | string       | -           | Vue SFC code (Plugin auto)                                    |
+| `htmlCode`      | string       | -           | Vue SFC html code (Plugin auto)                               |
+| `title`         | string       | Title       | Title of the component                                        |
+| `description`   | string       | Description | Description of the component                                  |
+| `buttonGroup`   | ViewSfcBtn[] | -           | Button group of the component (default `collapse`,`copy` btn) |
+| `extension`     | string       | -           | Extension of the component (Plugin auto)                      |
+| `file`          | string       | -           | SFC file name (Plugin auto)                                   |
+| `markdownFile`  | string       | -           | Current MarknDown file name (Plugin auto)                     |
+| `markdownTitle` | string       | -           | Current MarknDown Title (Plugin auto)                         |
 
 #### ViewSfcBtn
 
