@@ -1,9 +1,10 @@
 # vitepress-preview-sfc
 
-> A plugin for vitepress to preview Vue SFC
-> [English](./README.md) | [中文](./README_CN.md)
+> 一款用于 vitepress 的插件，可预览 Vue SFC
+>
+> > [English](./README.md) | [中文](./README_CN.md)
 
-## Install
+## 安装
 
 ```bash
 npm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
@@ -11,16 +12,16 @@ npm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 pnpm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 ```
 
-## Packages
+## 包
 
 | Package                                                  | Version                                                                          |
 | -------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | [@vitepress-preview-sfc/components](packages/components) | ![component version](https://badgen.net/npm/v/@vitepress-preview-sfc/components) |
 | [@vitepress-preview-sfc/core](packages/core)             | ![core version](https://badgen.net/npm/v/@vitepress-preview-sfc/core)            |
 
-## Usage
+## 使用
 
-in `.vitepress/config.mts`， add `@vitepress-preview-sfc/core` to `markdown.config`:
+在 `.vitepress/config.mts`， 添加 `@vitepress-preview-sfc/core` 到 `markdown.config`:
 
 ```ts
 import { defineConfig } from "vitepress";
@@ -37,7 +38,7 @@ export default defineConfig({
 });
 ```
 
-add `ViewSfc` component
+添加 `ViewSfc` 组件
 
 ```ts
 import type { Theme } from "vitepress";
@@ -52,21 +53,20 @@ export default {
 } satisfies Theme;
 ```
 
-and use it in markdown:
+在 `markdown` 中使用:
 
 ```md
 <ViewSfc src="Your vue sfc path" [...]></ViewSfc>
 ```
 
-## Configuration
+## 插件配置
 
-| Name    | Type               | Default | Description                             |
-| ------- | ------------------ | ------- | --------------------------------------- |
-| `alias` | string or string[] | -       | ViewSfc Alias , You Can add Other Alias |
+| Name    | Type               | Default | Description                       |
+| ------- | ------------------ | ------- | --------------------------------- |
+| `alias` | string or string[] | -       | ViewSfc别名，你可以添加其他的别名 |
 
-The default is `ViewSfc`，you can not delete or change it, btn you can add a new alias.
-
-For example, if you want to use `Preview` as an alias for `ViewSfc`, you can do it like this:
+默认设置为`ViewSfc`，您不能删除或更改它，但您可以添加一个新的别名。
+例如，如果你想使用`Preview`这个别名，你可以这样操作：
 
 ```ts
 import { defineConfig } from "vitepress";
@@ -83,13 +83,15 @@ export default defineConfig({
 });
 ```
 
-and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
+`Preview`，`ViewSfc`这两个别名都将被用作解析预览组件。
 
-## Props
+是的，默认会添加 `ViewSfc` 别名
+
+## 组件
 
 ### `<ViewSfc />`
 
-#### Props
+#### 属性
 
 | Name          | Type         | Default     | Description                             |
 | ------------- | ------------ | ----------- | --------------------------------------- |
@@ -111,13 +113,13 @@ and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
 
 ## Custom component
 
-You can custom your component by extending `ViewSfc` component
+您可以通过扩展 `ViewSfc` 组件来定制您的组件。
 
-See `docs/.vitepress/theme/preview.vue` for more details
+请查看 `docs/.vitepress/theme/preview.vue` 以获取更多详细信息
 
-a simple example, include Add button, replace text, etc.
+包括添加按钮、替换文本等。
 
-or see [./packages/components/README.md](./packages/components/README.md) for more details
+或者查看 [./packages/components/README.md](./packages/components/README.md) 获得更多信息
 
 ## License
 
