@@ -1,7 +1,7 @@
 # vitepress-preview-sfc
 
 > A plugin for vitepress to preview Vue SFC
-> 
+>
 > [English](./README.md) | [中文](./README_CN.md)
 
 ## Install
@@ -57,6 +57,15 @@ and use it in markdown:
 
 ```md
 <ViewSfc src="Your vue sfc path" [...]></ViewSfc>
+```
+
+or
+
+```md
+:::ViewSfc
+src=xxx
+// more props
+:::
 ```
 
 ## Configuration

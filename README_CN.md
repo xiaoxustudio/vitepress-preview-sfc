@@ -59,6 +59,15 @@ export default {
 <ViewSfc src="Your vue sfc path" [...]></ViewSfc>
 ```
 
+or
+
+```md
+:::ViewSfc
+src=xxx
+// more props
+:::
+```
+
 ## 插件配置
 
 | Name    | Type               | Default | Description                       |
@@ -114,7 +123,7 @@ export default defineConfig({
 | title   | vnode or string | -       | 按钮文本或图标      |
 | onClick | () => void      | -       | 点击事件            |
 
-## Custom component
+## 自定义组件
 
 您可以通过扩展 `ViewSfc` 组件来定制您的组件。
 

@@ -2,7 +2,7 @@
 	<div id="data">Test</div>
 </template>
 <script setup lang="ts"></script>
-<style scope lang="scss">
+<style scoped lang="scss">
 	#data {
 		color: red;
 		font-size: 20px;

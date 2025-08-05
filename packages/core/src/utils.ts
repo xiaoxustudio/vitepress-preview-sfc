@@ -105,14 +105,14 @@ export function transformPreview(
 	const toAttrFilter = attr[2].match(matchAttr);
 	if (!toAttrFilter) return originText;
 	const toProperties = toAttrFilter
-		.map((v) =>
+		.map((v: string) =>
 			getAttr().test(v)
 				? {
 						[getAttr().exec(v)![1]]: getAttr().exec(v)![2]
 					}
 				: null
 		)
-		.reduce((acc, cur) => {
+		.reduce((acc: any, cur: any) => {
 			if (cur) {
 				Object.assign(acc, cur);
 			}
@@ -127,6 +127,7 @@ export function transformPreview(
 	const suffixName = toProperties.src.substring(
 		toProperties.src.lastIndexOf(".") + 1
 	);
+
 	// add script to import component
 	injectComponentImportScript(toProperties, env);
 
