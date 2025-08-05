@@ -1,6 +1,7 @@
 # vitepress-preview-sfc
 
 > A plugin for vitepress to preview Vue SFC
+> 
 > [English](./README.md) | [中文](./README_CN.md)
 
 ## Install
