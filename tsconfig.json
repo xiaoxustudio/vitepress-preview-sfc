@@ -2,6 +2,8 @@
 	"compileOnSave": true,
 
 	"compilerOptions": {
+		"jsx": "preserve",
+		"jsxImportSource": "vue",
 		"target": "ES2018",
 
 		"module": "commonjs",

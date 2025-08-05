@@ -21,6 +21,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"license": "MIT",
 	"dependencies": {
 		"vue": "^3.5.17"
 	},

@@ -63,6 +63,27 @@ and use it in markdown:
 | ------- | ------------------ | ------- | --------------------------------------- |
 | `alias` | string or string[] | -       | ViewSfc Alias , You Can add Other Alias |
 
+The default is `ViewSfc`，you can not delete or change it, btn you can add a new alias.
+
+For example, if you want to use `Preview` as an alias for `ViewSfc`, you can do it like this:
+
+```ts
+import { defineConfig } from "vitepress";
+import previewSfcCore from "@vitepress-preview-sfc/core";
+
+// https://vitepress.dev/reference/site-config
+export default defineConfig({
+	// ...other config
+	markdown: {
+		config: (md) => {
+			md.use(previewSfcCore, { alias: ["Preview"] });
+		}
+	}
+});
+```
+
+and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
+
 ## Props
 
 ### `<ViewSfc />`

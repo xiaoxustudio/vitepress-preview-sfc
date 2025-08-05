@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import VueJsx from "@vitejs/plugin-vue-jsx";
 import previewSfcCore from "@vitepress-preview-sfc/core";
 
 // https://vitepress.dev/reference/site-config
@@ -24,8 +25,18 @@ export default defineConfig({
 		],
 
 		socialLinks: [
-			{ icon: "github", link: "https://github.com/vuejs/vitepress" }
-		]
+			{
+				icon: "github",
+				link: "https://github.com/xiaoxustudio/vitepress-preview-sfc"
+			}
+		],
+		footer: {
+			message: "Released under the MIT License.",
+			copyright: "Copyright © 2025-present Xuran "
+		}
+	},
+	vite: {
+		plugins: [VueJsx()]
 	},
 	markdown: {
 		config: (md) => {
