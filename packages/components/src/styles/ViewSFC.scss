@@ -21,18 +21,18 @@
 			display: grid;
 			grid-template-rows: 0fr;
 			transition: grid var(--view-sfc-duration-time) ease-in-out;
-			overflow: hidden;
-			position: relative;
 			margin-bottom: 0;
+			overflow: hidden;
+			box-sizing: border-box;
 			pre {
+				min-width: 0;
+				width: 100%;
 				min-height: 0;
-				margin: 0;
+				overflow: auto hidden;
 				transition: padding var(--view-sfc-duration-time) ease-in-out;
-				&::-webkit-scrollbar {
-					width: 0 !important;
-					display: none !important;
-				}
+				box-sizing: border-box;
 			}
+
 			&.closed pre {
 				padding: 0 !important;
 			}

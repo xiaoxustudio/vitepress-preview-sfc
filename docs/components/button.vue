@@ -1,5 +1,10 @@
 <template>
-	<button class="btn">Button</button>
+	<button class="btn">Button</button><button class="btn">Button</button
+	><button class="btn">Button</button> <button class="btn">Button</button
+	><button class="btn">Button</button><button class="btn">Button</button>
+	<button class="btn">Button</button><button class="btn">Button</button
+	><button class="btn">Button</button> <button class="btn">Button</button
+	><button class="btn">Button</button><button class="btn">Button</button>
 </template>
 <script setup lang="ts"></script>
 <style scoped lang="scss">
