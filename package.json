@@ -21,6 +21,7 @@
 		"core:build": "pnpm run -C packages/core build",
 		"docs:dev": "pnpm core:build && pnpm comp:build && vitepress dev docs",
 		"docs:dev-no-comp": "pnpm core:build && vitepress dev docs",
+		"docs:dev-no-core": "pnpm comp:build && vitepress dev docs",
 		"docs:build": "pnpm build && vitepress build docs",
 		"docs:preview": "vitepress preview docs",
 		"build": " pnpm run comp:build && pnpm run core:build",

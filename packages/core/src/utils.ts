@@ -63,7 +63,9 @@ export const composeComponentName = (path: string) => {
 		if (lastIndex === -1) {
 			isFlag = false;
 		} else {
-			const name = path.substring(lastIndex + 1);
+			const name = path
+				.substring(lastIndex + 1)
+				.replace(/[\\/:*?"<>|.'\s]/g, "");
 
 			componentList.unshift(name);
 			path = path.substring(0, lastIndex);
@@ -97,7 +99,6 @@ export function transformPreview(
 	const basePath = path.basename(env.path);
 
 	// 当前可匹配组件名称
-
 	const attr = checksArr(config)
 		.filter((v) => v.test(originText))[0]
 		.exec(originText);
@@ -122,12 +123,39 @@ export function transformPreview(
 	toProperties.code = "";
 	let componentName = "";
 	let suffixName = "plain";
+
 	// if src is not empty
 	if (toProperties.src) {
 		toProperties.absoluteSrc = path.resolve(
 			path.dirname(env.path),
 			toProperties.src
 		);
+		if (config.resolveAlias) {
+			if (typeof config.resolveAlias === "string") {
+				toProperties.absoluteSrc = config.resolveAlias
+					? path.resolve(config.resolveAlias, toProperties.src)
+					: path.resolve(path.dirname(env.path), toProperties.src);
+			} else {
+				for (const alias in config.resolveAlias) {
+					const aliasPath = config.resolveAlias[alias];
+					if (toProperties.src.startsWith(alias)) {
+						toProperties.absoluteSrc = path.resolve(
+							aliasPath,
+							toProperties.src.replace(alias, "")
+						);
+						toProperties.src = path
+							.normalize(toProperties.absoluteSrc)
+							.replace(
+								path.normalize(path.dirname(env.path)),
+								"."
+							)
+							.replace(/\\/g, "/");
+						break;
+					}
+				}
+			}
+		}
+
 		toProperties.code = readFileSync(toProperties.absoluteSrc, "utf-8");
 		componentName = getCompoentName(toProperties.src);
 		suffixName = toProperties.src.substring(

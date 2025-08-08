@@ -70,9 +70,10 @@ src=xxx
 
 ## Configuration
 
-| Name    | Type               | Default | Description                             |
-| ------- | ------------------ | ------- | --------------------------------------- |
-| `alias` | string or string[] | -       | ViewSfc Alias , You Can add Other Alias |
+| Name           | Type                            | Default  | Description                             |
+| -------------- | ------------------------------- | -------- | --------------------------------------- |
+| `alias`        | string or string[]              | -        | ViewSfc Alias , You Can add Other Alias |
+| `resolveAlias` | string or Record<string,string> | env.path | Path resolve alias                      |
 
 The default is `ViewSfc`，you can not delete or change it, btn you can add a new alias.
 
@@ -87,7 +88,13 @@ export default defineConfig({
 	// ...other config
 	markdown: {
 		config: (md) => {
-			md.use(previewSfcCore, { alias: ["Preview"] });
+			md.use(previewSfcCore, {
+				alias: "PreView",
+				resolveAlias: {
+					"@/": path.resolve(__dirname, "../components"),
+					"@@/": path.resolve(__dirname, "./theme")
+				}
+			});
 		}
 	}
 });

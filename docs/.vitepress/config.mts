@@ -1,6 +1,7 @@
 import { defineConfig } from "vitepress";
 import VueJsx from "@vitejs/plugin-vue-jsx";
 import previewSfcCore from "@vitepress-preview-sfc/core";
+import path from "path";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -40,7 +41,13 @@ export default defineConfig({
 	},
 	markdown: {
 		config: (md) => {
-			md.use(previewSfcCore, { alias: "PreView" });
+			md.use(previewSfcCore, {
+				alias: "PreView",
+				resolveAlias: {
+					"@/": path.resolve(__dirname, "../components"),
+					"@@/": path.resolve(__dirname, "./theme")
+				}
+			});
 		}
 	}
 });
