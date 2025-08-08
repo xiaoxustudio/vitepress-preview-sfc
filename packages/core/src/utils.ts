@@ -140,10 +140,10 @@ export function transformPreview(
 	}
 
 	return `<${CompName} 
-	src="${toProperties.src}" 
+	src="${toProperties.src || ""}" 
 	title="${toProperties.title || basePath}" 
-	description="${encodeURIComponent(md.renderInline(toProperties.description))}" 
-	code="${encodeURIComponent(toProperties.code)}" 
+	description="${encodeURIComponent(md.renderInline(toProperties.description || ""))}" 
+	code="${encodeURIComponent(toProperties.code || "")}" 
 	htmlCode="${encodeURIComponent(
 		transformHTMLCode(md, toProperties.code, suffixName || "plain")
 	)}" 
