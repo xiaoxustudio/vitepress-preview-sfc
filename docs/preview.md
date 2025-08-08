@@ -1,7 +1,7 @@
 # Example preview
 
 Render Empty
-<ViewSfc />
+<ViewSfc description="this is a `empty` component"/>
 
 Render Vue SFC component
 <ViewSfc src="./components/button.vue" title="ViewSfc Render" description="a component description" />

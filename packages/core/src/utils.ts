@@ -18,7 +18,7 @@ export const checksArr = (config: IConfig) => {
 	for (const alias of aliasArr) {
 		regexs.push(
 			new RegExp(`^<(${alias}) (.*)></${alias}>$`),
-			new RegExp(`^<(${alias}) (.*) />$`)
+			new RegExp(`^<(${alias}) (.*)/>$`)
 		);
 	}
 	return regexs;
@@ -142,7 +142,7 @@ export function transformPreview(
 	return `<${CompName} 
 	src="${toProperties.src}" 
 	title="${toProperties.title || basePath}" 
-	description="${toProperties.description}" 
+	description="${encodeURIComponent(md.renderInline(toProperties.description))}" 
 	code="${encodeURIComponent(toProperties.code)}" 
 	htmlCode="${encodeURIComponent(
 		transformHTMLCode(md, toProperties.code, suffixName || "plain")

@@ -10,11 +10,16 @@
 			<div :class="$style.title" v-else>{{ props.title }}</div>
 
 			<div :class="$style.description" v-if="$slots.description">
-				<slot name="description" :description="props.description" />
+				<slot
+					name="description"
+					:description="decodeURIComponent(props.description)"
+				/>
 			</div>
-			<div :class="$style.description" v-else>
-				{{ props.description }}
-			</div>
+			<div
+				:class="$style.description"
+				v-else
+				v-html="decodeURIComponent(props.description)"
+			></div>
 
 			<div :class="$style['btn-group']">
 				<button
