@@ -9,7 +9,8 @@
 			@click="handleClick"
 		>
 			<div class="toast-content">
-				{{ message }}
+				<slot v-if="$slots.message" name="message" :message></slot>
+				<span v-else>{{ message }}</span>
 			</div>
 			<div v-if="closable" class="toast-close" @click.stop="close">
 				&times;

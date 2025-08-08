@@ -116,14 +116,14 @@ export default function registerContainer(
 			hidden: false
 		} as Token);
 
-		// 更新源代码，移除已处理的内容
+		// 更新源代码
 		const lineStart = state.bMarks[startLine];
 		const lineEnd = state.bMarks[nextLine] + state.tShift[nextLine];
 		const beforeContainer = state.src.slice(0, lineStart);
 		const afterContainer = state.src.slice(lineEnd + min_markers);
 		state.src = beforeContainer + afterContainer;
 	}
-	// 将规则添加到 fence 规则之前，确保它能在代码块规则之前运行
+	// 确保它能在 alt 代码块规则之前运行
 	md.block.ruler.before("fence", "container_sfc_" + name, container, {
 		alt: ["paragraph", "reference", "blockquote", "list"]
 	});

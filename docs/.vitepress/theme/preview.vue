@@ -17,6 +17,7 @@
 		ViewSfcTagSymbol
 	} from "@vitepress-preview-sfc/components";
 	import "@vitepress-preview-sfc/components/dist/view-sfc.css";
+	import toastComponent from "./toast.vue";
 	// @ts-ignore
 	import { useSlots, useAttrs, ref, onMounted, inject } from "vue";
 	const slots = useSlots();
@@ -27,6 +28,7 @@
 	const lang = ref("zh");
 
 	onMounted(() => {
+		config.toast.value = toastComponent;
 		vsfc.value.btnGroup.unshift({
 			key: "change",
 			title: "change-lang",

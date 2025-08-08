@@ -1,6 +1,6 @@
 import { createApp, type App } from "vue";
 import type { ToastOptions } from "@/types";
-import ToastComponent from "@/components/Toast.vue";
+import { ViewSfcConfig } from "@/config";
 
 let toastApp: App | null = null;
 let toastContainer: HTMLElement | null = null;
@@ -18,7 +18,7 @@ const showToast = (options: ToastOptions) => {
 
 	if (!toastContainer) return;
 
-	const toastId = Date.now();
+	const toastId = Date.now() + Date.now();
 	const toastElement = document.createElement("div");
 	toastContainer.appendChild(toastElement);
 
@@ -37,7 +37,7 @@ const showToast = (options: ToastOptions) => {
 		}
 	};
 
-	toastApp = createApp(ToastComponent, props);
+	toastApp = createApp(ViewSfcConfig.toast.value, props);
 	toastApp.mount(toastElement);
 
 	return toastId;
