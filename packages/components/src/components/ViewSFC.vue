@@ -63,8 +63,8 @@
 	import { ViewSfcConfig, ViewSfcTagSymbol } from "@/config";
 
 	const props = withDefaults(defineProps<ViewSfcProps>(), {
-		title: "Title",
-		description: "Description",
+		title: "",
+		description: "",
 		src: "",
 		code: "",
 		htmlCode: "",

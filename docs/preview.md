@@ -1,5 +1,8 @@
 # Example preview
 
+Render Empty
+<ViewSfc />
+
 Render Vue SFC component
 <ViewSfc src="./components/button.vue" title="ViewSfc Render" description="a component description" />
 

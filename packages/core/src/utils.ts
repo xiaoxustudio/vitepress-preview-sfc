@@ -118,18 +118,26 @@ export function transformPreview(
 			}
 			return acc;
 		}, {});
-	const componentName = getCompoentName(toProperties.src);
-	toProperties.absoluteSrc = path.resolve(
-		path.dirname(env.path),
-		toProperties.src
-	);
-	toProperties.code = readFileSync(toProperties.absoluteSrc, "utf-8");
-	const suffixName = toProperties.src.substring(
-		toProperties.src.lastIndexOf(".") + 1
-	);
-
-	// add script to import component
-	injectComponentImportScript(toProperties, env);
+	toProperties.absoluteSrc = "";
+	toProperties.code = "";
+	let componentName = "";
+	let suffixName = "plain";
+	// if src is not empty
+	if (toProperties.src) {
+		toProperties.absoluteSrc = path.resolve(
+			path.dirname(env.path),
+			toProperties.src
+		);
+		toProperties.code = readFileSync(toProperties.absoluteSrc, "utf-8");
+		componentName = getCompoentName(toProperties.src);
+		suffixName = toProperties.src.substring(
+			toProperties.src.lastIndexOf(".") + 1
+		);
+		// add script to import component
+		injectComponentImportScript(toProperties, env);
+	} else {
+		toProperties.src = ""; // set src
+	}
 
 	return `<${CompName} 
 	src="${toProperties.src}" 
@@ -143,7 +151,7 @@ export function transformPreview(
 	file="${path.basename(toProperties.src)}" 
 	markdownFile="${env.relativePath}" 
 	markdownTitle="${env.title}"
-	><template #preview><${componentName} /></template></${CompName}>`;
+	>${toProperties.src ? `<template #preview><${componentName} /></template>` : ""}</${CompName}>`;
 }
 
 function injectComponentImportScript(toProperties: any, env: any) {
