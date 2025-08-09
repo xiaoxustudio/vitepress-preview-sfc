@@ -22,6 +22,14 @@ export default defineConfig({
 					{ text: "Guide", link: "/guide" },
 					{ text: "Preview", link: "/preview" }
 				]
+			},
+			{
+				text: "Config",
+				link: "/config",
+				items: [
+					{ text: "alias", link: "/config/alias" },
+					{ text: "resolveAlias", link: "/config/resolveAlias" }
+				]
 			}
 		],
 
