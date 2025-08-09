@@ -62,12 +62,20 @@
 	</div>
 </template>
 <script setup lang="ts">
-	import { computed, h, onBeforeMount, ref, toRef } from "vue";
+	import {
+		computed,
+		h,
+		onBeforeMount,
+		ref,
+		toRef,
+		unref,
+		isRef,
+		isReactive,
+		toRaw
+	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
 	import toast from "./toast";
-	// @ts-ignore
-	import Tooltip from "./Tooltip.vue";
 	import { inject } from "vue";
 	import type { ViewSfcBtn, ViewSfcProps } from "@/types";
 	import { ViewSfcConfig, ViewSfcTagSymbol } from "@/config";
@@ -95,6 +103,14 @@
 	const isCodeActive = ref(false); // 是否显示代码
 
 	const onCollapse = () => (isCodeActive.value = !isCodeActive.value);
+
+	function deepUnwrap(obj: any) {
+		if (isRef(obj)) return deepUnwrap(unref(obj));
+		if (isReactive(obj)) return deepUnwrap(toRaw(obj));
+		return obj;
+	}
+
+	const Tooltip = deepUnwrap(config.tooltip);
 
 	const onCopy = () => {
 		try {
