@@ -127,6 +127,7 @@ and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
 | ------- | --------------- | ------- | -------------------- |
 | key     | string          | -       | Button key           |
 | title   | vnode or string | -       | Button title or icon |
+| tip     | string          | -       | tooltip              |
 | onClick | () => void      | -       | Button click event   |
 
 ## Custom component

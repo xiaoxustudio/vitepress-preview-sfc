@@ -122,6 +122,7 @@ export default defineConfig({
 | ------- | --------------- | ------- | ------------------- |
 | key     | string          | -       | 按钮 key , required |
 | title   | vnode or string | -       | 按钮文本或图标      |
+| tip     | string          | -       | tooltip             |
 | onClick | () => void      | -       | 点击事件            |
 
 ## 自定义组件

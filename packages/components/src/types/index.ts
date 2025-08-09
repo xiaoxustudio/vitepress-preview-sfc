@@ -28,6 +28,7 @@ export interface ToastInstance extends ToastOptions {
 export interface ViewSfcBtn {
 	key: string;
 	title: VNode | string;
+	tip?: string;
 	onClick: () => void;
 }
 

@@ -22,20 +22,23 @@
 			></div>
 
 			<div :class="$style['btn-group']">
-				<button
-					v-for="v in btnGroup"
-					:key="v.key"
-					:class="[
-						$style.viewBtn,
-						{ [$style.active]: isCodeActive && v.key === 'code' }
-					]"
-					@click="v.onClick"
-				>
-					<span v-if="typeof v.title === 'string'">{{
-						v.title
-					}}</span>
-					<component :is="v.title" v-else />
-				</button>
+				<Tooltip v-for="v in btnGroup" :key="v.key" :content="v.tip">
+					<button
+						:class="[
+							$style.viewBtn,
+							{
+								[$style.active]:
+									isCodeActive && v.key === 'code'
+							}
+						]"
+						@click="v.onClick"
+					>
+						<span v-if="typeof v.title === 'string'">{{
+							v.title
+						}}</span>
+						<component :is="v.title" v-else />
+					</button>
+				</Tooltip>
 			</div>
 
 			<div
@@ -63,6 +66,8 @@
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
 	import toast from "./toast";
+	// @ts-ignore
+	import Tooltip from "./Tooltip.vue";
 	import { inject } from "vue";
 	import type { ViewSfcBtn, ViewSfcProps } from "@/types";
 	import { ViewSfcConfig, ViewSfcTagSymbol } from "@/config";
@@ -112,10 +117,12 @@
 				{
 					key: "code",
 					title: h(CodeSvg),
+					tip: "Show Code",
 					onClick: onCollapse
 				},
 				{
 					key: "copy",
+					tip: "Copy Code",
 					title: h(CopySvg),
 					onClick: onCopy
 				}
