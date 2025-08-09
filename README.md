@@ -14,10 +14,10 @@ pnpm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 
 ## Packages
 
-| Package                                                  | Version                                                                          |
-| -------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| [@vitepress-preview-sfc/components](packages/components) | ![component version](https://badgen.net/npm/v/@vitepress-preview-sfc/components) |
-| [@vitepress-preview-sfc/core](packages/core)             | ![core version](https://badgen.net/npm/v/@vitepress-preview-sfc/core)            |
+| Package                                                  | Version                                                                                                                                             | Downloads                                                                             |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| [@vitepress-preview-sfc/components](packages/components) | [![component version](https://badgen.net/npm/v/@vitepress-preview-sfc/components)](https://www.npmjs.com/package/@vitepress-preview-sfc/components) | ![NPM Downloads](https://img.shields.io/npm/dw/%40vitepress-preview-sfc%2Fcomponents) |
+| [@vitepress-preview-sfc/core](packages/core)             | [![core version](https://badgen.net/npm/v/@vitepress-preview-sfc/core)](https://www.npmjs.com/package/@vitepress-preview-sfc/core)                  | ![NPM Downloads](https://img.shields.io/npm/dw/%40vitepress-preview-sfc%2Fcore)       |
 
 ## Usage
 
