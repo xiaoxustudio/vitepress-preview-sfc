@@ -155,6 +155,8 @@
 		--view-sfc-preview-bottom-border: 1px solid rgba(5, 5, 5, 0.06);
 		--view-sfc-btn-hover: #f0f0f0;
 		--view-sfc-btn-close-hover: #acacac;
+		--view-sfc-scrollbar-thumb: #eeeef3;
+		--view-sfc-scrollbar-thumb-hover: #eaeaef;
 	}
 
 	html.dark {
@@ -164,6 +166,8 @@
 		--view-sfc-preview-bottom-border: 1px solid rgba(255, 255, 255, 0.15);
 		--view-sfc-btn-hover: #404040;
 		--view-sfc-btn-close-hover: #acacac;
+		--view-sfc-scrollbar-thumb: #2d2d2d;
+		--view-sfc-scrollbar-thumb-hover: #3e3e3e;
 	}
 </style>
 <style src="../styles/ViewSFC.scss" lang="scss" module></style>
