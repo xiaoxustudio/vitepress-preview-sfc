@@ -1,6 +1,5 @@
-import { createApp, type App } from "vue";
+import { computed, createApp, type App, type Component } from "vue";
 import type { ToastOptions } from "@/types";
-import { ViewSfcConfig } from "@/config";
 
 let toastApp: App | null = null;
 let toastContainer: HTMLElement | null = null;
@@ -13,7 +12,7 @@ const createToastContainer = () => {
 	document.body.appendChild(toastContainer);
 };
 
-const showToast = (options: ToastOptions) => {
+const showToast = computed(() => (Comp: Component, options: ToastOptions) => {
 	createToastContainer();
 
 	if (!toastContainer) return;
@@ -36,47 +35,66 @@ const showToast = (options: ToastOptions) => {
 			}
 		}
 	};
-
-	toastApp = createApp(ViewSfcConfig.toast.value, props);
+	toastApp = createApp(Comp, props);
 	toastApp.mount(toastElement);
 
 	return toastId;
-};
+});
 
 const toast = {
-	show(message: string, options?: Omit<ToastOptions, "message">) {
-		return showToast({
+	show(
+		Comp: Component,
+		message: string,
+		options?: Omit<ToastOptions, "message">
+	) {
+		return showToast.value(Comp, {
 			message,
 			...options
 		});
 	},
 
-	success(message: string, options?: Omit<ToastOptions, "message" | "type">) {
-		return showToast({
+	success(
+		Comp: Component,
+		message: string,
+		options?: Omit<ToastOptions, "message" | "type">
+	) {
+		return showToast.value(Comp, {
 			message,
 			type: "success",
 			...options
 		});
 	},
 
-	error(message: string, options?: Omit<ToastOptions, "message" | "type">) {
-		return showToast({
+	error(
+		Comp: Component,
+		message: string,
+		options?: Omit<ToastOptions, "message" | "type">
+	) {
+		return showToast.value(Comp, {
 			message,
 			type: "error",
 			...options
 		});
 	},
 
-	warning(message: string, options?: Omit<ToastOptions, "message" | "type">) {
-		return showToast({
+	warning(
+		Comp: Component,
+		message: string,
+		options?: Omit<ToastOptions, "message" | "type">
+	) {
+		return showToast.value(Comp, {
 			message,
 			type: "warning",
 			...options
 		});
 	},
 
-	info(message: string, options?: Omit<ToastOptions, "message" | "type">) {
-		return showToast({
+	info(
+		Comp: Component,
+		message: string,
+		options?: Omit<ToastOptions, "message" | "type">
+	) {
+		return showToast.value(Comp, {
 			message,
 			type: "info",
 			...options

@@ -117,13 +117,22 @@
 			navigator.clipboard
 				.writeText(decodeURIComponent(props.code))
 				.then(() => {
-					toast.success(config.copyTextSuccess.value);
+					toast.success(
+						deepUnwrap(config.toast),
+						deepUnwrap(config.copyTextSuccess)
+					);
 				})
 				.catch(() => {
-					toast.error(config.copyTextError.value);
+					toast.error(
+						deepUnwrap(config.toast),
+						deepUnwrap(config.copyTextError.value)
+					);
 				});
 		} catch {
-			toast.error(config.copyTextError.value);
+			toast.error(
+				deepUnwrap(config.toast),
+				deepUnwrap(config.copyTextError.value)
+			);
 		}
 	};
 
