@@ -95,8 +95,6 @@ export function transformPreview(
 	config: IConfig
 ): string {
 	const originText = token.content;
-	// 获取当前md文件路径
-	const basePath = path.basename(env.path);
 
 	// 当前可匹配组件名称
 	const attr = checksArr(config)
@@ -169,7 +167,7 @@ export function transformPreview(
 
 	return `<${CompName} 
 	src="${toProperties.src || ""}" 
-	title="${toProperties.title || basePath}" 
+	title="${toProperties.title || ""}" 
 	description="${encodeURIComponent(md.renderInline(toProperties.description || ""))}" 
 	code="${encodeURIComponent(toProperties.code || "")}" 
 	htmlCode="${encodeURIComponent(
