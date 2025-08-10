@@ -1,8 +1,6 @@
 <template>
-	<ViewSfc ref="vsfc" v-bind="$attrs">
-		<template v-for="(slot, name) in slots" #[name]>
-			<component :is="slot" />
-		</template>
+	<ViewSfc class="vsfc" ref="vsfc" v-bind="$attrs">
+		<slot name="preview" />
 		<template #title="{ title }">
 			<span>*{{ title }}</span>
 		</template>
@@ -17,6 +15,7 @@
 		ViewSfcTagSymbol
 	} from "@vitepress-preview-sfc/components";
 	import toastComponent from "./toast.vue";
+	import tooltipComponent from "./tooltip.vue";
 	// @ts-ignore
 	import { useSlots, useAttrs, ref, onMounted, provide } from "vue";
 	const slots = useSlots();
@@ -32,6 +31,7 @@
 
 	onMounted(() => {
 		defaultViewSfcConfig.toast.value = toastComponent;
+		defaultViewSfcConfig.tooltip.value = tooltipComponent;
 
 		vsfc.value.btnGroup.unshift({
 			key: "change",
@@ -66,4 +66,18 @@
 		});
 	});
 </script>
-<style scope lang="scss"></style>
+<style scope lang="scss">
+	.vsfc {
+		border: none;
+		border-radius: 4px;
+		padding: 10px;
+		box-sizing: border-box;
+		overflow: hidden;
+		transition: all 0.3s;
+		box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+
+		&:hover {
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+	}
+</style>

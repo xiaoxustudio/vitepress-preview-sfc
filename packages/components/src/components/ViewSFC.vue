@@ -22,7 +22,12 @@
 			></div>
 
 			<div :class="$style['btn-group']">
-				<Tooltip v-for="v in btnGroup" :key="v.key" :content="v.tip">
+				<component
+					:is="config.tooltip.value"
+					v-for="v in btnGroup"
+					:key="v.key"
+					:content="v.tip"
+				>
 					<button
 						:class="[
 							$style.viewBtn,
@@ -38,7 +43,7 @@
 						}}</span>
 						<component :is="v.title" v-else />
 					</button>
-				</Tooltip>
+				</component>
 			</div>
 
 			<div
@@ -65,7 +70,7 @@
 	import {
 		computed,
 		h,
-		onBeforeMount,
+		onMounted,
 		ref,
 		toRef,
 		unref,
@@ -92,8 +97,6 @@
 
 	const btnGroup = toRef<ViewSfcBtn[]>(props.buttonGroup);
 
-	defineExpose({ btnGroup });
-
 	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
 
 	const closeDom = ref(null); // 关闭按钮
@@ -109,8 +112,6 @@
 		if (isReactive(obj)) return deepUnwrap(toRaw(obj));
 		return obj;
 	}
-
-	const Tooltip = deepUnwrap(config.tooltip);
 
 	const onCopy = () => {
 		try {
@@ -136,7 +137,9 @@
 		}
 	};
 
-	onBeforeMount(() => {
+	defineExpose({ btnGroup, onCopy, onCollapse });
+
+	onMounted(() => {
 		btnGroup.value.push(
 			...[
 				{

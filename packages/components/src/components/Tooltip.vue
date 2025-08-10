@@ -1,24 +1,33 @@
 <template>
 	<div class="tooltip-container" ref="triggerRef">
-		<div @mouseenter="showTooltip" @mouseleave="hideTooltip">
+		<div
+			v-if="$props.content"
+			@mouseenter="showTooltip"
+			@mouseleave="hideTooltip"
+		>
 			<slot></slot>
-		</div>
-
-		<Teleport to="body">
-			<transition name="tooltip-fade">
-				<div
-					v-if="isVisible"
-					class="tooltip"
-					:class="`tooltip-${placement}`"
-					:style="tooltipStyle"
-					ref="tooltipRef"
-				>
-					<div class="tooltip-content">
-						<slot name="content">{{ content }}</slot>
+			<Teleport to="body">
+				<transition name="tooltip-fade">
+					<div
+						v-if="isVisible"
+						class="tooltip"
+						:class="`tooltip-${placement}`"
+						:style="tooltipStyle"
+						ref="tooltipRef"
+					>
+						<div class="tooltip-content">
+							<slot
+								v-if="$slots.content"
+								name="content"
+								:content
+							></slot>
+							<span v-else>{{ content }}</span>
+						</div>
 					</div>
-				</div>
-			</transition>
-		</Teleport>
+				</transition>
+			</Teleport>
+		</div>
+		<slot v-else></slot>
 	</div>
 </template>
 

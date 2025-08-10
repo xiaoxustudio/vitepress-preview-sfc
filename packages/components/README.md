@@ -28,13 +28,13 @@ export default {
 
 ### ViewSfcConfig
 
-| name            | type               | default          | description                                           |
-| --------------- | ------------------ | ---------------- | ----------------------------------------------------- |
-| collapseText    | Ref<string>        | 收起             | Fold button text                                      |
-| copyTextSuccess | Ref<string>        | 复制成功         | Success message for copy operation                    |
-| copyTextError   | Ref<string>        | 复制失败         | Copy Failure Prompt Text                              |
-| toast           | Ref<Vue Component> | ToastComponent   | Copy the ToastSFC of the message , you can replace it |
-| tooltip         | Ref<Vue Component> | TooltipComponent | The hover component of the button                     |
+| name            | type                      | default          | description                                           |
+| --------------- | ------------------------- | ---------------- | ----------------------------------------------------- |
+| collapseText    | Ref<string>               | 收起             | Fold button text                                      |
+| copyTextSuccess | Ref<string>               | 复制成功         | Success message for copy operation                    |
+| copyTextError   | Ref<string>               | 复制失败         | Copy Failure Prompt Text                              |
+| toast           | shallowRef<Vue Component> | ToastComponent   | Copy the ToastSFC of the message , you can replace it |
+| tooltip         | shallowRef<Vue Component> | TooltipComponent | The hover component of the button                     |
 
 how to change the config?
 
