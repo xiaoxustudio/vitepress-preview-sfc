@@ -17,13 +17,31 @@
 		position: relative;
 
 		.code {
-			padding: 0 12px;
 			display: grid;
 			grid-template-rows: 0fr;
 			transition: grid var(--view-sfc-duration-time) ease-in-out;
 			margin-bottom: 0;
 			overflow: hidden;
 			box-sizing: border-box;
+			position: relative;
+
+			.code-extension::after {
+				content: attr(data-ext);
+				position: absolute;
+				right: 20px;
+				top: 20px;
+				font-size: 14px;
+				color: #999;
+				opacity: 0;
+				transition: opacity 0.15s ease-in-out;
+			}
+
+			&:hover {
+				.code-extension::after {
+					opacity: 1;
+				}
+			}
+
 			pre {
 				min-width: 0;
 				width: 100%;

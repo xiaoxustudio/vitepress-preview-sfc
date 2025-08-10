@@ -47,21 +47,25 @@
 			</div>
 
 			<div
-				v-html="showSourceCode"
-				:class="[
-					`language-${props.extension}`,
-					$style.code,
-					{ [$style.closed]: !isCodeActive }
-				]"
+				:class="[$style.code, { [$style.closed]: !isCodeActive }]"
 				:style="{ gridTemplateRows: isCodeActive ? '1fr' : '0fr' }"
-			></div>
-			<div
-				ref="closeDom"
-				:class="$style.closeBtn"
-				v-if="isCodeActive"
-				@click="onCollapse"
 			>
-				{{ config.collapseText }}
+				<div
+					v-html="showSourceCode"
+					:class="[`language-${props.extension}`]"
+				></div>
+				<div
+					ref="closeDom"
+					:class="$style.closeBtn"
+					v-if="isCodeActive"
+					@click="onCollapse"
+				>
+					{{ config.collapseText }}
+				</div>
+				<div
+					:class="$style['code-extension']"
+					:data-ext="props.extension"
+				></div>
 			</div>
 		</div>
 	</div>
