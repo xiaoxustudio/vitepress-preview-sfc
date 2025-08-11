@@ -3,7 +3,7 @@
 		<div
 			v-if="$props.content"
 			@mouseenter="showTooltip"
-			@mouseleave="hideTooltip"
+			@mouseleave="() => hideTooltip(true)"
 		>
 			<slot></slot>
 			<Teleport to="body">
@@ -69,6 +69,7 @@
 			const isVisible = ref(false);
 			const tooltipPosition = ref({ top: 0, left: 0 });
 			let timeoutId: number;
+			let isMouseOverTrigger = false; // 跟踪鼠标是否在触发元素上
 
 			// 计算提示框样式
 			const tooltipStyle = computed(() => {
@@ -83,6 +84,7 @@
 				if (props.disabled || (!props.content && !slots.content))
 					return;
 
+				isMouseOverTrigger = true;
 				clearTimeout(timeoutId);
 				timeoutId = setTimeout(() => {
 					isVisible.value = true;
@@ -91,11 +93,17 @@
 			};
 
 			// 隐藏提示框
-			const hideTooltip = () => {
+			const hideTooltip = (immediate = false) => {
+				isMouseOverTrigger = false;
 				clearTimeout(timeoutId);
-				timeoutId = setTimeout(() => {
+
+				if (immediate) {
 					isVisible.value = false;
-				}, props.delay);
+				} else {
+					timeoutId = setTimeout(() => {
+						isVisible.value = false;
+					}, props.delay);
+				}
 			};
 
 			// 更新提示框位置
@@ -148,6 +156,21 @@
 				tooltipPosition.value = { top, left };
 			};
 
+			// 处理滚动事件
+			const handleScroll = () => {
+				if (isVisible.value) {
+					// 立即隐藏 Tooltip
+					hideTooltip(true);
+
+					// 如果鼠标仍在触发元素上，滚动后重新显示
+					if (isMouseOverTrigger) {
+						nextTick(() => {
+							showTooltip();
+						});
+					}
+				}
+			};
+
 			// 监听窗口大小变化
 			const handleResize = () => {
 				if (isVisible.value) {
@@ -157,10 +180,14 @@
 
 			onMounted(() => {
 				window.addEventListener("resize", handleResize);
+				window.addEventListener("scroll", handleScroll, {
+					passive: true
+				});
 			});
 
 			onUnmounted(() => {
 				window.removeEventListener("resize", handleResize);
+				window.removeEventListener("scroll", handleScroll);
 				clearTimeout(timeoutId);
 			});
 
