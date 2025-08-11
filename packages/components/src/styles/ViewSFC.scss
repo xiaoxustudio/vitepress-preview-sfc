@@ -2,6 +2,26 @@
 	margin-top: 20px;
 }
 
+@mixin scroll-fn {
+	&::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	&::-webkit-scrollbar-corner {
+		background-color: transparent;
+	}
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 8px;
+		background-color: var(--view-sfc-scrollbar-thumb);
+		&:hover {
+			background-color: var(--view-sfc-scrollbar-thumb-hover);
+		}
+	}
+}
+
 .view-sfc {
 	border: var(--view-sfc-border);
 	padding: 20px;
@@ -50,28 +70,14 @@
 				overflow: auto hidden;
 				transition: padding var(--view-sfc-duration-time) ease-in-out;
 				box-sizing: border-box;
-				&::-webkit-scrollbar {
-					width: 8px;
-					height: 8px;
-				}
-				&::-webkit-scrollbar-corner {
-					background-color: transparent;
-				}
-				&::-webkit-scrollbar-track {
-					background-color: transparent;
-				}
-				&::-webkit-scrollbar-thumb {
-					border-radius: 8px;
-					background-color: var(--view-sfc-scrollbar-thumb);
-					&:hover {
-						background-color: var(--view-sfc-scrollbar-thumb-hover);
-					}
-				}
+				@include scroll-fn;
 			}
 
 			div[class*="language-"] {
 				transition: margin var(--view-sfc-duration-time) ease-in-out;
+				@include scroll-fn;
 			}
+
 			&.closed {
 				div[class*="language-"] {
 					margin: 0 !important;
