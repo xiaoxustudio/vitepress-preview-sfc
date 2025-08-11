@@ -69,8 +69,16 @@
 				}
 			}
 
-			&.closed pre {
-				padding: 0 !important;
+			div[class*="language-"] {
+				transition: margin var(--view-sfc-duration-time) ease-in-out;
+			}
+			&.closed {
+				div[class*="language-"] {
+					margin: 0 !important;
+				}
+				pre {
+					padding: 0 !important;
+				}
 			}
 		}
 
