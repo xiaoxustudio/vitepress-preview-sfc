@@ -47,8 +47,9 @@
 			</div>
 
 			<div
+				ref="showSourceCodeParentRef"
 				:class="[$style.code, { [$style.closed]: !isCodeActive }]"
-				:style="{ gridTemplateRows: isCodeActive ? '1fr' : '0fr' }"
+				:style="{ height: showSourceCodeHeight }"
 			>
 				<slot
 					v-if="$slots.codeView"
@@ -59,7 +60,6 @@
 				<div
 					ref="closeDom"
 					:class="$style.closeBtn"
-					v-if="isCodeActive"
 					@click="onCollapse"
 				>
 					{{ config.collapseText }}
@@ -83,7 +83,9 @@
 		isRef,
 		isReactive,
 		toRaw,
-		shallowRef
+		shallowRef,
+		nextTick,
+		watch
 	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
@@ -107,7 +109,8 @@
 	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
 
 	const closeDom = ref(null); // 关闭按钮
-
+	const showSourceCodeParentRef = ref<HTMLDivElement | null>(null);
+	const showSourceCodeHeight = ref("0px");
 	const showSourceCode = computed(() => decodeURIComponent(props.htmlCode));
 
 	const VNodeForShowSourceCode = computed(() =>
@@ -121,7 +124,28 @@
 
 	const isCodeActive = ref(false); // 是否显示代码
 
-	const onCollapse = () => (isCodeActive.value = !isCodeActive.value);
+	const calculateHeight = async () => {
+		if (!showSourceCodeParentRef.value) return;
+
+		if (isCodeActive.value) {
+			// 强制重排获取最新scrollHeight
+			showSourceCodeParentRef.value.style.display = "none";
+			showSourceCodeParentRef.value.offsetHeight;
+			showSourceCodeParentRef.value.style.display = "";
+
+			showSourceCodeHeight.value = `${showSourceCodeParentRef.value.scrollHeight}px`;
+		} else {
+			showSourceCodeHeight.value = "0px";
+		}
+	};
+
+	watch(isCodeActive, () => nextTick(() => nextTick(calculateHeight)), {
+		flush: "post"
+	});
+
+	const onCollapse = () => {
+		isCodeActive.value = !isCodeActive.value;
+	};
 
 	function deepUnwrap(obj: any) {
 		if (isRef(obj)) return deepUnwrap(unref(obj));

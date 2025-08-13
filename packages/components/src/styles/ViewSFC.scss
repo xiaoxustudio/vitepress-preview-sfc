@@ -38,9 +38,7 @@
 
 		.code {
 			padding: 0 12px;
-			display: grid;
-			grid-template-rows: 0fr;
-			transition: grid var(--view-sfc-duration-time) ease-in-out;
+			transition: height var(--view-sfc-duration-time) ease-in-out;
 			margin-bottom: 0;
 			overflow: hidden;
 			box-sizing: border-box;
