@@ -7,6 +7,9 @@
 		<template #description="{ description }">
 			<span>*{{ description }}</span>
 		</template>
+		<template #codeView="{ codeView }">
+			<component :is="codeView" />
+		</template>
 	</ViewSfc>
 </template>
 <script setup lang="ts">
@@ -17,8 +20,7 @@
 	import toastComponent from "./toast.vue";
 	import tooltipComponent from "./tooltip.vue";
 	// @ts-ignore
-	import { useSlots, useAttrs, ref, onMounted, provide } from "vue";
-	const slots = useSlots();
+	import { useAttrs, ref, onMounted, provide } from "vue";
 	const vsfc = ref(null);
 	const attr = useAttrs();
 
@@ -78,6 +80,26 @@
 
 		&:hover {
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+	}
+
+	.tabHead {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
+	}
+
+	.tabBtn {
+		padding: 2px 10px;
+		letter-spacing: 0.5em;
+		box-sizing: border-box;
+		box-shadow: 0 0 10px #f0f0f0;
+		border: 1px solid slategray;
+
+		&:hover {
+			border: 1px solidrgb(76, 86, 97) y;
 		}
 	}
 </style>

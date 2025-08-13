@@ -50,10 +50,12 @@
 				:class="[$style.code, { [$style.closed]: !isCodeActive }]"
 				:style="{ gridTemplateRows: isCodeActive ? '1fr' : '0fr' }"
 			>
-				<div
-					v-html="showSourceCode"
-					:class="[`language-${props.extension}`]"
-				></div>
+				<slot
+					v-if="$slots.codeView"
+					name="codeView"
+					:codeView="VNodeForShowSourceCode"
+				/>
+				<component v-else :is="VNodeForShowSourceCode.value" />
 				<div
 					ref="closeDom"
 					:class="$style.closeBtn"
@@ -80,7 +82,8 @@
 		unref,
 		isRef,
 		isReactive,
-		toRaw
+		toRaw,
+		shallowRef
 	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
@@ -106,6 +109,15 @@
 	const closeDom = ref(null); // 关闭按钮
 
 	const showSourceCode = computed(() => decodeURIComponent(props.htmlCode));
+
+	const VNodeForShowSourceCode = computed(() =>
+		shallowRef(
+			h("div", {
+				class: `language-${props.extension}`,
+				innerHTML: showSourceCode.value
+			})
+		)
+	);
 
 	const isCodeActive = ref(false); // 是否显示代码
 
