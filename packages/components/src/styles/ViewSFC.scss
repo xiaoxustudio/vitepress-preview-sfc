@@ -44,19 +44,8 @@
 			box-sizing: border-box;
 			position: relative;
 
-			.code-extension::after {
-				content: attr(data-ext);
-				position: absolute;
-				right: 20px;
-				top: 20px;
-				font-size: 14px;
-				color: #999;
-				opacity: 0;
-				transition: opacity 0.15s ease-in-out;
-			}
-
 			&:hover {
-				.code-extension::after {
+				div[class*="language-"]::after {
 					opacity: 1;
 				}
 			}
@@ -74,6 +63,16 @@
 			div[class*="language-"] {
 				transition: margin var(--view-sfc-duration-time) ease-in-out;
 				@include scroll-fn;
+				&::after {
+					content: attr(data-ext);
+					position: absolute;
+					right: 20px;
+					top: 10px;
+					font-size: 14px;
+					color: #999;
+					opacity: 0;
+					transition: opacity 0.15s ease-in-out;
+				}
 			}
 
 			&.closed {

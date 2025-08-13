@@ -52,6 +52,7 @@
 					v-if="$slots.codeView"
 					name="codeView"
 					:codeView="VNodeForShowSourceCode"
+					:data-ext="props.extension"
 				/>
 				<component v-else :is="VNodeForShowSourceCode.value" />
 				<div
@@ -114,6 +115,7 @@
 		shallowRef(
 			h("div", {
 				class: `language-${props.extension}`,
+				["data-ext"]: props.extension,
 				innerHTML: showSourceCode.value
 			})
 		)
