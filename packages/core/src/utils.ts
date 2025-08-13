@@ -29,6 +29,13 @@ export const matchAttr = /(\w+)\s*=\s*["']([^"']+)["']/g;
 
 export const getAttr = () => /(\w+)\s*=\s*["']([^"']+)["']/;
 
+export function hasVueRefImport(importStr) {
+	// 匹配import关键字，后面跟{ ... }结构，其中包含ref，并且从'vue'或"vue"导入
+	const regex =
+		/import\s+\{\s*[^}]*?(?:^|,|\s)ref(?:$|,|\s)[^}]*?\s*\}\s+from\s+['"]vue['"]/;
+	return regex.test(importStr);
+}
+
 /**
  * @description: code to htmlCode
  * @return {*}
@@ -84,23 +91,28 @@ export const getCompoentName = (src: string, suffixName: string = "Sfc") => {
 	return componentName;
 };
 
-/**
- * @description: transform viewSFC input attrs (processed)
- * @return {*}
- */
-export function transformPreview(
-	md: MarkdownIt,
-	env: any,
-	token: Token,
-	config: IConfig
-): string {
-	const originText = token.content;
+// 解析多路径写法
+function transformSrc(srcString: string) {
+	if (!srcString) return "";
+	const reg = /{(.+)}/;
+	if (!reg.test(srcString)) return srcString;
+	const matchText = reg.exec(srcString);
+	const srcArr = matchText[1].split(",").map((v) => {
+		const val = v.trim();
+		return (
+			srcString.slice(0, matchText.index) +
+			val +
+			srcString.slice(matchText.index + matchText[0].length)
+		);
+	});
+	return srcArr;
+}
 
+function toTransformAttributes(env: any, config: any, originText: string) {
 	// 当前可匹配组件名称
 	const attr = checksArr(config)
 		.filter((v) => v.test(originText))[0]
 		.exec(originText);
-	const CompName = attr[1];
 	const toAttrFilter = attr[2].match(matchAttr);
 	if (!toAttrFilter) return originText;
 	const toProperties = toAttrFilter
@@ -117,72 +129,150 @@ export function transformPreview(
 			}
 			return acc;
 		}, {});
-	toProperties.absoluteSrc = "";
-	toProperties.code = "";
-	let componentName = "";
-	let suffixName = "plain";
-
-	// if src is not empty
-	if (toProperties.src) {
-		toProperties.absoluteSrc = path.resolve(
-			path.dirname(env.path),
-			toProperties.src
-		);
-		if (config.resolveAlias) {
-			if (typeof config.resolveAlias === "string") {
-				toProperties.absoluteSrc = config.resolveAlias
-					? path.resolve(config.resolveAlias, toProperties.src)
-					: path.resolve(path.dirname(env.path), toProperties.src);
-			} else {
-				for (const alias in config.resolveAlias) {
-					const aliasPath = config.resolveAlias[alias];
-					if (toProperties.src.startsWith(alias)) {
-						toProperties.absoluteSrc = path.resolve(
-							aliasPath,
-							toProperties.src.replace(alias, "")
-						);
-						toProperties.src = path
-							.normalize(toProperties.absoluteSrc)
-							.replace(
-								path.normalize(path.dirname(env.path)),
-								"."
-							)
-							.replace(/\\/g, "/");
-						break;
+	toProperties.CompName = attr[1];
+	toProperties.sfcs = [];
+	if (toProperties?.src) {
+		// 解析是否存在多模块语法
+		let srcArr = transformSrc(toProperties.src);
+		if (!Array.isArray(srcArr)) {
+			srcArr = [srcArr];
+		}
+		for (let index = 0; index < srcArr.length; index++) {
+			const element = srcArr[index];
+			const sfcMeta = {
+				absoluteSrc: path.resolve(path.dirname(env.path), element),
+				code: "",
+				componentName: "",
+				suffixName: "",
+				src: element
+			};
+			if (config.resolveAlias) {
+				if (typeof config.resolveAlias === "string") {
+					sfcMeta.absoluteSrc = config.resolveAlias
+						? path.resolve(config.resolveAlias, element)
+						: path.resolve(path.dirname(env.path), element);
+				} else {
+					for (const alias in config.resolveAlias) {
+						const aliasPath = config.resolveAlias[alias];
+						if (element.startsWith(alias)) {
+							sfcMeta.absoluteSrc = path.resolve(
+								aliasPath,
+								element.replace(alias, "")
+							);
+							sfcMeta.src = path
+								.normalize(sfcMeta.absoluteSrc)
+								.replace(
+									path.normalize(path.dirname(env.path)),
+									"."
+								)
+								.replace(/\\/g, "/");
+							break;
+						}
 					}
 				}
 			}
+			sfcMeta.code = readFileSync(sfcMeta.absoluteSrc, "utf-8");
+			sfcMeta.componentName = getCompoentName(sfcMeta.src);
+			sfcMeta.suffixName = sfcMeta.src.substring(
+				sfcMeta.src.lastIndexOf(".") + 1
+			);
+			// add script to import component
+			injectComponentImportScript(sfcMeta, env);
+			toProperties.sfcs.push(sfcMeta);
 		}
-
-		toProperties.code = readFileSync(toProperties.absoluteSrc, "utf-8");
-		componentName = getCompoentName(toProperties.src);
-		suffixName = toProperties.src.substring(
-			toProperties.src.lastIndexOf(".") + 1
-		);
-		// add script to import component
-		injectComponentImportScript(toProperties, env);
-	} else {
-		toProperties.src = ""; // set src
 	}
+	const refName =
+		toProperties.sfcs.map((v) => v.componentName).join("") + "Ref";
+	toProperties.refName = refName;
+	if (toProperties.sfcs.length > 1)
+		injectComponentSfcsRef(toProperties.sfcs, env);
+	return toProperties;
+}
 
-	return `<${CompName} 
-	src="${toProperties.src || ""}" 
-	title="${toProperties.title || ""}" 
-	description="${encodeURIComponent(md.renderInline(toProperties.description || ""))}" 
-	code="${encodeURIComponent(toProperties.code || "")}" 
-	htmlCode="${encodeURIComponent(
-		transformHTMLCode(md, toProperties.code, suffixName || "plain")
-	)}" 
-	extension="${suffixName}" 
-	file="${path.basename(toProperties.src)}" 
+/**
+ * @description: transform viewSFC input attrs (processed)
+ * @return {*}
+ */
+export function transformPreview(
+	md: MarkdownIt,
+	env: any,
+	token: Token,
+	config: IConfig
+): string {
+	const originText = token.content;
+
+	const attributes = toTransformAttributes(env, config, originText);
+
+	const firstMeta = attributes.sfcs[0];
+	const isNotEmpty = attributes.sfcs.length;
+
+	return `<${attributes.CompName} 
+	src="${isNotEmpty ? firstMeta.src : ""}" 
+	title="${attributes.title || ""}" 
+	:description="decodeURIComponent('${encodeURIComponent(md.renderInline(attributes.description || ""))}')" 
+	:code="decodeURIComponent('${isNotEmpty ? encodeURIComponent(firstMeta.code) : ""}')" 
+	:htmlCode="decodeURIComponent('${
+		isNotEmpty
+			? encodeURIComponent(
+					transformHTMLCode(
+						md,
+						firstMeta.code,
+						firstMeta.suffixName || "plain"
+					)
+				)
+			: ""
+	}')" 
+	extension="${isNotEmpty ? firstMeta.suffixName : ""}" 
+	file="${isNotEmpty ? path.basename(firstMeta.src) : ""}" 
+	:sfcs="${attributes.sfcs.length > 1 ? `JSON.parse(decodeURIComponent(${attributes.refName}))` : `[]`}"
 	markdownFile="${env.relativePath}" 
 	markdownTitle="${env.title}"
-	>${toProperties.src ? `<template #preview><${componentName} /></template>` : ""}</${CompName}>`;
+	>${isNotEmpty && firstMeta.src ? `<template #preview><component :is="${firstMeta.componentName}" /></template>` : ""}</${attributes.CompName}>`;
+}
+
+function injectComponentSfcsRef(sfcs: any, env: any) {
+	const scriptsCode = env.sfcBlocks.scripts as any[];
+	const content = env.content;
+	const isScript =
+		scriptSetup.test(content) ||
+		scriptsCode.some((v) => scriptSetup.test(v.tagOpen));
+	const refName = sfcs.map((v) => v.componentName).join("") + "Ref";
+	const sfcsEncode = encodeURIComponent(JSON.stringify(sfcs));
+
+	if (isScript) {
+		let { content } = scriptsCode[0];
+		if (content.includes(refName)) return;
+		const scriptCodeBlock = '<script lang="ts" setup>\n';
+		// 判断是否引入ref
+		if (!hasVueRefImport(content)) {
+			content = content.replace(
+				scriptSetup,
+				`${scriptCodeBlock}import { ref } from 'vue'`
+			);
+		} else {
+			content = content.replace(scriptSetup, scriptCodeBlock);
+		}
+		content = content.replace(
+			"</script>",
+			`const ${refName}=ref('${sfcsEncode}')\n</script>`
+		);
+		scriptsCode[0].content = content;
+	} else {
+		scriptsCode.push({
+			type: "script",
+			tagClose: "</script>",
+			tagOpen: "<script setup lang='ts'>",
+			content: `<script setup lang='ts'>
+			const ${refName}=ref('${sfcsEncode}')
+        </script>`,
+			contentStripped: "import { ref } from 'vue'"
+		});
+	}
 }
 
 function injectComponentImportScript(toProperties: any, env: any) {
 	const src = toProperties.src;
-	const componentName = getCompoentName(src);
+	const componentName = toProperties.componentName;
 	const content = env.content;
 	const scriptsCode = env.sfcBlocks.scripts as any[];
 	const isScript =

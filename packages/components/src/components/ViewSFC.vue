@@ -10,15 +10,12 @@
 			<div :class="$style.title" v-else>{{ props.title }}</div>
 
 			<div :class="$style.description" v-if="$slots.description">
-				<slot
-					name="description"
-					:description="decodeURIComponent(props.description)"
-				/>
+				<slot name="description" :description="props.description" />
 			</div>
 			<div
 				:class="$style.description"
 				v-else
-				v-html="decodeURIComponent(props.description)"
+				v-html="props.description"
 			></div>
 
 			<div :class="$style['btn-group']">
@@ -111,7 +108,7 @@
 	const closeDom = ref(null); // 关闭按钮
 	const showSourceCodeParentRef = ref<HTMLDivElement | null>(null);
 	const showSourceCodeHeight = ref("0px");
-	const showSourceCode = computed(() => decodeURIComponent(props.htmlCode));
+	const showSourceCode = computed(() => props.htmlCode);
 
 	const VNodeForShowSourceCode = computed(() =>
 		shallowRef(
@@ -166,7 +163,7 @@
 	const onCopy = () => {
 		try {
 			navigator.clipboard
-				.writeText(decodeURIComponent(props.code))
+				.writeText(props.code)
 				.then(() => {
 					toast.success(
 						deepUnwrap(config.toast),

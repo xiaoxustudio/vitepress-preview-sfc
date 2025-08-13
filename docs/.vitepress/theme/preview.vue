@@ -1,14 +1,16 @@
 <template>
-	<ViewSfc class="vsfc" ref="vsfc" v-bind="$attrs">
+	<ViewSfc
+		class="vsfc"
+		ref="vsfc"
+		v-bind="$attrs"
+		@codeActive="handleCodeActive"
+	>
 		<slot name="preview" />
 		<template #title="{ title }">
 			<span>*{{ title }}</span>
 		</template>
 		<template #description="{ description }">
 			<span>*{{ description }}</span>
-		</template>
-		<template #codeView="{ codeView }">
-			<component :is="codeView" />
 		</template>
 	</ViewSfc>
 </template>
@@ -30,6 +32,8 @@
 	provide(ViewSfcTagSymbol, defaultViewSfcConfig);
 
 	const lang = ref("zh");
+
+	const handleCodeActive = (state: boolean) => console.log(state);
 
 	onMounted(() => {
 		defaultViewSfcConfig.toast.value = toastComponent;
@@ -80,26 +84,6 @@
 
 		&:hover {
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		}
-	}
-
-	.tabHead {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 5px;
-	}
-
-	.tabBtn {
-		padding: 2px 10px;
-		letter-spacing: 0.5em;
-		box-sizing: border-box;
-		box-shadow: 0 0 10px #f0f0f0;
-		border: 1px solid slategray;
-
-		&:hover {
-			border: 1px solidrgb(76, 86, 97) y;
 		}
 	}
 </style>
