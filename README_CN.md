@@ -106,13 +106,14 @@ export default defineConfig({
 
 | Name            | Type         | Default     | Description                                        |
 | --------------- | ------------ | ----------- | -------------------------------------------------- |
-| `src`           | string       | -           | 路径, required                                     |
+| `src`           | string       | -           | 路径, 可使用`./src/{aaa,bbb}.vue`语法解析多个路径  |
 | `code`          | string       | -           | 代码 （自动解析，无需手动输入）,                   |
 | `htmlCode`      | string       | -           | 渲染的html （自动解析，无需手动输入）              |
 | `title`         | string       | Title       | 标题                                               |
 | `description`   | string       | Description | 描述                                               |
 | `buttonGroup`   | ViewSfcBtn[] | -           | 按钮组（默认展开、复制按钮）                       |
 | `extension`     | string       | -           | 扩展名（自动解析，无需手动输入）                   |
+| `sfcs`          | any[]        | -           | SFC Meta （自动解析，无需手动输入）                |
 | `file`          | string       | -           | SFC 文件名称 （自动解析，无需手动输入）            |
 | `markdownFile`  | string       | -           | 当前 MarknDown 文件名称 （自动解析，无需手动输入） |
 | `markdownTitle` | string       | -           | 当前 MarknDown 标题 （自动解析，无需手动输入）     |

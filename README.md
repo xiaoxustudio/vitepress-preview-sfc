@@ -109,18 +109,19 @@ and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
 
 #### Props
 
-| Name            | Type         | Default     | Description                                                   |
-| --------------- | ------------ | ----------- | ------------------------------------------------------------- |
-| `src`           | string       | -           | Vue SFC path, required                                        |
-| `code`          | string       | -           | Vue SFC code (Plugin auto)                                    |
-| `htmlCode`      | string       | -           | Vue SFC html code (Plugin auto)                               |
-| `title`         | string       | Title       | Title of the component                                        |
-| `description`   | string       | Description | Description of the component                                  |
-| `buttonGroup`   | ViewSfcBtn[] | -           | Button group of the component (default `collapse`,`copy` btn) |
-| `extension`     | string       | -           | Extension of the component (Plugin auto)                      |
-| `file`          | string       | -           | SFC file name (Plugin auto)                                   |
-| `markdownFile`  | string       | -           | Current MarknDown file name (Plugin auto)                     |
-| `markdownTitle` | string       | -           | Current MarknDown Title (Plugin auto)                         |
+| Name            | Type         | Default     | Description                                                                                 |
+| --------------- | ------------ | ----------- | ------------------------------------------------------------------------------------------- |
+| `src`           | string       | -           | Vue SFC path, Paths can be parsed for multiple paths using the `./src/{aaa,bbb}.vue` syntax |
+| `code`          | string       | -           | Vue SFC code (Plugin auto)                                                                  |
+| `htmlCode`      | string       | -           | Vue SFC html code (Plugin auto)                                                             |
+| `title`         | string       | Title       | Title of the component                                                                      |
+| `description`   | string       | Description | Description of the component                                                                |
+| `buttonGroup`   | ViewSfcBtn[] | -           | Button group of the component (default `collapse`,`copy` btn)                               |
+| `extension`     | string       | -           | Extension of the component (Plugin auto)                                                    |
+| `sfcs`          | any[]        | -           | SFC Meta (Plugin auto)                                                                      |
+| `file`          | string       | -           | SFC file name (Plugin auto)                                                                 |
+| `markdownFile`  | string       | -           | Current MarknDown file name (Plugin auto)                                                   |
+| `markdownTitle` | string       | -           | Current MarknDown Title (Plugin auto)                                                       |
 
 #### ViewSfcBtn
 
