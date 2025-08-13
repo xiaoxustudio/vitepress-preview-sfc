@@ -187,7 +187,6 @@ function toTransformAttributes(
 				sfcMeta.suffixName
 			);
 			sfcMeta.componentName = getCompoentName(sfcMeta.src);
-
 			// add script to import component
 			injectComponentImportScript(sfcMeta, env);
 			toProperties.sfcs.push(sfcMeta);
@@ -218,6 +217,16 @@ export function transformPreview(
 	const firstMeta = attributes.sfcs[0];
 	const isNotEmpty = attributes.sfcs.length;
 
+	// 生成设置sfc h 模板代码
+	const GenerateSfcCode = () => {
+		const sfcs = attributes.sfcs;
+		let text = "";
+		for (const val of sfcs) {
+			text += `v.componentName==='${val.componentName}' ? (${val.componentName}) :`;
+		}
+		return `({...v,sfc:${text.slice(0, text.length - 1)}: undefined })`;
+	};
+
 	return `<${attributes.CompName} 
 	src="${isNotEmpty ? firstMeta.src : ""}" 
 	title="${attributes.title || ""}" 
@@ -226,7 +235,11 @@ export function transformPreview(
 	:htmlCode="decodeURIComponent('${isNotEmpty ? encodeURIComponent(firstMeta.htmlCode) : ""}')" 
 	extension="${isNotEmpty ? firstMeta.suffixName : ""}" 
 	file="${isNotEmpty ? path.basename(firstMeta.src) : ""}" 
-	:sfcs="${attributes.sfcs.length > 1 ? `JSON.parse(decodeURIComponent(${attributes.refName}))` : `[]`}"
+	:sfcs="${
+		attributes.sfcs.length > 1
+			? `JSON.parse(decodeURIComponent(${attributes.refName})).map(v=>${GenerateSfcCode()})`
+			: `[]`
+	}"
 	markdownFile="${env.relativePath}" 
 	markdownTitle="${env.title}"
 	>${isNotEmpty && firstMeta.src ? `<template #preview><component :is="${firstMeta.componentName}" /></template>` : ""}</${attributes.CompName}>`;
@@ -239,6 +252,7 @@ function injectComponentSfcsRef(sfcs: any, env: any) {
 		scriptSetup.test(content) ||
 		scriptsCode.some((v) => scriptSetup.test(v.tagOpen));
 	const refName = sfcs.map((v) => v.componentName).join("") + "Ref";
+
 	const sfcsEncode = encodeURIComponent(JSON.stringify(sfcs));
 
 	if (isScript) {
@@ -256,7 +270,7 @@ function injectComponentSfcsRef(sfcs: any, env: any) {
 		}
 		content = content.replace(
 			"</script>",
-			`const ${refName}=ref('${sfcsEncode}')\n</script>`
+			`const ${refName}=ref(\`${sfcsEncode}\`);\n</script>`
 		);
 		scriptsCode[0].content = content;
 	} else {
@@ -265,7 +279,7 @@ function injectComponentSfcsRef(sfcs: any, env: any) {
 			tagClose: "</script>",
 			tagOpen: "<script setup lang='ts'>",
 			content: `<script setup lang='ts'>
-			const ${refName}=ref('${sfcsEncode}')
+			const ${refName}=ref(\`${sfcsEncode}\`);
         </script>`,
 			contentStripped: "import { ref } from 'vue'"
 		});
@@ -298,7 +312,7 @@ function injectComponentImportScript(toProperties: any, env: any) {
 			content: `<script setup lang='ts'>
         ${importScript}
         </script>`,
-			contentStripped: `import ${componentName} from '${src}'`
+			contentStripped: `import ${componentName} from '${src}';`
 		});
 	}
 }
