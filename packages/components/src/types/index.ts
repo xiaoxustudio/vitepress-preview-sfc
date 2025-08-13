@@ -41,3 +41,7 @@ export interface ViewSfcProps {
 	buttonGroup: ViewSfcBtn[];
 	extension: string; // 后缀
 }
+
+export interface ViewSfcEmits {
+	(e: "codeActive", state: boolean): void;
+}

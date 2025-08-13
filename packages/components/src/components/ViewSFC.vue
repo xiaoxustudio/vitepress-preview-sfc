@@ -91,7 +91,7 @@
 	import CopySvg from "@/assets/copy.vue";
 	import toast from "./toast";
 	import { inject } from "vue";
-	import type { ViewSfcBtn, ViewSfcProps } from "@/types";
+	import type { ViewSfcBtn, ViewSfcEmits, ViewSfcProps } from "@/types";
 	import { ViewSfcConfig, ViewSfcTagSymbol } from "@/config";
 
 	const props = withDefaults(defineProps<ViewSfcProps>(), {
@@ -139,9 +139,19 @@
 		}
 	};
 
-	watch(isCodeActive, () => nextTick(() => nextTick(calculateHeight)), {
-		flush: "post"
-	});
+	watch(
+		isCodeActive,
+		() =>
+			nextTick(() =>
+				nextTick(() => {
+					emits("codeActive", isCodeActive.value);
+					calculateHeight();
+				})
+			),
+		{
+			flush: "post"
+		}
+	);
 
 	const onCollapse = () => {
 		isCodeActive.value = !isCodeActive.value;
@@ -177,6 +187,7 @@
 		}
 	};
 
+	const emits = defineEmits<ViewSfcEmits>();
 	defineExpose({ btnGroup, onCopy, onCollapse });
 
 	onMounted(() => {
