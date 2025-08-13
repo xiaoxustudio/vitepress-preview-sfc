@@ -4,13 +4,13 @@ Render Empty
 <ViewSfc src="" description="this is a `empty` component"/>
 
 Render Vue SFC component
-<ViewSfc src="./components/button.vue" title="ViewSfc Render" description="a component description" />
+<ViewSfc src="./components/button.ts.vue" title="ViewSfc Render" description="a component description" />
 
 Render JSX SFC component
 <ViewSfc src="./components/react.tsx" title="JSX Render" description="a component description"></ViewSfc>
 
 Custom component rendering
-<PreView src="./components/{button , test}.vue" title="Custom component rendering" description="a component description"></PreView>
+<PreView src="./components/button.{ts,js}.vue" title="Custom component rendering" description="a component description"></PreView>
 
 resolveAlias
 <ViewSfc src="@@/button.vue" title="ViewSfc Render" description="a component description" />

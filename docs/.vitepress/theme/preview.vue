@@ -5,12 +5,39 @@
 		v-bind="$attrs"
 		@codeActive="handleCodeActive"
 	>
-		<slot name="preview" />
+		<template #preview>
+			<component :is="currentVnodePreview" />
+		</template>
 		<template #title="{ title }">
 			<span>*{{ title }}</span>
 		</template>
 		<template #description="{ description }">
 			<span>*{{ description }}</span>
+		</template>
+		<template #codeView>
+			<div class="tabHead">
+				<button
+					class="tabBtn"
+					:class="{
+						active: mode === 0
+					}"
+					@click="changeMode(0)"
+				>
+					TS
+				</button>
+				<button
+					class="tabBtn"
+					:class="{
+						active: mode === 1
+					}"
+					@click="changeMode(1)"
+				>
+					JS
+				</button>
+			</div>
+			<div class="tabContent">
+				<component :is="VNodeForShowSourceCode.value" />
+			</div>
 		</template>
 	</ViewSfc>
 </template>
@@ -22,7 +49,15 @@
 	import toastComponent from "./toast.vue";
 	import tooltipComponent from "./tooltip.vue";
 	// @ts-ignore
-	import { useAttrs, ref, onMounted, provide } from "vue";
+	import {
+		useAttrs,
+		ref,
+		computed,
+		shallowRef,
+		h,
+		onMounted,
+		provide
+	} from "vue";
 	const vsfc = ref(null);
 	const attr = useAttrs();
 
@@ -31,9 +66,29 @@
 
 	provide(ViewSfcTagSymbol, defaultViewSfcConfig);
 
-	const lang = ref("zh");
+	const lang = ref("zh"); // lang
+	const mode = ref(0); // mode
 
-	const handleCodeActive = (state: boolean) => console.log(state);
+	const sfcs = attr.sfcs;
+
+	const currentVnodePreview = computed(() => sfcs[mode.value].sfc);
+
+	const VNodeForShowSourceCode = computed(() =>
+		shallowRef(
+			h("div", {
+				class: `language-${sfcs[mode.value].suffixName}`,
+				["data-ext"]: sfcs[mode.value].suffixName,
+				innerHTML: sfcs[mode.value].htmlCode
+			})
+		)
+	);
+
+	const changeMode = (v: number) => {
+		mode.value = v;
+	};
+
+	const handleCodeActive = (state: boolean) =>
+		console.log("state changed:", state);
 
 	onMounted(() => {
 		defaultViewSfcConfig.toast.value = toastComponent;
@@ -72,6 +127,7 @@
 		});
 	});
 </script>
+
 <style scope lang="scss">
 	.vsfc {
 		border: none;
@@ -85,5 +141,33 @@
 		&:hover {
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		}
+	}
+
+	.tabHead {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
+	}
+
+	.tabBtn {
+		padding: 2px 5px;
+		letter-spacing: 0.05em;
+		box-sizing: border-box;
+		box-shadow: 0 0 10px #f0f0f0;
+		text-align: center;
+
+		&:hover {
+			border: 1px solidrgb(76, 86, 97) y;
+		}
+
+		&.active {
+			border-bottom: 1px solid slategray;
+		}
+	}
+
+	.tabContent div[class*="language-"] {
+		margin-top: 0;
 	}
 </style>
