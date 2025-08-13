@@ -108,7 +108,12 @@ function transformSrc(srcString: string) {
 	return srcArr;
 }
 
-function toTransformAttributes(env: any, config: any, originText: string) {
+function toTransformAttributes(
+	md: MarkdownIt,
+	env: any,
+	config: any,
+	originText: string
+) {
 	// 当前可匹配组件名称
 	const attr = checksArr(config)
 		.filter((v) => v.test(originText))[0]
@@ -142,6 +147,7 @@ function toTransformAttributes(env: any, config: any, originText: string) {
 			const sfcMeta = {
 				absoluteSrc: path.resolve(path.dirname(env.path), element),
 				code: "",
+				htmlCode: "",
 				componentName: "",
 				suffixName: "",
 				src: element
@@ -172,10 +178,16 @@ function toTransformAttributes(env: any, config: any, originText: string) {
 				}
 			}
 			sfcMeta.code = readFileSync(sfcMeta.absoluteSrc, "utf-8");
-			sfcMeta.componentName = getCompoentName(sfcMeta.src);
 			sfcMeta.suffixName = sfcMeta.src.substring(
 				sfcMeta.src.lastIndexOf(".") + 1
 			);
+			sfcMeta.htmlCode = transformHTMLCode(
+				md,
+				sfcMeta.code,
+				sfcMeta.suffixName
+			);
+			sfcMeta.componentName = getCompoentName(sfcMeta.src);
+
 			// add script to import component
 			injectComponentImportScript(sfcMeta, env);
 			toProperties.sfcs.push(sfcMeta);
@@ -201,7 +213,7 @@ export function transformPreview(
 ): string {
 	const originText = token.content;
 
-	const attributes = toTransformAttributes(env, config, originText);
+	const attributes = toTransformAttributes(md, env, config, originText);
 
 	const firstMeta = attributes.sfcs[0];
 	const isNotEmpty = attributes.sfcs.length;
@@ -211,17 +223,7 @@ export function transformPreview(
 	title="${attributes.title || ""}" 
 	:description="decodeURIComponent('${encodeURIComponent(md.renderInline(attributes.description || ""))}')" 
 	:code="decodeURIComponent('${isNotEmpty ? encodeURIComponent(firstMeta.code) : ""}')" 
-	:htmlCode="decodeURIComponent('${
-		isNotEmpty
-			? encodeURIComponent(
-					transformHTMLCode(
-						md,
-						firstMeta.code,
-						firstMeta.suffixName || "plain"
-					)
-				)
-			: ""
-	}')" 
+	:htmlCode="decodeURIComponent('${isNotEmpty ? encodeURIComponent(firstMeta.htmlCode) : ""}')" 
 	extension="${isNotEmpty ? firstMeta.suffixName : ""}" 
 	file="${isNotEmpty ? path.basename(firstMeta.src) : ""}" 
 	:sfcs="${attributes.sfcs.length > 1 ? `JSON.parse(decodeURIComponent(${attributes.refName}))` : `[]`}"
