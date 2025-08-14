@@ -232,9 +232,9 @@ export function transformPreview(
 	return `<${attributes.CompName} 
 	src="${isNotEmpty ? firstMeta.src : ""}" 
 	title="${attributes.title || ""}" 
-	:description="decodeURIComponent('${encodeURIComponent(md.renderInline(attributes.description || ""))}')" 
-	:code="decodeURIComponent('${isNotEmpty ? encodeURIComponent(firstMeta.code) : ""}')" 
-	:htmlCode="decodeURIComponent('${isNotEmpty ? encodeURIComponent(firstMeta.htmlCode) : ""}')" 
+	:description="decodeURIComponent(\`${encodeURIComponent(md.renderInline(attributes.description || ""))}\`)" 
+	:code="decodeURIComponent(\`${isNotEmpty ? encodeURIComponent(firstMeta.code) : ""}\`)" 
+	:htmlCode="decodeURIComponent(\`${isNotEmpty ? encodeURIComponent(firstMeta.htmlCode) : ""}\`)" 
 	extension="${isNotEmpty ? firstMeta.suffixName : ""}" 
 	file="${isNotEmpty ? path.basename(firstMeta.src) : ""}" 
 	:sfcs="${
