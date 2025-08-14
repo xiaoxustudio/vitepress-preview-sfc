@@ -10,7 +10,7 @@ export type ToastPosition =
 
 export interface ToastOptions {
 	id?: number;
-	message: string;
+	message?: string;
 	type?: ToastType;
 	position?: ToastPosition;
 	duration?: number;
@@ -33,13 +33,13 @@ export interface ViewSfcBtn {
 }
 
 export interface ViewSfcProps {
-	title: string;
-	description: string;
-	src: string;
-	code: string;
-	htmlCode: string;
-	buttonGroup: ViewSfcBtn[];
-	extension: string; // 后缀
+	title?: string;
+	description?: string;
+	src?: string;
+	code?: string;
+	htmlCode?: string;
+	buttonGroup?: ViewSfcBtn[];
+	extension?: string; // 后缀
 }
 
 export interface ViewSfcEmits {

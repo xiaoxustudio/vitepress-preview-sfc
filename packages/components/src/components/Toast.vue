@@ -28,7 +28,7 @@
 		props: {
 			message: {
 				type: String,
-				required: true
+				default: ""
 			},
 			type: {
 				type: String as PropType<ToastType>,

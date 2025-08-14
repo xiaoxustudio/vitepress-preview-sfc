@@ -1,4 +1,4 @@
-import { shallowRef, ref } from "vue";
+import { shallowRef, ref, type Component } from "vue";
 import ToastComponent from "@/components/Toast.vue";
 import TooltipComponent from "./components/Tooltip.vue";
 
@@ -7,8 +7,8 @@ export const ViewSfcConfigFn = () => {
 		collapseText: ref("收起"),
 		copyTextSuccess: ref("复制成功"),
 		copyTextError: ref("复制失败"),
-		toast: shallowRef(ToastComponent),
-		tooltip: shallowRef(TooltipComponent)
+		toast: shallowRef<Component>(ToastComponent),
+		tooltip: shallowRef<Component>(TooltipComponent)
 	};
 };
 

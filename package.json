@@ -25,7 +25,7 @@
 		"docs:dev-no-all": "vitepress dev docs",
 		"docs:build": "pnpm build && vitepress build docs",
 		"docs:preview": "vitepress preview docs",
-		"build": " pnpm run comp:build && pnpm run core:build",
+		"build": " pnpm run core:build && pnpm run comp:build",
 		"prepare": "husky",
 		"format": "prettier --write --config .prettierrc.json --ignore-path .prettierignore \"packages/**/*.*\" \"docs/**/*.*\"",
 		"publish": "pnpm build && changeset publish"
@@ -47,13 +47,17 @@
 	"peerDependencyRules": {},
 	"devDependencies": {
 		"@changesets/cli": "^2.29.5",
+		"@shikijs/markdown-it": "^3.9.2",
+		"@shikijs/vitepress-twoslash": "^3.9.2",
 		"@types/node": "^24.1.0",
 		"@vitejs/plugin-vue-jsx": "^5.0.1",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.1.2",
 		"prettier": "^3.6.2",
 		"sass": "^1.90.0",
-		"vitepress": "^1.6.3"
+		"twoslash": "^0.3.4",
+		"vitepress": "^1.6.3",
+		"vue": "^3.5.18"
 	},
 	"lint-staged": {
 		"*.{js,ts,mts,md,json,css,scss,vue}": [
