@@ -18,11 +18,11 @@ Using this configuration, when you reference the following components:
 <ViewSfc src="button.vue"></ViewSfc>
 ```
 
-插件将在相对于配置文件的 ../components/button.vue 位置查找文件。
+The plugin will look for the file at the location of `../components/button.vue` relative to the configuration file.
 
-### 基于对象的解析
+### Object-based parsing
 
-对于更复杂的项目，您可以使用对象来定义多个路径别名：
+For more complex projects, you can use objects to define multiple path aliases:
 
 ```ts
 md.use(previewSfcCore, {

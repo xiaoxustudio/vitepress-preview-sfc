@@ -48,7 +48,6 @@
 	} from "@vitepress-preview-sfc/components";
 	import toastComponent from "./toast.vue";
 	import tooltipComponent from "./tooltip.vue";
-	// @ts-ignore
 	import {
 		useAttrs,
 		ref,
@@ -57,6 +56,7 @@
 		h,
 		onMounted,
 		provide
+		// @ts-ignore
 	} from "vue";
 	const vsfc = ref(null);
 	const attr = useAttrs();
