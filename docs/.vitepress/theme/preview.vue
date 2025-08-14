@@ -46,6 +46,7 @@
 		ViewSfcConfigFn,
 		ViewSfcTagSymbol
 	} from "@vitepress-preview-sfc/components";
+	import { SFCMeta, SFCPrototype } from "@vitepress-preview-sfc/core";
 	import toastComponent from "./toast.vue";
 	import tooltipComponent from "./tooltip.vue";
 	import {
@@ -59,7 +60,7 @@
 		// @ts-ignore
 	} from "vue";
 	const vsfc = ref(null);
-	const attr = useAttrs();
+	const attr = useAttrs() as SFCPrototype;
 
 	//  using a function to prevent contamination of the original object
 	const defaultViewSfcConfig = ViewSfcConfigFn();
@@ -69,7 +70,7 @@
 	const lang = ref("zh"); // lang
 	const mode = ref(0); // mode
 
-	const sfcs = attr.sfcs;
+	const sfcs = attr.sfcs as SFCMeta[];
 
 	const currentVnodePreview = computed(() => sfcs[mode.value].sfc);
 
