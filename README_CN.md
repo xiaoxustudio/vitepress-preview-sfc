@@ -102,7 +102,7 @@ export default defineConfig({
 
 ### `<ViewSfc />`
 
-#### 属性
+#### 属性 (SFCPrototype)
 
 | Name            | Type         | Default     | Description                                        |
 | --------------- | ------------ | ----------- | -------------------------------------------------- |
@@ -113,7 +113,7 @@ export default defineConfig({
 | `description`   | string       | Description | 描述                                               |
 | `buttonGroup`   | ViewSfcBtn[] | -           | 按钮组（默认展开、复制按钮）                       |
 | `extension`     | string       | -           | 扩展名（自动解析，无需手动输入）                   |
-| `sfcs`          | any[]        | -           | SFC Meta （自动解析，无需手动输入）                |
+| `sfcs`          | SFCMeta[]    | -           | SFC Meta （自动解析，无需手动输入）                |
 | `file`          | string       | -           | SFC 文件名称 （自动解析，无需手动输入）            |
 | `markdownFile`  | string       | -           | 当前 MarknDown 文件名称 （自动解析，无需手动输入） |
 | `markdownTitle` | string       | -           | 当前 MarknDown 标题 （自动解析，无需手动输入）     |

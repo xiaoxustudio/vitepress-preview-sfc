@@ -107,7 +107,7 @@ and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
 
 ### `<ViewSfc />`
 
-#### Props
+#### Props (SFCPrototype)
 
 | Name            | Type         | Default     | Description                                                                                 |
 | --------------- | ------------ | ----------- | ------------------------------------------------------------------------------------------- |
@@ -118,7 +118,7 @@ and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
 | `description`   | string       | Description | Description of the component                                                                |
 | `buttonGroup`   | ViewSfcBtn[] | -           | Button group of the component (default `collapse`,`copy` btn)                               |
 | `extension`     | string       | -           | Extension of the component (Plugin auto)                                                    |
-| `sfcs`          | any[]        | -           | SFC Meta (Plugin auto)                                                                      |
+| `sfcs`          | SFCMeta[]    | -           | SFC Meta (Plugin auto)                                                                      |
 | `file`          | string       | -           | SFC file name (Plugin auto)                                                                 |
 | `markdownFile`  | string       | -           | Current MarknDown file name (Plugin auto)                                                   |
 | `markdownTitle` | string       | -           | Current MarknDown Title (Plugin auto)                                                       |
