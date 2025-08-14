@@ -35,3 +35,4 @@ export default function xuranPlugin(md: MarkdownIt, options?: any) {
 		return defaultHtmlInlineRender(tokens, idx, mdOptions, env, self);
 	};
 }
+export * from "./types";

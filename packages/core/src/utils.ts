@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import MarkdownIt, { Token } from "markdown-it";
 import path from "path";
-import { IConfig } from "./types";
+import { IConfig, SFCMeta, SFCPrototype } from "./types";
 
 /* 
 	部分逻辑思路来自于 https://github.com/flingyp/vitepress-demo-preview
@@ -113,13 +113,15 @@ function toTransformAttributes(
 	env: any,
 	config: any,
 	originText: string
-) {
+): SFCPrototype {
 	// 当前可匹配组件名称
 	const attr = checksArr(config)
 		.filter((v) => v.test(originText))[0]
 		.exec(originText);
 	const toAttrFilter = attr[2].match(matchAttr);
-	if (!toAttrFilter) return originText;
+	if (!toAttrFilter) {
+		throw `not find the ViewSfc Component`;
+	}
 	const toProperties = toAttrFilter
 		.map((v: string) =>
 			getAttr().test(v)
@@ -133,7 +135,7 @@ function toTransformAttributes(
 				Object.assign(acc, cur);
 			}
 			return acc;
-		}, {});
+		}, {}) as SFCPrototype;
 	toProperties.CompName = attr[1];
 	toProperties.sfcs = [];
 	if (toProperties?.src) {
@@ -144,7 +146,7 @@ function toTransformAttributes(
 		}
 		for (let index = 0; index < srcArr.length; index++) {
 			const element = srcArr[index];
-			const sfcMeta = {
+			const sfcMeta: SFCMeta = {
 				absoluteSrc: path.resolve(path.dirname(env.path), element),
 				code: "",
 				htmlCode: "",
@@ -245,7 +247,7 @@ export function transformPreview(
 	>${isNotEmpty && firstMeta.src ? `<template #preview><component :is="${firstMeta.componentName}" /></template>` : ""}</${attributes.CompName}>`;
 }
 
-function injectComponentSfcsRef(sfcs: any, env: any) {
+function injectComponentSfcsRef(sfcs: SFCMeta[], env: any) {
 	const scriptsCode = env.sfcBlocks.scripts as any[];
 	const content = env.content;
 	const isScript =
