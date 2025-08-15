@@ -36,7 +36,7 @@
 				</button>
 			</div>
 			<div class="tabContent">
-				<slot :name="'codeView' + sfcs[mode]?.componentName" />
+				<component :is="codeViewName" />
 			</div>
 		</template>
 	</ViewSfc>
@@ -49,9 +49,10 @@
 	import { SFCMeta, SFCPrototype } from "@vitepress-preview-sfc/core";
 	import toastComponent from "./toast.vue";
 	import tooltipComponent from "./tooltip.vue";
-	import { useAttrs, ref, computed, onMounted, provide } from "vue";
+	import { useAttrs, ref, computed, onMounted, provide, useSlots } from "vue";
 	const vsfc = ref<any>(null);
 	const attr = useAttrs() as unknown as SFCPrototype;
+	const slots = useSlots();
 
 	//  using a function to prevent contamination of the original object
 	const defaultViewSfcConfig = ViewSfcConfigFn();
@@ -62,7 +63,11 @@
 	const mode = ref(0); // mode
 
 	const sfcs = attr.sfcs as SFCMeta[];
-
+	const codeViewName = computed(
+		() =>
+			slots[`codeView${sfcs[mode.value]?.componentName}`] ||
+			slots["codeView"]
+	);
 	const currentVnodePreview = computed(() => sfcs[mode.value]?.sfc || null);
 
 	const changeMode = (v: number) => {
