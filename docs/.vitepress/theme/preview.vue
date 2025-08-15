@@ -58,7 +58,6 @@
 		onMounted,
 		provide,
 		useSlots,
-		VNode,
 		h
 	} from "vue";
 	const vsfc = ref<any>(null);

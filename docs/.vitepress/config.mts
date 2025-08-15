@@ -30,7 +30,8 @@ export default defineConfig({
 				link: "/config",
 				items: [
 					{ text: "alias", link: "/config/alias" },
-					{ text: "resolveAlias", link: "/config/resolveAlias" }
+					{ text: "resolveAlias", link: "/config/resolveAlias" },
+					{ text: "codeViewUseSlot", link: "/config/codeViewUseSlot" }
 				]
 			}
 		],
