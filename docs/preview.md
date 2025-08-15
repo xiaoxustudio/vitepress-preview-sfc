@@ -1,5 +1,7 @@
 # Example preview
 
+The current page combines the use of `@shikijs/markdown-it` and `@shikijs/vitepress-twoslash`.
+
 Render Empty
 <ViewSfc src="" description="this is a `empty` component"/>
 
