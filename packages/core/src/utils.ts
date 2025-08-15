@@ -252,7 +252,7 @@ export function transformPreview(
 	markdownTitle="${env.title}"
 	>
 	${isNotEmpty && firstMeta.src ? `<template #preview><component :is="${firstMeta.componentName}" /></template>` : ""}
-	${isNotEmpty && firstMeta.src && config.codeViewUseSlot ? GenerateSfcSlotCode() : ""}
+	${isNotEmpty && firstMeta.src ? (config.codeViewUseSlot ? GenerateSfcSlotCode() : `<template #codeView>${firstMeta.htmlCode}</template>`) : ""}
 	</${attributes.CompName}>`;
 }
 
