@@ -4,12 +4,12 @@
 			<slot name="preview" />
 		</div>
 		<div :class="$style.content">
-			<div :class="$style.title" v-if="$slots.title">
+			<div :class="$style.title" v-if="slots.title">
 				<slot name="title" :title="props.title" />
 			</div>
 			<div :class="$style.title" v-else>{{ props.title }}</div>
 
-			<div :class="$style.description" v-if="$slots.description">
+			<div :class="$style.description" v-if="slots.description">
 				<slot name="description" :description="props.description" />
 			</div>
 			<div
@@ -48,20 +48,7 @@
 				:class="[$style.code, { [$style.closed]: !isCodeActive }]"
 				:style="{ height: showSourceCodeHeight }"
 			>
-				<slot
-					v-if="
-						isNotEmpty &&
-						$slots['codeView' + props.sfcs?.[0].componentName]
-					"
-					:name="'codeView' + props.sfcs?.[0].componentName"
-				/>
-				<slot
-					v-else-if="$slots.codeView"
-					name="codeView"
-					:codeView="VNodeForShowSourceCode"
-					:data-ext="props.extension"
-				/>
-				<component v-else :is="VNodeForShowSourceCode.value" />
+				<component :is="VNodeForShowSourceCode" />
 				<div
 					ref="closeDom"
 					:class="$style.closeBtn"
@@ -88,17 +75,23 @@
 		isRef,
 		isReactive,
 		toRaw,
-		shallowRef,
 		nextTick,
-		watch
+		watch,
+		type VNode
 	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
 	import toast from "./toast";
 	import { inject } from "vue";
-	import type { ViewSfcBtn, ViewSfcEmits, ViewSfcProps } from "@/types";
+	import type {
+		ViewSfcBtn,
+		ViewSfcEmits,
+		ViewSfcProps,
+		ViewSfcSlots
+	} from "@/types";
 	import { ViewSfcConfig, ViewSfcTagSymbol } from "@/config";
 
+	const slots = defineSlots<ViewSfcSlots>();
 	const props = withDefaults(defineProps<ViewSfcProps>(), {
 		title: "",
 		description: "",
@@ -118,17 +111,24 @@
 	const showSourceCodeHeight = ref("0px");
 	const showSourceCode = computed(() => props.htmlCode);
 
-	const isNotEmpty = computed(() => (props.sfcs?.length || 0) > 0);
-
-	const VNodeForShowSourceCode = computed(() =>
-		shallowRef(
-			h("div", {
-				class: `language-${props.extension}`,
-				["data-ext"]: props.extension,
-				innerHTML: showSourceCode.value
-			})
-		)
-	);
+	const VNodeForShowSourceCode = computed<VNode>(() => {
+		const staticProps = {
+			class: `language-${props.extension}`,
+			["data-ext"]: props.extension
+		};
+		return slots[`codeView${props.sfcs?.[0]?.componentName}`]
+			? h(
+					"div",
+					staticProps,
+					slots[`codeView${props.sfcs?.[0]?.componentName}`]()
+				)
+			: slots["codeView"]
+				? h("div", staticProps, slots["codeView"]())
+				: h("div", {
+						...staticProps,
+						innerHTML: showSourceCode.value
+					});
+	});
 
 	const isCodeActive = ref(false); // 是否显示代码
 
@@ -228,6 +228,8 @@
 		--view-sfc-btn-close-hover: #acacac;
 		--view-sfc-scrollbar-thumb: #eeeef3;
 		--view-sfc-scrollbar-thumb-hover: #eaeaef;
+		--view-sfc-ext-offset-x: 0;
+		--view-sfc-ext-offset-y: 0;
 	}
 
 	html.dark {

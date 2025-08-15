@@ -46,3 +46,11 @@ export interface ViewSfcProps {
 export interface ViewSfcEmits {
 	(e: "codeActive", state: boolean): void;
 }
+
+export interface ViewSfcSlots {
+	preview?: () => any;
+	title?: (props: { title: string }) => any;
+	description?: (props: { description: string }) => any;
+	codeView?: () => any;
+	[key: string]: any;
+}
