@@ -71,10 +71,11 @@ src=xxx
 
 ## Configuration
 
-| Name           | Type                            | Default  | Description                             |
-| -------------- | ------------------------------- | -------- | --------------------------------------- |
-| `alias`        | string or string[]              | -        | ViewSfc Alias , You Can add Other Alias |
-| `resolveAlias` | string or Record<string,string> | env.path | Path resolve alias                      |
+| Name              | Type                            | Default  | Description                                                                                                                                |
+| ----------------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `alias`           | string or string[]              | -        | ViewSfc Alias , You Can add Other Alias                                                                                                    |
+| `resolveAlias`    | string or Record<string,string> | env.path | Path resolve alias                                                                                                                         |
+| `codeViewUseSlot` | boolean                         | false    | Use slots to display code instead of HTML strings. When enabled, a slot named `codeView<componentName>` will be passed into the component. |
 
 The default is `ViewSfc`，you can not delete or change it, btn you can add a new alias.
 
