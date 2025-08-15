@@ -15,28 +15,30 @@
 			<span>*{{ description }}</span>
 		</template>
 		<template #codeView>
-			<div class="tabHead">
-				<button
-					class="tabBtn"
-					:class="{
-						active: mode === 0
-					}"
-					@click="changeMode(0)"
-				>
-					TS
-				</button>
-				<button
-					class="tabBtn"
-					:class="{
-						active: mode === 1
-					}"
-					@click="changeMode(1)"
-				>
-					JS
-				</button>
-			</div>
-			<div class="tabContent">
-				<component :is="codeViewName" />
+			<div class="container">
+				<div class="tabHead">
+					<button
+						class="tabBtn"
+						:class="{
+							active: mode === 0
+						}"
+						@click="changeMode(0)"
+					>
+						TS
+					</button>
+					<button
+						class="tabBtn"
+						:class="{
+							active: mode === 1
+						}"
+						@click="changeMode(1)"
+					>
+						JS
+					</button>
+				</div>
+				<div class="tabContent">
+					<component :is="currentCodeView" />
+				</div>
 			</div>
 		</template>
 	</ViewSfc>
@@ -49,7 +51,16 @@
 	import { SFCMeta, SFCPrototype } from "@vitepress-preview-sfc/core";
 	import toastComponent from "./toast.vue";
 	import tooltipComponent from "./tooltip.vue";
-	import { useAttrs, ref, computed, onMounted, provide, useSlots } from "vue";
+	import {
+		useAttrs,
+		ref,
+		computed,
+		onMounted,
+		provide,
+		useSlots,
+		VNode,
+		h
+	} from "vue";
 	const vsfc = ref<any>(null);
 	const attr = useAttrs() as unknown as SFCPrototype;
 	const slots = useSlots();
@@ -63,12 +74,20 @@
 	const mode = ref(0); // mode
 
 	const sfcs = attr.sfcs as SFCMeta[];
-	const codeViewName = computed(
-		() =>
-			slots[`codeView${sfcs[mode.value]?.componentName}`] ||
-			slots["codeView"]
+
+	const currentCodeView = computed(() =>
+		slots[`codeView${sfcs[mode.value].componentName}`]
+			? h(
+					"div",
+					{},
+					slots[`codeView${sfcs[mode.value].componentName}`]?.()
+				)
+			: h("div", {
+					innerHTML: sfcs[mode.value].htmlCode
+				})
 	);
-	const currentVnodePreview = computed(() => sfcs[mode.value]?.sfc || null);
+
+	const currentVnodePreview = computed(() => sfcs[mode.value]?.sfc);
 
 	const changeMode = (v: number) => {
 		mode.value = v;
@@ -142,7 +161,7 @@
 		padding: 2px 5px;
 		letter-spacing: 0.05em;
 		box-sizing: border-box;
-		box-shadow: 0 0 10px #f0f0f0;
+		box-shadow: 0 0 10px rgb(240, 240, 240, 0.15);
 		text-align: center;
 
 		&:hover {
@@ -156,5 +175,9 @@
 
 	.tabContent div[class*="language-"] {
 		margin-top: 0;
+	}
+
+	.container:has(.tabContent > div > pre.twoslash) .tabHead {
+		background-color: white;
 	}
 </style>
