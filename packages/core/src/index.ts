@@ -4,7 +4,8 @@ import { IConfig } from "./types";
 import registerContainer from "./container";
 
 const defaultConfig: IConfig = {
-	alias: "ViewSfc"
+	alias: "ViewSfc",
+	codeViewUseSlot: false
 };
 
 export default function xuranPlugin(md: MarkdownIt, options?: any) {

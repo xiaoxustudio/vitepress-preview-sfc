@@ -3,6 +3,7 @@ import { DefineComponent } from "vue";
 export interface IConfig {
 	alias: string | string[];
 	resolveAlias?: string | Record<string, string>;
+	codeViewUseSlot?: boolean;
 }
 
 export interface SFCMeta {
@@ -11,6 +12,7 @@ export interface SFCMeta {
 	componentName: string;
 	htmlCode: string;
 	sfc?: DefineComponent;
+	sfcSlot?: DefineComponent;
 	src: string;
 	suffixName: string;
 }

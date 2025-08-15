@@ -91,6 +91,10 @@ export const getCompoentName = (src: string, suffixName: string = "Sfc") => {
 	return componentName;
 };
 
+export const getComponentRefName = (sfcs: any) => {
+	return sfcs.map((v) => v.componentName).join("_") + "Ref";
+};
+
 // 解析多路径写法
 function transformSrc(srcString: string) {
 	if (!srcString) return "";
@@ -120,7 +124,7 @@ function toTransformAttributes(
 		.exec(originText);
 	const toAttrFilter = attr[2].match(matchAttr);
 	if (!toAttrFilter) {
-		throw `not find the ViewSfc Component`;
+		throw `not find the ViewSfc(or resolveAlias) Component`;
 	}
 	const toProperties = toAttrFilter
 		.map((v: string) =>
@@ -194,11 +198,8 @@ function toTransformAttributes(
 			toProperties.sfcs.push(sfcMeta);
 		}
 	}
-	const refName =
-		toProperties.sfcs.map((v) => v.componentName).join("") + "Ref";
-	toProperties.refName = refName;
-	if (toProperties.sfcs.length > 1)
-		injectComponentSfcsRef(toProperties.sfcs, env);
+	toProperties.refName = getComponentRefName(toProperties.sfcs);
+	injectComponentSfcsRef(toProperties.sfcs, env);
 	return toProperties;
 }
 
@@ -224,9 +225,18 @@ export function transformPreview(
 		const sfcs = attributes.sfcs;
 		let text = "";
 		for (const val of sfcs) {
-			text += `v.componentName==='${val.componentName}' ? (${val.componentName}) :`;
+			text += `v.componentName==='${val.componentName}'?${val.componentName}:`;
 		}
-		return `({...v,sfc:${text.slice(0, text.length - 1)}: undefined })`;
+		return `({...v,sfc:${text.slice(0, text.length - 1)}:undefined})`;
+	};
+
+	const GenerateSfcSlotCode = () => {
+		const sfcs = attributes.sfcs;
+		let text = "";
+		for (const val of sfcs) {
+			text += `<template #codeView${val.componentName}>${val.htmlCode}</template>`;
+		}
+		return text;
 	};
 
 	return `<${attributes.CompName} 
@@ -237,14 +247,13 @@ export function transformPreview(
 	:htmlCode="decodeURIComponent(\`${isNotEmpty ? encodeURIComponent(firstMeta.htmlCode) : ""}\`)" 
 	extension="${isNotEmpty ? firstMeta.suffixName : ""}" 
 	file="${isNotEmpty ? path.basename(firstMeta.src) : ""}" 
-	:sfcs="${
-		attributes.sfcs.length > 1
-			? `JSON.parse(decodeURIComponent(${attributes.refName})).map(v=>${GenerateSfcCode()})`
-			: `[]`
-	}"
+	:sfcs="${isNotEmpty ? `JSON.parse(decodeURIComponent(${attributes.refName})).map(v=>${GenerateSfcCode()})` : "[]"}"
 	markdownFile="${env.relativePath}" 
 	markdownTitle="${env.title}"
-	>${isNotEmpty && firstMeta.src ? `<template #preview><component :is="${firstMeta.componentName}" /></template>` : ""}</${attributes.CompName}>`;
+	>
+	${isNotEmpty && firstMeta.src ? `<template #preview><component :is="${firstMeta.componentName}" /></template>` : ""}
+	${isNotEmpty && firstMeta.src && config.codeViewUseSlot ? GenerateSfcSlotCode() : ""}
+	</${attributes.CompName}>`;
 }
 
 function injectComponentSfcsRef(sfcs: SFCMeta[], env: any) {
@@ -253,7 +262,7 @@ function injectComponentSfcsRef(sfcs: SFCMeta[], env: any) {
 	const isScript =
 		scriptSetup.test(content) ||
 		scriptsCode.some((v) => scriptSetup.test(v.tagOpen));
-	const refName = sfcs.map((v) => v.componentName).join("") + "Ref";
+	const refName = getComponentRefName(sfcs);
 
 	const sfcsEncode = encodeURIComponent(JSON.stringify(sfcs));
 
