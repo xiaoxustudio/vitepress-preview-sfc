@@ -64,7 +64,7 @@ export default defineConfig({
 							}
 						})
 					], // 加载类型定义插件
-					langs: ["vue", "tsx", "bash", "js", "ts", "json"]
+					langs: ["vue", "tsx", "bash", "js", "ts", "json", "md"]
 				})
 			);
 			md.use(previewSfcCore, {
