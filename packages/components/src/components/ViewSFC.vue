@@ -49,7 +49,14 @@
 				:style="{ height: showSourceCodeHeight }"
 			>
 				<slot
-					v-if="$slots.codeView"
+					v-if="
+						isNotEmpty &&
+						$slots['codeView' + props.sfcs?.[0].componentName]
+					"
+					:name="'codeView' + props.sfcs?.[0].componentName"
+				/>
+				<slot
+					v-else-if="$slots.codeView"
 					name="codeView"
 					:codeView="VNodeForShowSourceCode"
 					:data-ext="props.extension"
@@ -110,6 +117,8 @@
 	const showSourceCodeParentRef = ref<HTMLDivElement | null>(null);
 	const showSourceCodeHeight = ref("0px");
 	const showSourceCode = computed(() => props.htmlCode);
+
+	const isNotEmpty = computed(() => (props.sfcs?.length || 0) > 0);
 
 	const VNodeForShowSourceCode = computed(() =>
 		shallowRef(

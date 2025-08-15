@@ -40,6 +40,7 @@ export interface ViewSfcProps {
 	htmlCode?: string;
 	buttonGroup?: ViewSfcBtn[];
 	extension?: string; // 后缀
+	sfcs?: any[];
 }
 
 export interface ViewSfcEmits {
