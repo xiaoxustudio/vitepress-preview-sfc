@@ -1,7 +1,15 @@
 <template>
 	<button class="xbtn">TS XButton</button>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+	// @ts-ignore
+	import { Prop, ref } from "vue";
+	interface Props {
+		text: string;
+	}
+
+	const p: Props = { text: "" };
+</script>
 <style scoped lang="scss">
 	.xbtn {
 		outline: none;

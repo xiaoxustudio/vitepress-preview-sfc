@@ -1,6 +1,6 @@
 <template>
 	<ViewSfc
-		class="vsfc"
+		class="vsfcComponent"
 		ref="vsfc"
 		v-bind="$attrs"
 		@codeActive="handleCodeActive"
@@ -36,7 +36,7 @@
 				</button>
 			</div>
 			<div class="tabContent">
-				<component :is="VNodeForShowSourceCode.value" />
+				<slot :name="'codeView' + sfcs[mode]?.componentName" />
 			</div>
 		</template>
 	</ViewSfc>
@@ -49,18 +49,9 @@
 	import { SFCMeta, SFCPrototype } from "@vitepress-preview-sfc/core";
 	import toastComponent from "./toast.vue";
 	import tooltipComponent from "./tooltip.vue";
-	import {
-		useAttrs,
-		ref,
-		computed,
-		shallowRef,
-		h,
-		onMounted,
-		provide
-		// @ts-ignore
-	} from "vue";
-	const vsfc = ref(null);
-	const attr = useAttrs() as SFCPrototype;
+	import { useAttrs, ref, computed, onMounted, provide } from "vue";
+	const vsfc = ref<any>(null);
+	const attr = useAttrs() as unknown as SFCPrototype;
 
 	//  using a function to prevent contamination of the original object
 	const defaultViewSfcConfig = ViewSfcConfigFn();
@@ -72,17 +63,7 @@
 
 	const sfcs = attr.sfcs as SFCMeta[];
 
-	const currentVnodePreview = computed(() => sfcs[mode.value].sfc);
-
-	const VNodeForShowSourceCode = computed(() =>
-		shallowRef(
-			h("div", {
-				class: `language-${sfcs[mode.value].suffixName}`,
-				["data-ext"]: sfcs[mode.value].suffixName,
-				innerHTML: sfcs[mode.value].htmlCode
-			})
-		)
-	);
+	const currentVnodePreview = computed(() => sfcs[mode.value]?.sfc || null);
 
 	const changeMode = (v: number) => {
 		mode.value = v;
@@ -95,7 +76,7 @@
 		defaultViewSfcConfig.toast.value = toastComponent;
 		defaultViewSfcConfig.tooltip.value = tooltipComponent;
 
-		vsfc.value.btnGroup.unshift({
+		vsfc.value?.btnGroup.unshift({
 			key: "change",
 			title: "change-lang",
 			onClick() {
@@ -130,7 +111,7 @@
 </script>
 
 <style scope lang="scss">
-	.vsfc {
+	.vsfcComponent {
 		border: none;
 		border-radius: 4px;
 		padding: 10px;
