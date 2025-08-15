@@ -12,6 +12,14 @@
 	"files": [
 		"dist"
 	],
+	"keywords": [
+		"components",
+		"vitepress",
+		"preview",
+		"sfc",
+		"vue3",
+		"vite"
+	],
 	"scripts": {
 		"dev": "vite",
 		"watch": "vite build -c vite.config.build.ts --watch",
