@@ -7,19 +7,21 @@ import { IConfig, SFCMeta, SFCPrototype } from "./types";
 	部分逻辑思路来自于 https://github.com/flingyp/vitepress-demo-preview
 	感谢 @flingyp 大佬
 */
+
+const checksArrMap = new Map<string, RegExp[]>();
+
 export const checksArr = (config: IConfig) => {
-	const aliasArr = [];
-	if (Array.isArray(config.alias)) {
-		aliasArr.push(...config.alias);
-	} else {
-		aliasArr.push(config.alias);
-	}
 	const regexs = [];
-	for (const alias of aliasArr) {
-		regexs.push(
-			new RegExp(`^<(${alias}) (.*)></${alias}>$`),
-			new RegExp(`^<(${alias}) (.*)/>$`)
-		);
+	for (const alias of config.alias) {
+		if (checksArrMap.has(alias)) regexs.push(...checksArrMap.get(alias));
+		else {
+			const regexGroup = [
+				new RegExp(`^<(${alias}) (.*)></${alias}>$`),
+				new RegExp(`^<(${alias}) (.*)/>$`)
+			];
+			regexs.push(...regexGroup);
+			checksArrMap.set(alias, regexs);
+		}
 	}
 	return regexs;
 };
@@ -52,9 +54,7 @@ export const transformHTMLCode = (
  * @return {*}
  */
 export const toName = (componentName: string) => {
-	return componentName.replace(/[_|-]+(\w)/g, ($0, $1) => {
-		return $1.toUpperCase();
-	});
+	return componentName.replace(/[_|-]+(\w)/g, (_, $1) => $1.toUpperCase());
 };
 
 /**
@@ -63,25 +63,12 @@ export const toName = (componentName: string) => {
  * @returns
  */
 export const composeComponentName = (path: string) => {
-	let isFlag = true;
-	let componentList: string[] = [];
-	while (isFlag) {
-		const lastIndex = path.lastIndexOf("/");
-		if (lastIndex === -1) {
-			isFlag = false;
-		} else {
-			const name = path
-				.substring(lastIndex + 1)
-				.replace(/[\\/:*?"<>|.'\s]/g, "");
+	const parts = path.split("/");
+	const cleanedParts = parts
+		.filter((part) => part && part !== "." && part !== "..")
+		.map((part) => part.replace(/[\\/:*?"<>|.'\s]/g, ""));
 
-			componentList.unshift(name);
-			path = path.substring(0, lastIndex);
-		}
-	}
-	componentList = componentList.filter(
-		(item) => item !== "" && item !== "." && item !== ".."
-	);
-	return componentList.join("-").split(".")[0];
+	return cleanedParts.join("-").split(".")[0];
 };
 
 export const getCompoentName = (src: string, suffixName: string = "Sfc") => {
@@ -213,6 +200,7 @@ export function transformPreview(
 	token: Token,
 	config: IConfig
 ): string {
+	// console.time("transformPreview");
 	const originText = token.content;
 
 	const attributes = toTransformAttributes(md, env, config, originText);
@@ -239,20 +227,49 @@ export function transformPreview(
 		return text;
 	};
 
+	const description = attributes.description || "";
+	const encodedDescription = encodeURIComponent(md.renderInline(description));
+	const firstMetaSrc = firstMeta?.src || "";
+	const firstMetaCode = isNotEmpty ? encodeURIComponent(firstMeta.code) : "";
+	const firstMetaHtmlCode = isNotEmpty
+		? encodeURIComponent(firstMeta.htmlCode)
+		: "";
+	const firstMetaSuffixName = firstMeta?.suffixName || "";
+	const firstMetaComponentName = firstMeta?.componentName || "";
+	const fileName = firstMetaSrc ? path.basename(firstMetaSrc) : "";
+
+	const previewTemplate =
+		isNotEmpty && firstMetaSrc
+			? `<template #preview><component :is="${firstMetaComponentName}" /></template>`
+			: "";
+
+	const codeViewTemplate =
+		isNotEmpty && firstMetaSrc
+			? config.codeViewUseSlot
+				? GenerateSfcSlotCode()
+				: `<template #codeView>${firstMetaHtmlCode}</template>`
+			: "";
+
+	const sfcsAttribute = isNotEmpty
+		? `JSON.parse(decodeURIComponent(${attributes.refName})).map(v=>${GenerateSfcCode()})`
+		: "[]";
+
+	// console.timeEnd("transformPreview");
+
 	return `<${attributes.CompName} 
-	src="${isNotEmpty ? firstMeta.src : ""}" 
+	src="${firstMetaSrc}" 
 	title="${attributes.title || ""}" 
-	:description="decodeURIComponent(\`${encodeURIComponent(md.renderInline(attributes.description || ""))}\`)" 
-	:code="decodeURIComponent(\`${isNotEmpty ? encodeURIComponent(firstMeta.code) : ""}\`)" 
-	:htmlCode="decodeURIComponent(\`${isNotEmpty ? encodeURIComponent(firstMeta.htmlCode) : ""}\`)" 
-	extension="${isNotEmpty ? firstMeta.suffixName : ""}" 
-	file="${isNotEmpty ? path.basename(firstMeta.src) : ""}" 
-	:sfcs="${isNotEmpty ? `JSON.parse(decodeURIComponent(${attributes.refName})).map(v=>${GenerateSfcCode()})` : "[]"}"
+	:description="decodeURIComponent(\`${encodedDescription}\`)" 
+	:code="decodeURIComponent(\`${firstMetaCode}\`)" 
+	:htmlCode="decodeURIComponent(\`${firstMetaHtmlCode}\`)" 
+	extension="${firstMetaSuffixName}" 
+	file="${fileName}" 
+	:sfcs="${sfcsAttribute}"
 	markdownFile="${env.relativePath}" 
 	markdownTitle="${env.title}"
 	>
-	${isNotEmpty && firstMeta.src ? `<template #preview><component :is="${firstMeta.componentName}" /></template>` : ""}
-	${isNotEmpty && firstMeta.src ? (config.codeViewUseSlot ? GenerateSfcSlotCode() : `<template #codeView>${firstMeta.htmlCode}</template>`) : ""}
+	${previewTemplate}
+	${codeViewTemplate}
 	</${attributes.CompName}>`;
 }
 
