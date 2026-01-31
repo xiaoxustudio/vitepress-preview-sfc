@@ -77,5 +77,45 @@ export default defineConfig({
 				codeViewUseSlot: true // 使用插槽展示代码而不是html字符串
 			});
 		}
+	},
+	locales: {
+		root: {
+			label: "English",
+			lang: "en"
+		},
+		zh: {
+			label: "简体中文",
+			lang: "zh",
+			themeConfig: {
+				nav: [
+					{ text: "首页", link: "/zh/" },
+					{ text: "开始", link: "/zh/guide" }
+				],
+				sidebar: [
+					{
+						text: "开始",
+						items: [
+							{ text: "开始", link: "/zh/guide" },
+							{ text: "预览", link: "/zh/preview" }
+						]
+					},
+					{
+						text: "配置",
+						link: "/zh/config",
+						items: [
+							{ text: "alias", link: "/zh/config/alias" },
+							{
+								text: "resolveAlias",
+								link: "/zh/config/resolveAlias"
+							},
+							{
+								text: "codeViewUseSlot",
+								link: "/zh/config/codeViewUseSlot"
+							}
+						]
+					}
+				]
+			}
+		}
 	}
 });
