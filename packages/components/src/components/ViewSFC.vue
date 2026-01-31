@@ -49,11 +49,7 @@
 				:style="{ height: showSourceCodeHeight }"
 			>
 				<component :is="VNodeForShowSourceCode" />
-				<div
-					ref="closeDom"
-					:class="$style.closeBtn"
-					@click="onCollapse"
-				>
+				<div :class="$style.closeBtn" @click="onCollapse">
 					{{ config.collapseText }}
 				</div>
 				<div
@@ -77,7 +73,8 @@
 		toRaw,
 		nextTick,
 		watch,
-		type VNode
+		type VNode,
+		useTemplateRef
 	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
@@ -106,8 +103,7 @@
 
 	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
 
-	const closeDom = ref(null); // 关闭按钮
-	const showSourceCodeParentRef = ref<HTMLDivElement | null>(null);
+	const showSourceCodeParentRef = useTemplateRef("showSourceCodeParentRef");
 	const showSourceCodeHeight = ref("0px");
 	const showSourceCode = computed(() => props.htmlCode);
 
