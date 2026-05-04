@@ -128,7 +128,7 @@
 
 	const isCodeActive = ref(false); // 是否显示代码
 
-	const calculateHeight = async () => {
+	const calculateHeight = () => {
 		if (!showSourceCodeParentRef.value) return;
 
 		if (isCodeActive.value) {
