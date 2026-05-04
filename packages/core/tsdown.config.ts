@@ -7,6 +7,6 @@ export default defineConfig({
 	dts: true,
 	clean: true,
 	deps: {
-		neverBundle: ["markdown-it", "vue"]
+		neverBundle: ["vue"]
 	}
 });

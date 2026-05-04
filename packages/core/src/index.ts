@@ -1,8 +1,6 @@
-import MarkdownIt, { type Options } from "markdown-it";
 import { checksArr, transformPreview } from "./utils";
-import type { IConfig } from "./types";
+import type { IConfig, MarkdownIt, Options, Renderer, Token } from "./types";
 import registerContainer from "./container";
-import type { Renderer, Token } from "markdown-it/index.js";
 
 const defaultConfig: IConfig = {
 	alias: "ViewSfc",

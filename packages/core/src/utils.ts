@@ -1,8 +1,12 @@
 import { readFileSync } from "fs";
-import MarkdownIt from "markdown-it";
 import path from "path";
-import type { IConfig, SFCMeta, SFCPrototype } from "./types";
-import type { Token } from "markdown-it/index.js";
+import type {
+	IConfig,
+	SFCPrototype,
+	SFCMeta,
+	MarkdownIt,
+	Token
+} from "./types";
 
 /* 
 	部分逻辑思路来自于 https://github.com/flingyp/vitepress-demo-preview

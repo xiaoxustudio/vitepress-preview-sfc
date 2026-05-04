@@ -1,5 +1,5 @@
-import MarkdownIt from "markdown-it";
 import type { StateBlock, Token } from "markdown-it/index.js";
+import type { MarkdownIt } from "./types";
 
 export default function registerContainer(
 	md: MarkdownIt,
