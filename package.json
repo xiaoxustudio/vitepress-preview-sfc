@@ -28,7 +28,12 @@
 		"build": " pnpm run core:build && pnpm run comp:build",
 		"prepare": "husky",
 		"format": "prettier --write --config .prettierrc.json --ignore-path .prettierignore \"packages/**/*.*\" \"docs/**/*.*\"",
-		"publish": "pnpm build && changeset publish"
+		"publish": "pnpm build && changeset publish",
+		"changeset": "changeset",
+		"version": "changeset version",
+		"release": "changeset publish",
+		"ci:version": "changeset version && pnpm install --lockfile-only",
+		"ci:publish": "pnpm build && changeset publish"
 	},
 	"keywords": [
 		"vitepress",
