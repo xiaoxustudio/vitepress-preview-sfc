@@ -49,6 +49,7 @@ export default function registerContainer(
 
 		// 查找容器结束位置
 		let nextLine = startLine;
+		let found = false;
 
 		for (;;) {
 			nextLine++;
@@ -71,20 +72,21 @@ export default function registerContainer(
 			const beforeEnd = line.slice(0, endMatch.index!).trim();
 			if (beforeEnd.length > 0) continue;
 
-			// 检查标记后的内容
-			const afterEnd = line
-				.slice(endMatch.index! + endMatch[0].length)
-				.trim();
-			if (afterEnd.length > 0) continue;
+			// 检查标记后的内容（必须只有空格）
+			const afterEnd = line.slice(endMatch.index! + endMatch[0].length);
+			if (afterEnd.search(/\S/) !== -1) continue;
 
+			found = true;
 			break;
 		}
 
-		const contentStartPos = state.bMarks[startLine + 1];
-		const contentEndPos = state.bMarks[nextLine];
-
-		const contentLines = state.src
-			.slice(contentStartPos, contentEndPos)
+		const content = state.getLines(
+			startLine + 1,
+			nextLine,
+			state.sCount[startLine],
+			false
+		);
+		const contentLines = content
 			.split("\n")
 			.map((line) => line.trim())
 			.filter((line) => line.length > 0);
@@ -117,14 +119,9 @@ export default function registerContainer(
 			hidden: false
 		} as Token);
 
-		// 更新源代码
-		const lineStart = state.bMarks[startLine];
-		const lineEnd = state.bMarks[nextLine] + state.tShift[nextLine];
-		const beforeContainer = state.src.slice(0, lineStart);
-		const afterContainer = state.src.slice(lineEnd + min_markers);
-		state.src = beforeContainer + afterContainer;
-
-		return false;
+		// 更新行位置：找到结束标记则跳过后一行，否则停在当前查找位置
+		state.line = nextLine + (found ? 1 : 0);
+		return true;
 	}
 	// 确保它能在 alt 代码块规则之前运行
 	md.block.ruler.before("fence", "container_sfc_" + name, container, {
