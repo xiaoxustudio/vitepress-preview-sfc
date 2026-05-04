@@ -1,5 +1,11 @@
 # @vitepress-preview-sfc/core
 
+## 2.0.2
+
+### Patch Changes
+
+- 2562bcf: .
+
 ## 2.0.1
 
 ### Patch Changes
