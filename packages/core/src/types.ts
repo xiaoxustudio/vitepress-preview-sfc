@@ -1,4 +1,4 @@
-import { DefineComponent } from "vue";
+import type { DefineComponent } from "vue";
 
 export interface IConfig {
 	alias: string | string[];

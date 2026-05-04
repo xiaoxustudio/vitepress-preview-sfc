@@ -1,4 +1,5 @@
-import MarkdownIt, { StateBlock, Token } from "markdown-it";
+import MarkdownIt from "markdown-it";
+import type { StateBlock, Token } from "markdown-it/index.js";
 
 export default function registerContainer(
 	md: MarkdownIt,
@@ -16,18 +17,19 @@ export default function registerContainer(
 		let max = state.eMarks[startLine];
 		let line = state.src.slice(start, max);
 
-		// 查找 ":::" 标记
+		// 查找 ":::<alias>" 标记
 		const markerMatch = line.match(/:{3,}/);
 		if (!markerMatch) return false;
 
-		const maxCount = markerMatch[0].length;
-		if (maxCount < min_markers) return false;
+		const markLength = markerMatch[0].length;
+		if (markLength < min_markers) return false;
 
 		// 获取标记前的内容
 		const beforeMarker = line.slice(0, markerMatch.index!).trim();
 
 		// 获取标记后的内容
-		const afterMarker = line.slice(markerMatch.index! + maxCount).trim();
+		const afterMarker = line.slice(markerMatch.index! + markLength).trim();
+
 		if (!afterMarker.startsWith(name)) return false;
 
 		// 如果标记前有内容，检查是否是单独的一行
@@ -63,7 +65,7 @@ export default function registerContainer(
 			if (!endMatch) continue;
 
 			// 确保结束标记至少和开始标记一样长
-			if (endMatch[0].length < maxCount) continue;
+			if (endMatch[0].length < markLength) continue;
 
 			// 检查标记前的内容
 			const beforeEnd = line.slice(0, endMatch.index!).trim();
@@ -99,7 +101,6 @@ export default function registerContainer(
 			.join(" ");
 
 		const container = `<${name} ${attrText}></${name}>`;
-
 		state.tokens.push({
 			type: "html_inline",
 			tag: "",
@@ -122,6 +123,8 @@ export default function registerContainer(
 		const beforeContainer = state.src.slice(0, lineStart);
 		const afterContainer = state.src.slice(lineEnd + min_markers);
 		state.src = beforeContainer + afterContainer;
+
+		return false;
 	}
 	// 确保它能在 alt 代码块规则之前运行
 	md.block.ruler.before("fence", "container_sfc_" + name, container, {

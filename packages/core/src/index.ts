@@ -1,15 +1,16 @@
-import MarkdownIt, { Renderer, Token } from "markdown-it";
+import MarkdownIt, { type Options } from "markdown-it";
 import { checksArr, transformPreview } from "./utils";
-import { IConfig } from "./types";
+import type { IConfig } from "./types";
 import registerContainer from "./container";
+import type { Renderer, Token } from "markdown-it/index.js";
 
 const defaultConfig: IConfig = {
 	alias: "ViewSfc",
 	codeViewUseSlot: false
 };
 
-export default function xuranPlugin(md: MarkdownIt, options?: any) {
-	const defaultHtmlInlineRender = md.renderer.rules.html_inline;
+export default function (md: MarkdownIt, options?: any) {
+	const defaultHtmlInlineRender = md.renderer.rules.html_inline!;
 
 	const config = { ...defaultConfig, ...options };
 	if (Array.isArray(config.alias)) {
@@ -25,7 +26,7 @@ export default function xuranPlugin(md: MarkdownIt, options?: any) {
 	md.renderer.rules.html_inline = (
 		tokens: Token[],
 		idx: number,
-		mdOptions: MarkdownIt.Options,
+		mdOptions: Options,
 		env: any,
 		self: Renderer
 	) => {
@@ -36,4 +37,5 @@ export default function xuranPlugin(md: MarkdownIt, options?: any) {
 		return defaultHtmlInlineRender(tokens, idx, mdOptions, env, self);
 	};
 }
+
 export * from "./types";

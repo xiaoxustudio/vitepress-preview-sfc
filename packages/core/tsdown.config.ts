@@ -5,5 +5,8 @@ export default defineConfig({
 	outDir: "dist",
 	format: ["esm", "cjs"],
 	dts: true,
-	clean: false
+	clean: true,
+	deps: {
+		neverBundle: ["markdown-it", "vue"]
+	}
 });

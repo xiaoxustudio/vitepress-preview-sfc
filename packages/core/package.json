@@ -1,10 +1,18 @@
 {
 	"name": "@vitepress-preview-sfc/core",
 	"version": "2.0.0",
-	"description": "",
-	"main": "dist/index.js",
+	"description": "this is the core of the plugin",
+	"main": "dist/index.cjs",
 	"types": "dist/index.d.ts",
 	"module": "dist/index.mjs",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.js"
+		}
+	},
 	"scripts": {
 		"watch": "tsdown -c tsdown.config.ts -w",
 		"build": "tsdown -c tsdown.config.ts"
@@ -27,14 +35,14 @@
 		"vue",
 		"markdown-it"
 	],
-	"author": "",
+	"author": "xuran",
 	"license": "MIT",
-	"packageManager": "pnpm@10.13.1",
 	"devDependencies": {
 		"@types/markdown-it": "^14.1.2",
 		"@vitejs/plugin-vue": "^6.0.1",
-		"tsdown": "^0.13.0",
+		"markdown-it": "^14.1.1",
+		"tsdown": "^0.21.10",
 		"typescript": "^5.8.3",
-		"vue": "^3.5.18"
+		"vue": "^3.5.33"
 	}
 }

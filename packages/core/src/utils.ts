@@ -1,7 +1,8 @@
 import { readFileSync } from "fs";
-import MarkdownIt, { Token } from "markdown-it";
+import MarkdownIt from "markdown-it";
 import path from "path";
-import { IConfig, SFCMeta, SFCPrototype } from "./types";
+import type { IConfig, SFCMeta, SFCPrototype } from "./types";
+import type { Token } from "markdown-it/index.js";
 
 /* 
 	部分逻辑思路来自于 https://github.com/flingyp/vitepress-demo-preview
@@ -13,7 +14,8 @@ const checksArrMap = new Map<string, RegExp[]>();
 export const checksArr = (config: IConfig) => {
 	const regexs = [];
 	for (const alias of config.alias) {
-		if (checksArrMap.has(alias)) regexs.push(...checksArrMap.get(alias));
+		if (checksArrMap.has(alias))
+			regexs.push(...(checksArrMap.get(alias) ?? []));
 		else {
 			const regexGroup = [
 				new RegExp(`^<(${alias}) (.*)></${alias}>$`),
@@ -91,6 +93,7 @@ function transformSrc(srcString: string) {
 	const reg = /{(.+)}/;
 	if (!reg.test(srcString)) return srcString;
 	const matchText = reg.exec(srcString);
+	if (!matchText) return srcString;
 	const srcArr = matchText[1].split(",").map((v) => {
 		const val = v.trim();
 		return (
@@ -112,7 +115,7 @@ function toTransformAttributes(
 	const attr = checksArr(config)
 		.filter((v) => v.test(originText))[0]
 		.exec(originText);
-	const toAttrFilter = attr[2].match(matchAttr);
+	const toAttrFilter = attr![2].match(matchAttr);
 	if (!toAttrFilter) {
 		throw `not find the ViewSfc(or resolveAlias) Component`;
 	}
@@ -130,7 +133,7 @@ function toTransformAttributes(
 			}
 			return acc;
 		}, {}) as SFCPrototype;
-	toProperties.CompName = attr[1];
+	toProperties.CompName = attr![1];
 	toProperties.sfcs = [];
 	if (toProperties?.src) {
 		// 解析是否存在多模块语法
