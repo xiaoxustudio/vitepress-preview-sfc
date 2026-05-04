@@ -1,6 +1,6 @@
 {
 	"name": "@vitepress-preview-sfc/core",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "this is the core of the plugin",
 	"main": "dist/index.cjs",
 	"types": "dist/index.d.ts",
