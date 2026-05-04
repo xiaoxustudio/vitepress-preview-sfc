@@ -64,17 +64,14 @@
 	import {
 		computed,
 		h,
-		onMounted,
 		ref,
-		toRef,
 		unref,
 		isRef,
 		isReactive,
 		toRaw,
 		nextTick,
 		watch,
-		type VNode,
-		useTemplateRef
+		type VNode
 	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
@@ -99,11 +96,9 @@
 		buttonGroup: () => []
 	});
 
-	const btnGroup = toRef<ViewSfcBtn[]>(props.buttonGroup);
-
 	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
 
-	const showSourceCodeParentRef = useTemplateRef("showSourceCodeParentRef");
+	const showSourceCodeParentRef = ref<HTMLDivElement | null>(null);
 	const showSourceCodeHeight = ref("0px");
 	const showSourceCode = computed(() => props.htmlCode);
 
@@ -191,27 +186,23 @@
 		}
 	};
 
+	const defaultButtons = [
+		{
+			key: "code",
+			title: h(CodeSvg),
+			tip: "Show Code",
+			onClick: onCollapse
+		},
+		{ key: "copy", tip: "Copy Code", title: h(CopySvg), onClick: onCopy }
+	];
+
+	const btnGroup = computed<ViewSfcBtn[]>(() => [
+		...props.buttonGroup,
+		...defaultButtons
+	]);
+
 	const emits = defineEmits<ViewSfcEmits>();
 	defineExpose({ btnGroup, onCopy, onCollapse });
-
-	onMounted(() => {
-		btnGroup.value.push(
-			...[
-				{
-					key: "code",
-					title: h(CodeSvg),
-					tip: "Show Code",
-					onClick: onCollapse
-				},
-				{
-					key: "copy",
-					tip: "Copy Code",
-					title: h(CopySvg),
-					onClick: onCopy
-				}
-			]
-		);
-	});
 </script>
 <style>
 	:root {
