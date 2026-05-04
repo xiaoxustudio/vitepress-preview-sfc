@@ -22,7 +22,6 @@ export interface SFCPrototype {
 	description: string;
 	extension: string;
 	file: string;
-	htmlCode: string;
 	markdownFile: string;
 	markdownTitle: string;
 	sfcs: SFCMeta[];

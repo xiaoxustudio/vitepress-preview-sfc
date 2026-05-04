@@ -123,7 +123,7 @@ function toTransformAttributes(
 	if (!toAttrFilter) {
 		throw `not find the ViewSfc(or resolveAlias) Component`;
 	}
-	const toProperties = toAttrFilter
+	let toProperties = toAttrFilter
 		.map((v: string) =>
 			getAttr().test(v)
 				? {
@@ -184,11 +184,8 @@ function toTransformAttributes(
 			sfcMeta.suffixName = sfcMeta.src.substring(
 				sfcMeta.src.lastIndexOf(".") + 1
 			);
-			sfcMeta.htmlCode = transformHTMLCode(
-				md,
-				sfcMeta.code,
-				sfcMeta.suffixName
-			);
+			sfcMeta.htmlCode =
+				transformHTMLCode(md, sfcMeta.code, sfcMeta.suffixName) ?? "";
 			sfcMeta.componentName = getCompoentName(sfcMeta.src);
 			// add script to import component
 			injectComponentImportScript(sfcMeta, env);
@@ -239,11 +236,16 @@ export function transformPreview(
 
 	const description = attributes.description || "";
 	const encodedDescription = encodeURIComponent(md.renderInline(description));
+
+	// 因为有可能有多个组件，所以需要将第一个组件的属性作为默认值
 	const firstMetaSrc = firstMeta?.src || "";
 	const firstMetaCode = isNotEmpty ? encodeURIComponent(firstMeta.code) : "";
 	const firstMetaSuffixName = firstMeta?.suffixName || "";
 	const firstMetaComponentName = firstMeta?.componentName || "";
 	const fileName = firstMetaSrc ? path.basename(firstMetaSrc) : "";
+	const firstMetaHtmlCode = isNotEmpty
+		? encodeURIComponent(firstMeta.htmlCode)
+		: "";
 
 	const previewTemplate =
 		isNotEmpty && firstMetaSrc
@@ -262,13 +264,12 @@ export function transformPreview(
 		: "[]";
 
 	// console.timeEnd("transformPreview");
-
 	return `<${attributes.CompName} 
 	src="${firstMetaSrc}" 
 	title="${attributes.title || ""}" 
 	:description="decodeURIComponent(\`${encodedDescription}\`)" 
 	:code="decodeURIComponent(\`${firstMetaCode}\`)" 
-	:htmlCode="decodeURIComponent(\`${encodeURIComponent(attributes.htmlCode)}\`)" 
+	:htmlCode="decodeURIComponent(\`${firstMetaHtmlCode}\`)" 
 	extension="${firstMetaSuffixName}" 
 	file="${fileName}" 
 	:sfcs="${sfcsAttribute}"

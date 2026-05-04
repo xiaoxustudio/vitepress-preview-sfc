@@ -35,5 +35,3 @@ export default function (md: MarkdownIt, options?: any) {
 		return defaultHtmlInlineRender(tokens, idx, mdOptions, env, self);
 	};
 }
-
-export * from "./types";

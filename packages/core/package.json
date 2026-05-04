@@ -8,9 +8,12 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
+			"types": "./dist/index.d.cts",
 			"import": "./dist/index.mjs",
 			"require": "./dist/index.js"
+		},
+		"./types": {
+			"types": "./dist/types.d.cts"
 		}
 	},
 	"scripts": {
