@@ -2,21 +2,37 @@ name: Release
 
 on:
     push:
-        tags:
-            - "@*"
+        branches: [ main ]
 
 jobs:
     release:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
         steps:
-            - uses: actions/checkout@v3
+            - name: Checkout
+              uses: actions/checkout@v4
               with:
-                  fetch-depth: 0
+                  fetch-depth: 0 # 获取完整历史，保证 CHANGELOG 正确
 
-            - uses: actions/setup-node@v3
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
               with:
-                  node-version: 16.x
+                  node-version: 18
+                  registry-url: "https://registry.npmjs.org"
 
-            - run: npx changelogithub
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+
+            - name: Install deps
+              run: pnpm install --frozen-lockfile
+
+            - name: Create Release PR or Publish
+              uses: changesets/action@v1
+              with:
+                  version: pnpm version
+                  publish: pnpm release
               env:
-                  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
