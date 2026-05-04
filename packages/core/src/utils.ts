@@ -237,9 +237,6 @@ export function transformPreview(
 	const encodedDescription = encodeURIComponent(md.renderInline(description));
 	const firstMetaSrc = firstMeta?.src || "";
 	const firstMetaCode = isNotEmpty ? encodeURIComponent(firstMeta.code) : "";
-	const firstMetaHtmlCode = isNotEmpty
-		? encodeURIComponent(firstMeta.htmlCode)
-		: "";
 	const firstMetaSuffixName = firstMeta?.suffixName || "";
 	const firstMetaComponentName = firstMeta?.componentName || "";
 	const fileName = firstMetaSrc ? path.basename(firstMetaSrc) : "";
@@ -253,7 +250,7 @@ export function transformPreview(
 		isNotEmpty && firstMetaSrc
 			? config.codeViewUseSlot
 				? GenerateSfcSlotCode()
-				: `<template #codeView>${firstMetaHtmlCode}</template>`
+				: `<template #codeView>${firstMeta.htmlCode}</template>`
 			: "";
 
 	const sfcsAttribute = isNotEmpty
@@ -267,7 +264,7 @@ export function transformPreview(
 	title="${attributes.title || ""}" 
 	:description="decodeURIComponent(\`${encodedDescription}\`)" 
 	:code="decodeURIComponent(\`${firstMetaCode}\`)" 
-	:htmlCode="decodeURIComponent(\`${firstMetaHtmlCode}\`)" 
+	:htmlCode="decodeURIComponent(\`${encodeURIComponent(attributes.htmlCode)}\`)" 
 	extension="${firstMetaSuffixName}" 
 	file="${fileName}" 
 	:sfcs="${sfcsAttribute}"
