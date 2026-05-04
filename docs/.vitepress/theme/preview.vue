@@ -119,9 +119,10 @@
 				alert(
 					JSON.stringify({
 						...Object.keys(attr).reduce(
-							(p, c) =>
+							(p: any, c) =>
 								c.startsWith("markdown")
-									? (p[c] = attr[c]) && p
+									? (p[c] = attr[c as keyof SFCPrototype]) &&
+										p
 									: p,
 							{}
 						),
