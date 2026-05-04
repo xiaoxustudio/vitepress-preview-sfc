@@ -31,7 +31,7 @@ export const matchAttr = /(\w+)\s*=\s*["']([^"']+)["']/g;
 
 export const getAttr = () => /(\w+)\s*=\s*["']([^"']+)["']/;
 
-export function hasVueRefImport(importStr) {
+export function hasVueRefImport(importStr: string) {
 	// 匹配import关键字，后面跟{ ... }结构，其中包含ref，并且从'vue'或"vue"导入
 	const regex =
 		/import\s+\{\s*[^}]*?(?:^|,|\s)ref(?:$|,|\s)[^}]*?\s*\}\s+from\s+['"]vue['"]/;
@@ -79,7 +79,10 @@ export const getCompoentName = (src: string, suffixName: string = "Sfc") => {
 };
 
 export const getComponentRefName = (sfcs: any) => {
-	return sfcs.map((v) => v.componentName).join("_") + "Ref";
+	return (
+		sfcs.map((v: { componentName: any }) => v.componentName).join("_") +
+		"Ref"
+	);
 };
 
 // 解析多路径写法
