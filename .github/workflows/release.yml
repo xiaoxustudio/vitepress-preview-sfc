@@ -1,8 +1,7 @@
 name: Release
 
 on:
-    push:
-        branches: [ main ]
+    workflow_dispatch:
 
 jobs:
     release:
@@ -36,3 +35,17 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - run: npx changelogithub --output CHANGELOG.md
+              env:
+                  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+            - name: Create Release Notes
+              uses: softprops/action-gh-release@v2
+              if: github.ref_type == 'tag'
+              with:
+                  body_path: CHANGELOG.md
+                  # note you'll typically need to create a personal access token
+                  # with permissions to create releases in the other repo.
+                  # A non-empty explicit token overrides GITHUB_TOKEN.
+                  # Omit the input to use github.token; passing "" treats the token as unset.
+                  token: ${{ secrets.GITHUB_TOKEN }}
