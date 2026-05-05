@@ -1,5 +1,11 @@
 # @vitepress-preview-sfc/components
 
+## 2.0.1
+
+### Patch Changes
+
+- 2562bcf: .
+
 ## 2.0.0
 
 ### Major Changes
