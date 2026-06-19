@@ -22,16 +22,18 @@ export const escapeHtml = (s: string) =>
 		.replace(/"/g, "&quot;")
 		.replace(/{/g, "&#123;")
 		.replace(/}/g, "&#125;");
-const readFileCache = new Map<string, string>();
-const highlightCache = new Map<string, string>();
+const readFileCache = new Map<string, { content: string; mtime: number }>();
+const highlightCache = new Map<string, { content: string; mtime: number }>();
 
 function getFileContent(absPath: string): string {
-	const stat = statSync(absPath);
-	const cacheKey = `${absPath}:${stat.mtimeMs}`;
-	const cached = readFileCache.get(cacheKey);
-	if (cached !== undefined) return cached;
+	const cached = readFileCache.get(absPath);
+	if (cached !== undefined) {
+		const stat = statSync(absPath);
+		if (stat.mtimeMs === cached.mtime) return cached.content;
+	}
 	const content = readFileSync(absPath, "utf-8");
-	readFileCache.set(cacheKey, content);
+	const stat = statSync(absPath);
+	readFileCache.set(absPath, { content, mtime: stat.mtimeMs });
 	return content;
 }
 
@@ -41,12 +43,15 @@ function getHighlightedCode(
 	suffix: string,
 	absPath: string
 ): string {
-	const stat = statSync(absPath);
-	const cacheKey = `${absPath}:${stat.mtimeMs}:${suffix}`;
+	const cacheKey = `${absPath}:${suffix}`;
 	const cached = highlightCache.get(cacheKey);
-	if (cached !== undefined) return cached;
+	if (cached !== undefined) {
+		const stat = statSync(absPath);
+		if (stat.mtimeMs === cached.mtime) return cached.content;
+	}
 	const result = md.options.highlight!(code, suffix, "");
-	highlightCache.set(cacheKey, result);
+	const stat = statSync(absPath);
+	highlightCache.set(cacheKey, { content: result, mtime: stat.mtimeMs });
 	return result;
 }
 

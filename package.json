@@ -58,7 +58,7 @@
 		"@shikijs/markdown-it": "^3.9.2",
 		"@shikijs/vitepress-twoslash": "^3.9.2",
 		"@types/node": "^24.1.0",
-		"@vitejs/plugin-vue-jsx": "^5.0.1",
+		"@vitejs/plugin-vue-jsx": "^5.1.5",
 		"@vue/test-utils": "^2.4.11",
 		"husky": "^9.1.7",
 		"jsdom": "^25.0.1",

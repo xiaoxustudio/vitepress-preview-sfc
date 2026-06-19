@@ -45,6 +45,9 @@
 						:aria-pressed="
 							v.key === 'code' ? isCodeActive : undefined
 						"
+						:aria-expanded="
+							v.key === 'code' ? isCodeActive : undefined
+						"
 						:aria-controls="
 							v.key === 'code' ? codeSectionId : undefined
 						"
@@ -72,6 +75,7 @@
 					:class="$style.closeBtn"
 					@click="onCollapse"
 					:aria-label="config.accessibility.collapseBtnLabel"
+					:aria-expanded="isCodeActive"
 				>
 					{{ config.collapseText }}
 				</button>
@@ -245,9 +249,12 @@
 		}
 	};
 
-	function deepUnwrap(obj: any) {
-		if (isRef(obj)) return deepUnwrap(unref(obj));
-		if (isReactive(obj)) return deepUnwrap(toRaw(obj));
+	function deepUnwrap(obj: any, seen = new WeakSet()) {
+		if (obj === null || typeof obj !== "object") return obj;
+		if (seen.has(obj)) return obj;
+		seen.add(obj);
+		if (isRef(obj)) return deepUnwrap(unref(obj), seen);
+		if (isReactive(obj)) return deepUnwrap(toRaw(obj), seen);
 		return obj;
 	}
 
