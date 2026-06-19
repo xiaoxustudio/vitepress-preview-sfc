@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync, statSync } from "fs";
 import path from "path";
 import type {
 	IConfig,
@@ -14,6 +14,33 @@ import type {
 */
 
 const checksArrMap = new Map<string, RegExp[]>();
+const readFileCache = new Map<string, string>();
+const highlightCache = new Map<string, string>();
+
+function getFileContent(absPath: string): string {
+	const stat = statSync(absPath);
+	const cacheKey = `${absPath}:${stat.mtimeMs}`;
+	const cached = readFileCache.get(cacheKey);
+	if (cached !== undefined) return cached;
+	const content = readFileSync(absPath, "utf-8");
+	readFileCache.set(cacheKey, content);
+	return content;
+}
+
+function getHighlightedCode(
+	md: MarkdownIt,
+	code: string,
+	suffix: string,
+	absPath: string
+): string {
+	const stat = statSync(absPath);
+	const cacheKey = `${absPath}:${stat.mtimeMs}:${suffix}`;
+	const cached = highlightCache.get(cacheKey);
+	if (cached !== undefined) return cached;
+	const result = md.options.highlight!(code, suffix, "");
+	highlightCache.set(cacheKey, result);
+	return result;
+}
 
 export const checksArr = (config: IConfig) => {
 	const regexs = [];
@@ -181,7 +208,7 @@ function toTransformAttributes(
 				}
 			}
 			try {
-				sfcMeta.code = readFileSync(sfcMeta.absoluteSrc, "utf-8");
+				sfcMeta.code = getFileContent(sfcMeta.absoluteSrc);
 			} catch (e) {
 				throw new Error(
 					`[vitepress-preview-sfc] Failed to read SFC file: ${sfcMeta.absoluteSrc}. ${e instanceof Error ? e.message : ""}`
@@ -191,7 +218,12 @@ function toTransformAttributes(
 				sfcMeta.src.lastIndexOf(".") + 1
 			);
 			sfcMeta.htmlCode =
-				transformHTMLCode(md, sfcMeta.code, sfcMeta.suffixName) ?? "";
+				getHighlightedCode(
+					md,
+					sfcMeta.code,
+					sfcMeta.suffixName,
+					sfcMeta.absoluteSrc
+				) ?? "";
 			sfcMeta.componentName = getCompoentName(sfcMeta.src);
 			// add script to import component
 			injectComponentImportScript(sfcMeta, env);
