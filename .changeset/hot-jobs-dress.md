@@ -1,5 +1,5 @@
 ---
-"@vitepress-preview-sfc/components": major
+"@vitepress-preview-sfc/components": minor
 ---
 
 chore: remove VSCode extension recommendation

@@ -3,13 +3,13 @@ import {
 	checksArr,
 	toName,
 	composeComponentName,
-	getCompoentName,
+	getComponentName,
 	getComponentRefName,
 	hasVueRefImport,
 	escapeHtml,
 	transformSrc
 } from "../src/utils";
-import type { IConfig } from "../src/types";
+import type { IConfig, SFCMeta } from "../src/types";
 
 describe("checksArr", () => {
 	it("generates regex patterns for single alias", () => {
@@ -100,17 +100,21 @@ describe("composeComponentName", () => {
 	});
 });
 
-describe("getCompoentName", () => {
+describe("getComponentName", () => {
 	it("generates component name with default suffix", () => {
-		expect(getCompoentName("./test.vue")).toBe("testvueSfc");
+		expect(getComponentName("./test.vue")).toBe("testvueSfc");
 	});
 
 	it("generates component name with custom suffix", () => {
-		expect(getCompoentName("./test.vue", "Preview")).toBe("testvuePreview");
+		expect(getComponentName("./test.vue", "Preview")).toBe(
+			"testvuePreview"
+		);
 	});
 
 	it("handles kebab-case paths", () => {
-		expect(getCompoentName("./my-component.vue")).toBe("myComponentvueSfc");
+		expect(getComponentName("./my-component.vue")).toBe(
+			"myComponentvueSfc"
+		);
 	});
 });
 
@@ -120,12 +124,14 @@ describe("getComponentRefName", () => {
 			{ componentName: "testSfc" },
 			{ componentName: "otherSfc" }
 		];
-		expect(getComponentRefName(sfcs)).toBe("testSfc_otherSfcRef");
+		expect(getComponentRefName(sfcs as SFCMeta[])).toBe(
+			"testSfc_otherSfcRef"
+		);
 	});
 
 	it("handles single component", () => {
 		const sfcs = [{ componentName: "testSfc" }];
-		expect(getComponentRefName(sfcs)).toBe("testSfcRef");
+		expect(getComponentRefName(sfcs as SFCMeta[])).toBe("testSfcRef");
 	});
 });
 

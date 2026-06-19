@@ -3,4 +3,4 @@
 "@vitepress-preview-sfc/core": minor
 ---
 
-chore: add project references and typecheck scripts
+chore: update deps and fix typos

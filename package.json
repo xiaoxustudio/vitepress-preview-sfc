@@ -49,9 +49,7 @@
 	"packageManager": "pnpm@10.14.0",
 	"dependencies": {
 		"@vitepress-preview-sfc/components": "workspace:./packages/components",
-		"@vitepress-preview-sfc/core": "workspace:./packages/core",
-		"tsdown": "^0.22.3",
-		"typescript": "^5.8.3"
+		"@vitepress-preview-sfc/core": "workspace:./packages/core"
 	},
 	"peerDependencyRules": {},
 	"devDependencies": {
@@ -66,6 +64,8 @@
 		"lint-staged": "^16.1.2",
 		"prettier": "^3.6.2",
 		"sass-embedded": "^1.100.0",
+		"tsdown": "^0.22.3",
+		"typescript": "^5.8.3",
 		"twoslash": "^0.3.4",
 		"vite": "^8.0.0",
 		"vitepress": "^1.6.4",

@@ -85,14 +85,9 @@ export function hasVueRefImport(importStr: string) {
  * @description: code to htmlCode
  * @return {*}
  */
-export const transformHTMLCode = (
-	mdInstance: MarkdownIt,
-	sourceCode: string,
-	suffix: string
-) => mdInstance.options.highlight!(sourceCode, suffix, "");
 
 /**
- * @description: to Hump Naming
+ * @description: to CamelCase
  * @param {string} componentName
  * @return {*}
  */
@@ -114,7 +109,7 @@ export const composeComponentName = (path: string) => {
 	return cleanedParts.join("-").split(".")[0];
 };
 
-export const getCompoentName = (src: string, suffixName: string = "Sfc") => {
+export const getComponentName = (src: string, suffixName: string = "Sfc") => {
 	const pathName = composeComponentName(src);
 	const name = toName(pathName);
 	let componentName = `${name}${suffixName}`;
@@ -122,7 +117,7 @@ export const getCompoentName = (src: string, suffixName: string = "Sfc") => {
 	return componentName;
 };
 
-export const getComponentRefName = (sfcs: any) => {
+export const getComponentRefName = (sfcs: SFCMeta[]) => {
 	return (
 		sfcs.map((v: { componentName: any }) => v.componentName).join("_") +
 		"Ref"
@@ -230,7 +225,7 @@ function toTransformAttributes(
 						sfcMeta.absoluteSrc
 					) ?? "";
 			}
-			sfcMeta.componentName = getCompoentName(sfcMeta.src);
+			sfcMeta.componentName = getComponentName(sfcMeta.src);
 			// add script to import component
 			injectComponentImportScript(sfcMeta, env);
 			toProperties.sfcs.push(sfcMeta);
