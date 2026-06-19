@@ -1,18 +1,22 @@
 <template>
-	<div :class="$style['view-sfc']">
-		<div :class="$style.preview">
+	<div ref="containerRef" :class="$style['view-sfc']">
+		<div v-if="isVisible" :class="$style.preview">
 			<slot name="preview" />
 		</div>
+		<template v-if="!isVisible">
+			<div :class="$style.preview" :style="{ minHeight: '60px' }"></div>
+		</template>
 		<div :class="$style.content">
-			<div :class="$style.title" v-if="slots.title">
+			<div v-once :class="$style.title" v-if="slots.title">
 				<slot name="title" :title="props.title" />
 			</div>
-			<div :class="$style.title" v-else>{{ props.title }}</div>
+			<div v-once :class="$style.title" v-else>{{ props.title }}</div>
 
-			<div :class="$style.description" v-if="slots.description">
+			<div v-once :class="$style.description" v-if="slots.description">
 				<slot name="description" :description="props.description" />
 			</div>
 			<div
+				v-once
 				:class="$style.description"
 				v-else
 				v-html="props.description"
@@ -61,7 +65,9 @@
 				:aria-label="config.accessibility.codeRegionLabel"
 				:class="[$style.code, { [$style.open]: isCodeActive }]"
 			>
-				<component :is="VNodeForShowSourceCode" />
+				<template v-if="codeRendered">
+					<component :is="cachedCodeVNode" />
+				</template>
 				<button
 					:class="$style.closeBtn"
 					@click="onCollapse"
@@ -87,6 +93,8 @@
 		isReactive,
 		toRaw,
 		nextTick,
+		onMounted,
+		onUnmounted,
 		type VNode
 	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
@@ -109,18 +117,51 @@
 		code: "",
 		htmlCode: "",
 		extension: "",
+		lazy: false,
 		buttonGroup: () => []
 	});
 
 	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
+
+	const unwrappedToast = deepUnwrap(config.toast);
+	const unwrappedCopySuccess = deepUnwrap(config.copyTextSuccess);
+	const unwrappedCopyError = deepUnwrap(config.copyTextError);
 
 	const componentId = `vsfc-${Math.random().toString(36).slice(2, 9)}`;
 	const codeSectionId = `${componentId}-code`;
 	const codeSectionRef = ref<HTMLElement | null>(null);
 
 	const showSourceCode = computed(() => props.htmlCode);
+	const codeRendered = ref(false);
+	const cachedCodeVNode = ref<VNode | null>(null);
 
-	const VNodeForShowSourceCode = computed<VNode>(() => {
+	const isVisible = ref(!props.lazy);
+	const containerRef = ref<HTMLElement | null>(null);
+	let observer: IntersectionObserver | null = null;
+
+	if (props.lazy && typeof window !== "undefined") {
+		observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					isVisible.value = true;
+					observer?.disconnect();
+				}
+			},
+			{ rootMargin: "200px" }
+		);
+	}
+
+	onMounted(() => {
+		if (observer && containerRef.value) {
+			observer.observe(containerRef.value);
+		}
+	});
+
+	onUnmounted(() => {
+		observer?.disconnect();
+	});
+
+	function buildCodeVNode(): VNode {
 		const staticProps = {
 			class: `language-${props.extension}`,
 			["data-ext"]: props.extension
@@ -137,7 +178,7 @@
 						...staticProps,
 						innerHTML: showSourceCode.value
 					});
-	});
+	}
 
 	const isCodeActive = ref(false);
 
@@ -153,6 +194,10 @@
 			isCodeActive.value = false;
 			emits("codeActive", false);
 		} else {
+			if (!codeRendered.value) {
+				cachedCodeVNode.value = buildCodeVNode();
+				codeRendered.value = true;
+			}
 			el.style.maxHeight = "none";
 			nextTick(() => {
 				const height = el.scrollHeight;
@@ -176,22 +221,13 @@
 			navigator.clipboard
 				.writeText(props.code)
 				.then(() => {
-					toast.success(
-						deepUnwrap(config.toast),
-						deepUnwrap(config.copyTextSuccess)
-					);
+					toast.success(unwrappedToast, unwrappedCopySuccess);
 				})
 				.catch(() => {
-					toast.error(
-						deepUnwrap(config.toast),
-						deepUnwrap(config.copyTextError.value)
-					);
+					toast.error(unwrappedToast, unwrappedCopyError);
 				});
 		} catch {
-			toast.error(
-				deepUnwrap(config.toast),
-				deepUnwrap(config.copyTextError.value)
-			);
+			toast.error(unwrappedToast, unwrappedCopyError);
 		}
 	};
 

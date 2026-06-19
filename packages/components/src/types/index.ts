@@ -39,7 +39,8 @@ export interface ViewSfcProps {
 	code?: string;
 	htmlCode?: string;
 	buttonGroup?: ViewSfcBtn[];
-	extension?: string; // 后缀
+	extension?: string;
+	lazy?: boolean;
 	sfcs?: any[];
 }
 
