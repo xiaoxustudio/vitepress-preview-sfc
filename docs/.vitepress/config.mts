@@ -5,6 +5,21 @@ import path from "path";
 import Shiki from "@shikijs/markdown-it";
 import { transformerTwoslash } from "@shikijs/vitepress-twoslash";
 
+const shikiPromise = Shiki({
+	themes: {
+		light: "vitesse-light",
+		dark: "vitesse-dark"
+	},
+	transformers: [
+		transformerTwoslash({
+			filter(lang: string) {
+				return ["vue", "tsx"].includes(lang);
+			}
+		})
+	],
+	langs: ["vue", "tsx", "bash", "js", "ts", "json", "md"]
+});
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
 	title: "vitepress-preview-sfc",
@@ -63,22 +78,7 @@ export default defineConfig({
 	},
 	markdown: {
 		config: async (md) => {
-			md.use(
-				await Shiki({
-					themes: {
-						light: "vitesse-light",
-						dark: "vitesse-dark"
-					},
-					transformers: [
-						transformerTwoslash({
-							filter(lang) {
-								return ["vue", "tsx"].includes(lang);
-							}
-						})
-					], // 加载类型定义插件
-					langs: ["vue", "tsx", "bash", "js", "ts", "json", "md"]
-				})
-			);
+			md.use(await shikiPromise);
 			md.use(previewSfcCore, {
 				alias: "PreView",
 				resolveAlias: {

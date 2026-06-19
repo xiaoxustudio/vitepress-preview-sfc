@@ -2,6 +2,7 @@
 	"compileOnSave": true,
 
 	"compilerOptions": {
+		"skipLibCheck": true,
 		"jsx": "preserve",
 		"jsxImportSource": "vue",
 		"target": "ES2018",

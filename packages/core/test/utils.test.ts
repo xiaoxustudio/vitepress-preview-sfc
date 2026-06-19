@@ -134,6 +134,12 @@ describe("hasVueRefImport", () => {
 		expect(hasVueRefImport('import { ref } from "vue"')).toBe(true);
 	});
 
+	it("detects ref import without spaces around ref", () => {
+		expect(hasVueRefImport("import {ref} from 'vue'")).toBe(true);
+		expect(hasVueRefImport("import {ref,computed} from 'vue'")).toBe(true);
+		expect(hasVueRefImport("import {computed,ref} from 'vue'")).toBe(true);
+	});
+
 	it("detects ref import with other imports", () => {
 		expect(hasVueRefImport('import { ref, computed } from "vue"')).toBe(
 			true

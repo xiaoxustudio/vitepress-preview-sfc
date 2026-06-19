@@ -77,9 +77,7 @@ export const matchAttr = /(\w+)\s*=\s*["']([^"']+)["']/g;
 export const getAttr = () => /(\w+)\s*=\s*["']([^"']+)["']/;
 
 export function hasVueRefImport(importStr: string) {
-	// 匹配import关键字，后面跟{ ... }结构，其中包含ref，并且从'vue'或"vue"导入
-	const regex =
-		/import\s+\{\s*[^}]*?(?:^|,|\s)ref(?:$|,|\s)[^}]*?\s*\}\s+from\s+['"]vue['"]/;
+	const regex = /import\s+\{[^}]*?\bref\b[^}]*?\}\s+from\s+['"]vue['"]/;
 	return regex.test(importStr);
 }
 
@@ -131,21 +129,17 @@ export const getComponentRefName = (sfcs: any) => {
 	);
 };
 
-// 解析多路径写法，始终返回数组
+// 解析多路径写法：按花括号分组展开，支持 {a,b}/{c,d}.vue 等多组
 export function transformSrc(srcString: string): string[] {
 	if (!srcString) return [];
-	const reg = /{(.+)}/;
-	if (!reg.test(srcString)) return [srcString];
-	const matchText = reg.exec(srcString);
-	if (!matchText) return [srcString];
-	return matchText[1].split(",").map((v) => {
-		const val = v.trim();
-		return (
-			srcString.slice(0, matchText.index) +
-			val +
-			srcString.slice(matchText.index + matchText[0].length)
-		);
-	});
+	const parts = srcString.split(/{([^}]+)}/);
+	if (parts.length === 1) return [srcString];
+	const choices = parts.map((part, i) =>
+		i % 2 === 0 ? [part] : part.split(",").map((s) => s.trim())
+	);
+	return choices.reduce((acc, cur) =>
+		acc.flatMap((a) => cur.map((b) => a + b))
+	);
 }
 
 function toTransformAttributes(
@@ -388,7 +382,7 @@ function injectComponentImportScript(toProperties: any, env: any) {
 		scriptSetup.test(content) ||
 		scriptsCode.some((v) => scriptSetup.test(v.tagOpen));
 
-	const importScript = `import ${componentName} from '${src}';`;
+	const importScript = `import ${componentName} from ${JSON.stringify(src)};`;
 	if (isScript) {
 		let { content } = scriptsCode[0];
 		// 已引入组件（检查 componentName 的 import 声明，兼容别名路径）

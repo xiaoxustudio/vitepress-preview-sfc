@@ -188,12 +188,9 @@
 			class: `language-${props.extension}`,
 			["data-ext"]: props.extension
 		};
-		if (slots[`codeView${props.sfcs?.[0]?.componentName}`]) {
-			return h(
-				"div",
-				staticProps,
-				slots[`codeView${props.sfcs?.[0]?.componentName}`]()
-			);
+		const firstSlotName = props.sfcs?.[0]?.componentName;
+		if (firstSlotName && slots[`codeView${firstSlotName}`]) {
+			return h("div", staticProps, slots[`codeView${firstSlotName}`]());
 		}
 		if (slots["codeView"]) {
 			return h("div", staticProps, slots["codeView"]());
@@ -241,6 +238,20 @@
 		}
 	};
 
+	const fallbackCopy = (text: string) => {
+		const ta = document.createElement("textarea");
+		ta.value = text;
+		ta.style.position = "fixed";
+		ta.style.opacity = "0";
+		document.body.appendChild(ta);
+		ta.select();
+		try {
+			return document.execCommand("copy");
+		} finally {
+			document.body.removeChild(ta);
+		}
+	};
+
 	const onCopy = () => {
 		const t = unref(config.toast);
 		const msgSuccess = unref(config.copyTextSuccess);
@@ -252,14 +263,24 @@
 					toast.success(t, msgSuccess);
 				})
 				.catch(() => {
-					toast.error(t, msgError);
+					if (fallbackCopy(props.code)) {
+						toast.success(t, msgSuccess);
+					} else {
+						toast.error(t, msgError);
+					}
 				});
 		} catch {
-			toast.error(t, msgError);
+			if (fallbackCopy(props.code)) {
+				toast.success(t, msgSuccess);
+			} else {
+				toast.error(t, msgError);
+			}
 		}
 	};
 
+	const customButtons = ref<ViewSfcBtn[]>([]);
 	const btnGroup = computed<ViewSfcBtn[]>(() => [
+		...customButtons.value,
 		...props.buttonGroup,
 		{
 			key: "code",
@@ -276,7 +297,7 @@
 	]);
 
 	const emits = defineEmits<ViewSfcEmits>();
-	defineExpose({ btnGroup, onCopy, onCollapse });
+	defineExpose({ btnGroup, onCopy, onCollapse, customButtons });
 </script>
 <style>
 	:root {

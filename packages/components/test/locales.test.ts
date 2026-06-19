@@ -41,6 +41,15 @@ describe("defaultLocales", () => {
 	});
 });
 
+describe("defaultLocales", () => {
+	it("provides zhTW locale", () => {
+		expect(defaultLocales.zhTW).toBeDefined();
+		expect(defaultLocales.zhTW.collapseText).toBe("收起");
+		expect(defaultLocales.zhTW.copyTextSuccess).toBe("複製成功");
+		expect(defaultLocales.zhTW.copyTextError).toBe("複製失敗");
+	});
+});
+
 describe("detectLocale", () => {
 	it("returns en when document is undefined", () => {
 		expect(detectLocale()).toBe("en");

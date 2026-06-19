@@ -93,10 +93,12 @@ export default function registerContainer(
 		// 处理容器组件
 		const attrs: Record<string, string>[] =
 			transformAttributes(contentLines);
+		const escapeAttr = (v: string) =>
+			v.replace(/"/g, "&quot;").replace(/[&<>]/g, "");
 		const attrText = attrs
 			.map((attr) =>
 				Object.entries(attr)
-					.map(([k, v]) => `${k}="${v}"`)
+					.map(([k, v]) => `${k}="${escapeAttr(v)}"`)
 					.join(" ")
 			)
 			.join(" ");

@@ -78,17 +78,13 @@
 
 	const sfcs = attr.sfcs as SFCMeta[];
 
-	const currentCodeView = computed(() =>
-		slots[`codeView${sfcs[mode.value].componentName}`]
-			? h(
-					"div",
-					{},
-					slots[`codeView${sfcs[mode.value].componentName}`]?.()
-				)
-			: h("div", {
-					innerHTML: sfcs[mode.value].htmlCode
-				})
-	);
+	const currentCodeView = computed(() => {
+		const sfc = sfcs[mode.value];
+		if (!sfc) return h("div", {}, "");
+		return slots[`codeView${sfc.componentName}`]
+			? h("div", {}, slots[`codeView${sfc.componentName}`]?.())
+			: h("div", { innerHTML: sfc.htmlCode });
+	});
 
 	const currentVnodePreview = computed(() => sfcs[mode.value]?.sfc);
 
@@ -100,7 +96,7 @@
 		console.log("state changed:", state);
 
 	onMounted(() => {
-		vsfc.value?.btnGroup.unshift({
+		vsfc.value?.customButtons.push({
 			key: "change",
 			title: "change-lang",
 			onClick() {
@@ -109,7 +105,7 @@
 				defaultViewSfcConfig.setLocale(next);
 			}
 		});
-		vsfc.value.btnGroup.unshift({
+		vsfc.value?.customButtons.push({
 			key: "toast",
 			title: "other",
 			onClick: () => {
