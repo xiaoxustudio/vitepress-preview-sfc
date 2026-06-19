@@ -6,7 +6,7 @@ npm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 pnpm install @vitepress-preview-sfc/core @vitepress-preview-sfc/components
 ```
 
-# Usege
+# Usage
 
 Registering plugins in `.vitepress/config.mts`
 

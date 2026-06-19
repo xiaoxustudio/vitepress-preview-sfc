@@ -20,6 +20,8 @@ export interface IConfig {
 | `codeViewUseSlot` | `boolean`                          | 使用插槽代替 `v-html` 渲染代码区域     |
 | `clientHighlight` | `boolean`                          | 跳过构建时高亮，在浏览器端渲染原始代码 |
 
+<ViewSfc src="../components/button.ts.vue" title="示例" description="使用默认别名渲染"></ViewSfc>
+
 ### 子页面
 
 - [alias](./config/alias) — 自定义组件标签名

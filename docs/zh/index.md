@@ -16,6 +16,12 @@ features:
       details: 轻量且易于使用
     - title: 灵活性
       details: 灵活且可自定义
-    - title: 针对性
-      details: 专门用于 Vue SFC 预览
+    - title: Vue SFC 预览
+      details: 实时预览 Vue 单文件组件
+    - title: 国际化
+      details: 内置国际化支持，自动检测语言
+    - title: 懒加载
+      details: 基于 IntersectionObserver 的延迟渲染
+    - title: 无障碍
+      details: ARIA 标签、键盘导航、屏幕阅读器支持
 ---

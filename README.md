@@ -78,7 +78,7 @@ src=xxx
 | `codeViewUseSlot` | boolean                         | false    | Use slots to display code instead of HTML strings. When enabled, a slot named `codeView<componentName>` will be passed into the component. |
 | `clientHighlight` | boolean                         | false    | Skip build-time syntax highlighting; render raw code in the browser. Speeds up dev/build for pages with many SFC previews.                 |
 
-The default is `ViewSfc`，you can not delete or change it, btn you can add a new alias.
+The default is `ViewSfc`, you cannot delete or change it, but you can add a new alias.
 
 For example, if you want to use `Preview` as an alias for `ViewSfc`, you can do it like this:
 
@@ -86,24 +86,16 @@ For example, if you want to use `Preview` as an alias for `ViewSfc`, you can do 
 import { defineConfig } from "vitepress";
 import previewSfcCore from "@vitepress-preview-sfc/core";
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
-	// ...other config
 	markdown: {
 		config: (md) => {
-			md.use(previewSfcCore, {
-				alias: "PreView",
-				resolveAlias: {
-					"@/": path.resolve(__dirname, "../components"),
-					"@@/": path.resolve(__dirname, "./theme")
-				}
-			});
+			md.use(previewSfcCore, { alias: ["Preview"] });
 		}
 	}
 });
 ```
 
-and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
+`Preview` and `ViewSfc` will both be used as preview components for parsing.
 
 ## Props
 
