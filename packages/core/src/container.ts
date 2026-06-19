@@ -129,7 +129,7 @@ export default function registerContainer(
 	});
 }
 
-function transformAttributes(str: string[]) {
+export function transformAttributes(str: string[]) {
 	const arrs = [];
 	const attrRegex = /(\w+)\s*=\s*(?:"([^"]*)"|'([^']*)'|(.+))/;
 	for (let i = 0; i < str.length; i++) {

@@ -5,7 +5,9 @@ import {
 	composeComponentName,
 	getCompoentName,
 	getComponentRefName,
-	hasVueRefImport
+	hasVueRefImport,
+	escapeHtml,
+	transformSrc
 } from "./utils";
 import type { IConfig } from "./types";
 
@@ -148,5 +150,41 @@ describe("hasVueRefImport", () => {
 
 	it("returns false for non-vue imports", () => {
 		expect(hasVueRefImport('import { ref } from "other-lib"')).toBe(false);
+	});
+});
+
+describe("escapeHtml", () => {
+	it('escapes & < > "', () => {
+		expect(escapeHtml('<div class="test">&</div>')).toBe(
+			"&lt;div class=&quot;test&quot;&gt;&amp;&lt;/div&gt;"
+		);
+	});
+
+	it("returns empty string unchanged", () => {
+		expect(escapeHtml("")).toBe("");
+	});
+
+	it("returns plain text unchanged", () => {
+		expect(escapeHtml("hello world")).toBe("hello world");
+	});
+});
+
+describe("transformSrc", () => {
+	it("returns empty string for empty input", () => {
+		expect(transformSrc("")).toBe("");
+	});
+
+	it("returns same string when no braces", () => {
+		expect(transformSrc("./button.vue")).toBe("./button.vue");
+	});
+
+	it("expands single brace pattern", () => {
+		const result = transformSrc("./src/{a,b}.vue");
+		expect(result).toEqual(["./src/a.vue", "./src/b.vue"]);
+	});
+
+	it("expands multiple items in braces", () => {
+		const result = transformSrc("./{one,two,three}.vue");
+		expect(result).toEqual(["./one.vue", "./two.vue", "./three.vue"]);
 	});
 });

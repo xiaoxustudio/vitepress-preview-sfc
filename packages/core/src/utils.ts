@@ -14,7 +14,7 @@ import type {
 */
 
 const checksArrMap = new Map<string, RegExp[]>();
-const escapeHtml = (s: string) =>
+export const escapeHtml = (s: string) =>
 	s
 		.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")
@@ -125,7 +125,7 @@ export const getComponentRefName = (sfcs: any) => {
 };
 
 // 解析多路径写法
-function transformSrc(srcString: string) {
+export function transformSrc(srcString: string) {
 	if (!srcString) return "";
 	const reg = /{(.+)}/;
 	if (!reg.test(srcString)) return srcString;
