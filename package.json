@@ -14,6 +14,7 @@
 		"node": ">=16.0.0"
 	},
 	"scripts": {
+		"typecheck": "pnpm --filter @vitepress-preview-sfc/components --filter @vitepress-preview-sfc/core run typecheck",
 		"comp:dev": "pnpm run -C packages/components dev",
 		"comp:dev-watch": "pnpm run -C packages/components watch",
 		"comp:build": "pnpm run -C packages/components build",

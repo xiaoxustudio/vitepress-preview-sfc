@@ -29,6 +29,7 @@
 	"scripts": {
 		"test": "vitest run",
 		"test:watch": "vitest",
+		"typecheck": "tsc --noEmit",
 		"watch": "tsdown -c tsdown.config.ts -w",
 		"build": "tsdown -c tsdown.config.ts"
 	},

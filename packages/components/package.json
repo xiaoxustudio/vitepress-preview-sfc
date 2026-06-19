@@ -24,6 +24,7 @@
 		"dev": "vite",
 		"test": "vitest run",
 		"test:watch": "vitest",
+		"typecheck": "vue-tsc -b --noEmit",
 		"watch": "vite build -c vite.config.build.ts --watch",
 		"build": "vue-tsc -b && vite build -c vite.config.build.ts",
 		"preview": "vite preview"

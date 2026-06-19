@@ -1,34 +1,7 @@
 {
-	"compileOnSave": true,
-
-	"compilerOptions": {
-		"skipLibCheck": true,
-		"jsx": "preserve",
-		"jsxImportSource": "vue",
-		"target": "ES2018",
-
-		"module": "commonjs",
-
-		"experimentalDecorators": true,
-		"esModuleInterop": true,
-		"emitDecoratorMetadata": true,
-
-		"inlineSourceMap": true,
-
-		"noImplicitThis": true,
-
-		"noUnusedLocals": true,
-
-		"stripInternal": true,
-
-		"pretty": true,
-
-		"declaration": true,
-
-		"outDir": "lib",
-
-		"paths": { "*": ["./src/*"] }
-	},
-
-	"exclude": ["node_modules/**/*"]
+	"files": [],
+	"references": [
+		{ "path": "./packages/components" },
+		{ "path": "./packages/core" }
+	]
 }
