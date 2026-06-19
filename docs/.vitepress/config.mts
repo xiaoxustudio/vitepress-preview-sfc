@@ -54,7 +54,12 @@ export default defineConfig({
 		}
 	},
 	vite: {
-		plugins: [VueJsx()]
+		plugins: [VueJsx()],
+		css: {
+			preprocessorOptions: {
+				scss: { api: "modern-compiler" }
+			}
+		}
 	},
 	markdown: {
 		config: async (md) => {
