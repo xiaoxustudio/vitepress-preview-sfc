@@ -19,7 +19,9 @@ export const escapeHtml = (s: string) =>
 		.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")
 		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;");
+		.replace(/"/g, "&quot;")
+		.replace(/{/g, "&#123;")
+		.replace(/}/g, "&#125;");
 const readFileCache = new Map<string, string>();
 const highlightCache = new Map<string, string>();
 
@@ -59,7 +61,7 @@ export const checksArr = (config: IConfig) => {
 				new RegExp(`^<(${alias}) (.*)/>$`)
 			];
 			regexs.push(...regexGroup);
-			checksArrMap.set(alias, regexs);
+			checksArrMap.set(alias, [...regexGroup]);
 		}
 	}
 	return regexs;
@@ -149,21 +151,23 @@ function toTransformAttributes(
 	originText: string
 ): SFCPrototype {
 	// 当前可匹配组件名称
-	const attr = checksArr(config)
-		.filter((v) => v.test(originText))[0]
-		.exec(originText);
-	const toAttrFilter = attr![2].match(matchAttr);
+	const matched = checksArr(config).filter((v) => v.test(originText));
+	if (!matched.length) {
+		throw `not find the ViewSfc(or resolveAlias) Component`;
+	}
+	const attr = matched[0].exec(originText);
+	if (!attr) {
+		throw `not find the ViewSfc(or resolveAlias) Component`;
+	}
+	const toAttrFilter = attr[2].match(matchAttr);
 	if (!toAttrFilter) {
 		throw `not find the ViewSfc(or resolveAlias) Component`;
 	}
 	let toProperties = toAttrFilter
-		.map((v: string) =>
-			getAttr().test(v)
-				? {
-						[getAttr().exec(v)![1]]: getAttr().exec(v)![2]
-					}
-				: null
-		)
+		.map((v: string) => {
+			const m = getAttr().exec(v);
+			return m ? { [m[1]]: m[2] } : null;
+		})
 		.reduce((acc: any, cur: any) => {
 			if (cur) {
 				Object.assign(acc, cur);
@@ -367,6 +371,7 @@ function injectComponentSfcsRef(sfcs: SFCMeta[], env: any) {
 			tagClose: "</script>",
 			tagOpen: "<script setup lang='ts'>",
 			content: `<script setup lang='ts'>
+			import { ref } from 'vue'
 			const ${refName}=ref(\`${sfcsEncode}\`);
         </script>`,
 			contentStripped: "import { ref } from 'vue'"

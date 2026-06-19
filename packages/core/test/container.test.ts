@@ -66,4 +66,14 @@ describe("transformAttributes", () => {
 		const result = transformAttributes(["count=42"]);
 		expect(result).toEqual([{ count: "42" }]);
 	});
+
+	it("parses boolean attribute without value", () => {
+		const result = transformAttributes(["lazy", "src=test.vue"]);
+		expect(result).toEqual([{ lazy: "true" }, { src: "test.vue" }]);
+	});
+
+	it("parses only boolean attribute", () => {
+		const result = transformAttributes(["lazy"]);
+		expect(result).toEqual([{ lazy: "true" }]);
+	});
 });

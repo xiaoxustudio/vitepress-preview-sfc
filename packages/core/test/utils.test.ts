@@ -167,6 +167,12 @@ describe("escapeHtml", () => {
 	it("returns plain text unchanged", () => {
 		expect(escapeHtml("hello world")).toBe("hello world");
 	});
+
+	it("escapes curly braces for Vue template safety", () => {
+		expect(escapeHtml("{{ message }}")).toBe(
+			"&#123;&#123; message &#125;&#125;"
+		);
+	});
 });
 
 describe("transformSrc", () => {

@@ -63,6 +63,7 @@
 			const timer = ref<ReturnType<typeof setTimeout> | null>(null);
 			const remainingTime = ref(props.duration);
 			const paused = ref(false);
+			const timerStart = ref(0);
 
 			const toastClass = computed(() => [
 				`toast-${props.type}`,
@@ -71,7 +72,7 @@
 
 			const startTimer = () => {
 				if (props.duration <= 0) return;
-
+				timerStart.value = Date.now();
 				timer.value = setTimeout(() => {
 					close();
 				}, remainingTime.value);
@@ -80,7 +81,11 @@
 			const pauseTimer = () => {
 				if (timer.value) {
 					clearTimeout(timer.value);
-					remainingTime.value -= props.duration - remainingTime.value;
+					const elapsed = Date.now() - timerStart.value;
+					remainingTime.value = Math.max(
+						0,
+						remainingTime.value - elapsed
+					);
 					paused.value = true;
 				}
 			};

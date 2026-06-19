@@ -1,5 +1,4 @@
-import type { StateBlock, Token } from "markdown-it";
-import type { MarkdownIt } from "./types";
+import type { MarkdownIt, StateBlock, Token } from "./types";
 
 export default function registerContainer(
 	md: MarkdownIt,
@@ -88,8 +87,8 @@ export default function registerContainer(
 		);
 		const contentLines = content
 			.split("\n")
-			.map((line) => line.trim())
-			.filter((line) => line.length > 0);
+			.map((l: string) => l.trim())
+			.filter((l: string) => l.length > 0);
 
 		// 处理容器组件
 		const attrs: Record<string, string>[] =
@@ -138,6 +137,8 @@ export function transformAttributes(str: string[]) {
 		if (match) {
 			const value = match[2] ?? match[3] ?? match[4] ?? "";
 			arrs.push({ [match[1]]: value.trim() });
+		} else if (/^\w+$/.test(line)) {
+			arrs.push({ [line]: "true" });
 		}
 	}
 	return arrs;

@@ -36,4 +36,5 @@ import type MarkdownIt from "markdown-it";
 import type { Options } from "markdown-it";
 import type Renderer from "markdown-it/lib/renderer.mjs";
 import type Token from "markdown-it/lib/token.mjs";
-export type { MarkdownIt, Token, Options, Renderer };
+import type StateBlock from "markdown-it/lib/rules_block/state_block.mjs";
+export type { MarkdownIt, Token, Options, Renderer, StateBlock };

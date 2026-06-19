@@ -95,12 +95,12 @@
 		nextTick,
 		onMounted,
 		onUnmounted,
+		inject,
 		type VNode
 	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
 	import CopySvg from "@/assets/copy.vue";
 	import toast from "./toast";
-	import { inject } from "vue";
 	import type {
 		ViewSfcBtn,
 		ViewSfcEmits,
