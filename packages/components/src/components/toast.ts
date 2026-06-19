@@ -114,4 +114,14 @@ const toast = {
 	}
 };
 
+export function resetToastState() {
+	toastApps.forEach((app) => app.unmount());
+	toastApps.clear();
+	toastIdCounter = 0;
+	if (toastContainer) {
+		toastContainer.remove();
+		toastContainer = null;
+	}
+}
+
 export default toast;

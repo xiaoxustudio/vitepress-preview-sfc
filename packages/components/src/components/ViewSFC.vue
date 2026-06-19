@@ -92,6 +92,7 @@
 		computed,
 		h,
 		ref,
+		shallowRef,
 		unref,
 		nextTick,
 		onMounted,
@@ -130,7 +131,7 @@
 
 	const showSourceCode = computed(() => props.htmlCode);
 	const codeRendered = ref(false);
-	const cachedCodeVNode = ref<VNode | null>(null);
+	const cachedCodeVNode = shallowRef<VNode | null>(null);
 
 	const isVisible = ref(!props.lazy);
 	const containerRef = ref<HTMLElement | null>(null);

@@ -119,7 +119,8 @@ export const composeComponentName = (path: string) => {
 export const getCompoentName = (src: string, suffixName: string = "Sfc") => {
 	const pathName = composeComponentName(src);
 	const name = toName(pathName);
-	const componentName = `${name}${suffixName}`;
+	let componentName = `${name}${suffixName}`;
+	if (/^[0-9]/.test(componentName)) componentName = `_${componentName}`;
 	return componentName;
 };
 
@@ -130,14 +131,14 @@ export const getComponentRefName = (sfcs: any) => {
 	);
 };
 
-// 解析多路径写法
-export function transformSrc(srcString: string) {
-	if (!srcString) return "";
+// 解析多路径写法，始终返回数组
+export function transformSrc(srcString: string): string[] {
+	if (!srcString) return [];
 	const reg = /{(.+)}/;
-	if (!reg.test(srcString)) return srcString;
+	if (!reg.test(srcString)) return [srcString];
 	const matchText = reg.exec(srcString);
-	if (!matchText) return srcString;
-	const srcArr = matchText[1].split(",").map((v) => {
+	if (!matchText) return [srcString];
+	return matchText[1].split(",").map((v) => {
 		const val = v.trim();
 		return (
 			srcString.slice(0, matchText.index) +
@@ -145,7 +146,6 @@ export function transformSrc(srcString: string) {
 			srcString.slice(matchText.index + matchText[0].length)
 		);
 	});
-	return srcArr;
 }
 
 function toTransformAttributes(
@@ -181,11 +181,7 @@ function toTransformAttributes(
 	toProperties.CompName = attr![1];
 	toProperties.sfcs = [];
 	if (toProperties?.src) {
-		// 解析是否存在多模块语法
-		let srcArr = transformSrc(toProperties.src);
-		if (!Array.isArray(srcArr)) {
-			srcArr = [srcArr];
-		}
+		const srcArr = transformSrc(toProperties.src);
 		for (let index = 0; index < srcArr.length; index++) {
 			const element = srcArr[index];
 			const sfcMeta: SFCMeta = {
@@ -395,8 +391,13 @@ function injectComponentImportScript(toProperties: any, env: any) {
 	const importScript = `import ${componentName} from '${src}';`;
 	if (isScript) {
 		let { content } = scriptsCode[0];
-		// 已引入组件
-		if (content.includes(src) || content.includes(componentName)) return;
+		// 已引入组件（检查 componentName 的 import 声明，兼容别名路径）
+		if (
+			new RegExp(`import\\s+${componentName}\\s+from\\s+['"]`).test(
+				content
+			)
+		)
+			return;
 		const scriptCodeBlock = '<script lang="ts" setup>\n';
 		content = content.replace(scriptSetup, scriptCodeBlock); // 统一替换
 		content = content.replace("</script>", `${importScript}\n</script>`);

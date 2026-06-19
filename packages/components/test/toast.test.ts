@@ -9,7 +9,9 @@ const getToast = async () => {
 };
 
 describe("toast", () => {
-	beforeEach(() => {
+	beforeEach(async () => {
+		const { resetToastState } = await import("../src/components/toast");
+		resetToastState();
 		if (typeof document !== "undefined") {
 			document.body.innerHTML = "";
 		}

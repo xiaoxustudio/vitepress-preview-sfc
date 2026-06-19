@@ -176,12 +176,12 @@ describe("escapeHtml", () => {
 });
 
 describe("transformSrc", () => {
-	it("returns empty string for empty input", () => {
-		expect(transformSrc("")).toBe("");
+	it("returns empty array for empty input", () => {
+		expect(transformSrc("")).toEqual([]);
 	});
 
-	it("returns same string when no braces", () => {
-		expect(transformSrc("./button.vue")).toBe("./button.vue");
+	it("returns array with single string when no braces", () => {
+		expect(transformSrc("./button.vue")).toEqual(["./button.vue"]);
 	});
 
 	it("expands single brace pattern", () => {
