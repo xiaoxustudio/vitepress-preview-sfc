@@ -71,11 +71,12 @@ src=xxx
 
 ## 插件配置
 
-| Name              | Type                            | Default  | Description                                                                             |
-| ----------------- | ------------------------------- | -------- | --------------------------------------------------------------------------------------- |
-| `alias`           | string or string[]              | -        | ViewSfc别名，你可以添加其他的别名                                                       |
-| `resolveAlias`    | string or Record<string,string> | env.path | 路径别名                                                                                |
-| `codeViewUseSlot` | boolean                         | false    | 使用插槽展示代码而不是html字符串,当开启后，会有 `codeView<componentName>`的插槽传入组件 |
+| Name              | Type                            | Default  | Description                                                                              |
+| ----------------- | ------------------------------- | -------- | ---------------------------------------------------------------------------------------- |
+| `alias`           | string or string[]              | -        | ViewSfc别名，你可以添加其他的别名                                                        |
+| `resolveAlias`    | string or Record<string,string> | env.path | 路径别名                                                                                 |
+| `codeViewUseSlot` | boolean                         | false    | 使用插槽展示代码而不是html字符串,当开启后，会有 `codeView<componentName>`的插槽传入组件  |
+| `clientHighlight` | boolean                         | false    | 跳过构建时语法高亮，在浏览器端渲染原始代码。可提速含大量 SFC 预览页面的 dev/build 耗时。 |
 
 默认设置为`ViewSfc`，您不能删除或更改它，但您可以添加一个新的别名。
 例如，如果你想使用`Preview`这个别名，你可以这样操作：

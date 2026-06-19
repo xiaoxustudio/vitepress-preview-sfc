@@ -26,16 +26,17 @@ export interface IConfig {
 
 ## 组件选项 (ViewSfc props)
 
-| 属性          | 类型           | 默认值 | 说明                                         |
-| ------------- | -------------- | ------ | -------------------------------------------- |
-| `title`       | `string`       | `""`   | 组件标题                                     |
-| `description` | `string`       | `""`   | 组件描述（支持 HTML）                        |
-| `src`         | `string`       | `""`   | 源文件路径                                   |
-| `code`        | `string`       | `""`   | 原始源代码                                   |
-| `htmlCode`    | `string`       | `""`   | 高亮后的 HTML 代码                           |
-| `extension`   | `string`       | `""`   | 文件扩展名标签                               |
-| `lazy`        | `boolean`      | `true` | 启用 IntersectionObserver 懒加载（默认开启） |
-| `buttonGroup` | `ViewSfcBtn[]` | `[]`   | 自定义操作按钮                               |
+| 属性              | 类型           | 默认值  | 说明                                         |
+| ----------------- | -------------- | ------- | -------------------------------------------- |
+| `title`           | `string`       | `""`    | 组件标题                                     |
+| `description`     | `string`       | `""`    | 组件描述（支持 HTML）                        |
+| `src`             | `string`       | `""`    | 源文件路径                                   |
+| `code`            | `string`       | `""`    | 原始源代码                                   |
+| `htmlCode`        | `string`       | `""`    | 高亮后的 HTML 代码                           |
+| `extension`       | `string`       | `""`    | 文件扩展名标签                               |
+| `lazy`            | `boolean`      | `true`  | 启用 IntersectionObserver 懒加载（默认开启） |
+| `buttonGroup`     | `ViewSfcBtn[]` | `[]`    | 自定义操作按钮                               |
+| `clientHighlight` | `boolean`      | `false` | 跳过构建时高亮，在浏览器端渲染原始代码       |
 
 ### 子页面
 

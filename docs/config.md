@@ -28,16 +28,17 @@ export interface IConfig {
 
 ## Component options (ViewSfc props)
 
-| Prop          | Type           | Default | Description                                                 |
-| ------------- | -------------- | ------- | ----------------------------------------------------------- |
-| `title`       | `string`       | `""`    | Component title                                             |
-| `description` | `string`       | `""`    | Component description (HTML)                                |
-| `src`         | `string`       | `""`    | Source file path                                            |
-| `code`        | `string`       | `""`    | Raw source code                                             |
-| `htmlCode`    | `string`       | `""`    | Highlighted HTML code                                       |
-| `extension`   | `string`       | `""`    | File extension badge                                        |
-| `lazy`        | `boolean`      | `true`  | Enable IntersectionObserver lazy loading (default: enabled) |
-| `buttonGroup` | `ViewSfcBtn[]` | `[]`    | Custom action buttons                                       |
+| Prop              | Type           | Default | Description                                                 |
+| ----------------- | -------------- | ------- | ----------------------------------------------------------- |
+| `title`           | `string`       | `""`    | Component title                                             |
+| `description`     | `string`       | `""`    | Component description (HTML)                                |
+| `src`             | `string`       | `""`    | Source file path                                            |
+| `code`            | `string`       | `""`    | Raw source code                                             |
+| `htmlCode`        | `string`       | `""`    | Highlighted HTML code                                       |
+| `extension`       | `string`       | `""`    | File extension badge                                        |
+| `lazy`            | `boolean`      | `true`  | Enable IntersectionObserver lazy loading (default: enabled) |
+| `buttonGroup`     | `ViewSfcBtn[]` | `[]`    | Custom action buttons                                       |
+| `clientHighlight` | `boolean`      | `false` | Skip build-time highlighting, render raw code in browser    |
 
 ### Sub-pages
 

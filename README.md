@@ -76,6 +76,7 @@ src=xxx
 | `alias`           | string or string[]              | -        | ViewSfc Alias , You Can add Other Alias                                                                                                    |
 | `resolveAlias`    | string or Record<string,string> | env.path | Path resolve alias                                                                                                                         |
 | `codeViewUseSlot` | boolean                         | false    | Use slots to display code instead of HTML strings. When enabled, a slot named `codeView<componentName>` will be passed into the component. |
+| `clientHighlight` | boolean                         | false    | Skip build-time syntax highlighting; render raw code in the browser. Speeds up dev/build for pages with many SFC previews.                 |
 
 The default is `ViewSfc`，you can not delete or change it, btn you can add a new alias.
 

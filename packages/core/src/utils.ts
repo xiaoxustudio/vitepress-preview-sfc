@@ -14,6 +14,12 @@ import type {
 */
 
 const checksArrMap = new Map<string, RegExp[]>();
+const escapeHtml = (s: string) =>
+	s
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;");
 const readFileCache = new Map<string, string>();
 const highlightCache = new Map<string, string>();
 
@@ -217,13 +223,15 @@ function toTransformAttributes(
 			sfcMeta.suffixName = sfcMeta.src.substring(
 				sfcMeta.src.lastIndexOf(".") + 1
 			);
-			sfcMeta.htmlCode =
-				getHighlightedCode(
-					md,
-					sfcMeta.code,
-					sfcMeta.suffixName,
-					sfcMeta.absoluteSrc
-				) ?? "";
+			if (!config.clientHighlight) {
+				sfcMeta.htmlCode =
+					getHighlightedCode(
+						md,
+						sfcMeta.code,
+						sfcMeta.suffixName,
+						sfcMeta.absoluteSrc
+					) ?? "";
+			}
 			sfcMeta.componentName = getCompoentName(sfcMeta.src);
 			// add script to import component
 			injectComponentImportScript(sfcMeta, env);
@@ -267,7 +275,11 @@ export function transformPreview(
 		const sfcs = attributes.sfcs;
 		let text = "";
 		for (const val of sfcs) {
-			text += `<template #codeView${val.componentName}>${val.htmlCode}</template>`;
+			if (config.clientHighlight) {
+				text += `<template #codeView${val.componentName}><pre><code class="language-${val.suffixName}">${escapeHtml(val.code)}</code></pre></template>`;
+			} else {
+				text += `<template #codeView${val.componentName}>${val.htmlCode}</template>`;
+			}
 		}
 		return text;
 	};
@@ -294,7 +306,9 @@ export function transformPreview(
 		isNotEmpty && firstMetaSrc
 			? config.codeViewUseSlot
 				? GenerateSfcSlotCode()
-				: `<template #codeView>${firstMeta.htmlCode}</template>`
+				: config.clientHighlight
+					? `<template #codeView><pre><code class="language-${firstMetaSuffixName}">${escapeHtml(firstMeta.code)}</code></pre></template>`
+					: `<template #codeView>${firstMeta.htmlCode}</template>`
 			: "";
 
 	const sfcsAttribute = isNotEmpty

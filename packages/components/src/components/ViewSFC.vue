@@ -182,18 +182,27 @@
 			class: `language-${props.extension}`,
 			["data-ext"]: props.extension
 		};
-		return slots[`codeView${props.sfcs?.[0]?.componentName}`]
-			? h(
-					"div",
-					staticProps,
-					slots[`codeView${props.sfcs?.[0]?.componentName}`]()
-				)
-			: slots["codeView"]
-				? h("div", staticProps, slots["codeView"]())
-				: h("div", {
-						...staticProps,
-						innerHTML: showSourceCode.value
-					});
+		if (slots[`codeView${props.sfcs?.[0]?.componentName}`]) {
+			return h(
+				"div",
+				staticProps,
+				slots[`codeView${props.sfcs?.[0]?.componentName}`]()
+			);
+		}
+		if (slots["codeView"]) {
+			return h("div", staticProps, slots["codeView"]());
+		}
+		if (showSourceCode.value) {
+			return h("div", {
+				...staticProps,
+				innerHTML: showSourceCode.value
+			});
+		}
+		return h(
+			"pre",
+			staticProps,
+			h("code", { class: `language-${props.extension}` }, props.code)
+		);
 	}
 
 	const isCodeActive = ref(false);
