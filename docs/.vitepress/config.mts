@@ -36,7 +36,8 @@ export default defineConfig({
 						link: "/config/codeViewUseSlot"
 					},
 					{ text: "i18n / Locale", link: "/config/i18n" },
-					{ text: "lazy", link: "/config/lazy" }
+					{ text: "lazy", link: "/config/lazy" },
+					{ text: "clientHighlight", link: "/config/clientHighlight" }
 				]
 			}
 		],
@@ -124,6 +125,10 @@ export default defineConfig({
 							{
 								text: "lazy / 懒加载",
 								link: "/zh/config/lazy"
+							},
+							{
+								text: "clientHighlight",
+								link: "/zh/config/clientHighlight"
 							}
 						]
 					}

@@ -9,14 +9,16 @@ export interface IConfig {
 	alias: string | string[];
 	resolveAlias?: string | Record<string, string>;
 	codeViewUseSlot?: boolean;
+	clientHighlight?: boolean;
 }
 ```
 
-| Option            | Type                               | Description                                       |
-| ----------------- | ---------------------------------- | ------------------------------------------------- |
-| `alias`           | `string \| string[]`               | Custom component tag names (default: `"ViewSfc"`) |
-| `resolveAlias`    | `string \| Record<string, string>` | Path resolution aliases for component sources     |
-| `codeViewUseSlot` | `boolean`                          | Render code view via slot instead of `v-html`     |
+| Option            | Type                               | Description                                              |
+| ----------------- | ---------------------------------- | -------------------------------------------------------- |
+| `alias`           | `string \| string[]`               | Custom component tag names (default: `"ViewSfc"`)        |
+| `resolveAlias`    | `string \| Record<string, string>` | Path resolution aliases for component sources            |
+| `codeViewUseSlot` | `boolean`                          | Render code view via slot instead of `v-html`            |
+| `clientHighlight` | `boolean`                          | Skip build-time highlighting, render raw code in browser |
 
 <ViewSfc src="./components/button.ts.vue" title="Example" description="rendered with default alias"></ViewSfc>
 
@@ -25,6 +27,7 @@ export interface IConfig {
 - [alias](./config/alias) — custom component tag names
 - [resolveAlias](./config/resolveAlias) — path resolution
 - [codeViewUseSlot](./config/codeViewUseSlot) — slot-based code rendering
+- [clientHighlight](./config/clientHighlight) — client-side code rendering for faster builds
 
 ## Component options (ViewSfc props)
 
@@ -44,3 +47,4 @@ export interface IConfig {
 
 - [i18n / Locale](./config/i18n) — built-in internationalization
 - [lazy](./config/lazy) — lazy loading for performance
+- [clientHighlight](./config/clientHighlight) — client-side code rendering
