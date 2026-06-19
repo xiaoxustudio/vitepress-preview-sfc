@@ -19,13 +19,13 @@ resolveAlias
 
 ## Lazy loading
 
-Use the `lazy` prop to defer rendering until the component scrolls near the viewport:
+Lazy loading is **enabled by default** — defer rendering until the component scrolls near the viewport. Disable with `:lazy="false"` for above-the-fold content:
 
 ```md
-<ViewSfc lazy src="./components/c-button.vue" title="Lazy Loaded" description="only renders when visible"></ViewSfc>
+<ViewSfc src="./components/c-button.vue" title="Lazy Loaded" description="only renders when visible"></ViewSfc>
 ```
 
-<ViewSfc lazy src="./components/c-button.vue" title="Lazy Loaded" description="only renders when visible"></ViewSfc>
+<ViewSfc src="./components/c-button.vue" title="Lazy Loaded" description="only renders when visible"></ViewSfc>
 
 ## or use `:::` tag
 

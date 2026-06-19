@@ -1,33 +1,24 @@
 # Lazy Loading
 
-The `lazy` prop defers rendering of the preview component until it is near the viewport, improving page load performance when multiple SFC previews exist on a single page.
+`lazy` is **enabled by default**. It defers rendering of the preview component until it is near the viewport, improving page load performance when multiple SFC previews exist on a single page.
 
 ## Usage
 
 ```md
-<ViewSfc lazy src="./components/button.vue"></ViewSfc>
+<ViewSfc src="./components/button.vue"></ViewSfc>
+```
+
+To disable lazy loading for a specific component (e.g., above-the-fold content):
+
+```md
+<ViewSfc :lazy="false" src="./components/hero.vue"></ViewSfc>
 ```
 
 ## How it works
 
-When `lazy` is enabled, the component uses `IntersectionObserver` with a 200px root margin. The preview area renders a placeholder (60px minimal height) until the user scrolls within 200px of the component. Once visible, the component renders fully and the observer disconnects.
+The component uses `IntersectionObserver` with a 200px root margin. The preview area renders a placeholder (60px minimal height) until the user scrolls within 200px of the component. Once visible, the component renders fully. A shared observer instance is used across all components for efficiency.
 
-## When to use
+## When to disable
 
-- Pages with 5+ SFC previews
-- Complex components with heavy rendering
-- Documentation homepages with multiple examples
-
-```md
-<!-- Without lazy: all previews render on page load -->
-
-<ViewSfc src="./components/table.vue"></ViewSfc>
-<ViewSfc src="./components/chart.vue"></ViewSfc>
-<ViewSfc src="./components/form.vue"></ViewSfc>
-
-<!-- With lazy: renders only when scrolled near -->
-
-<ViewSfc lazy src="./components/table.vue"></ViewSfc>
-<ViewSfc lazy src="./components/chart.vue"></ViewSfc>
-<ViewSfc lazy src="./components/form.vue"></ViewSfc>
-```
+- Components above the fold that should render immediately
+- A single preview on the page

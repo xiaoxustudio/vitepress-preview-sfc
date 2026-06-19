@@ -117,7 +117,7 @@
 		code: "",
 		htmlCode: "",
 		extension: "",
-		lazy: false,
+		lazy: true,
 		buttonGroup: () => []
 	});
 
@@ -137,28 +137,44 @@
 
 	const isVisible = ref(!props.lazy);
 	const containerRef = ref<HTMLElement | null>(null);
-	let observer: IntersectionObserver | null = null;
+	let unobserve: (() => void) | null = null;
 
-	if (props.lazy && typeof window !== "undefined") {
-		observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					isVisible.value = true;
-					observer?.disconnect();
-				}
-			},
-			{ rootMargin: "200px" }
-		);
+	let sharedObserver: IntersectionObserver | null = null;
+	const pendingElements = new Map<Element, () => void>();
+	function observeOnce(el: Element, cb: () => void): () => void {
+		if (typeof window === "undefined") return () => {};
+		if (!sharedObserver) {
+			sharedObserver = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.isIntersecting) {
+							sharedObserver!.unobserve(entry.target);
+							pendingElements.get(entry.target)?.();
+							pendingElements.delete(entry.target);
+						}
+					}
+				},
+				{ rootMargin: "200px" }
+			);
+		}
+		pendingElements.set(el, cb);
+		sharedObserver.observe(el);
+		return () => {
+			sharedObserver?.unobserve(el);
+			pendingElements.delete(el);
+		};
 	}
 
 	onMounted(() => {
-		if (observer && containerRef.value) {
-			observer.observe(containerRef.value);
+		if (props.lazy && containerRef.value) {
+			unobserve = observeOnce(containerRef.value, () => {
+				isVisible.value = true;
+			});
 		}
 	});
 
 	onUnmounted(() => {
-		observer?.disconnect();
+		unobserve?.();
 	});
 
 	function buildCodeVNode(): VNode {

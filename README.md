@@ -119,7 +119,7 @@ and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
 | `description`   | string       | Description | Description of the component                                                                |
 | `buttonGroup`   | ViewSfcBtn[] | -           | Button group of the component (default `collapse`,`copy` btn)                               |
 | `extension`     | string       | -           | Extension of the component (Plugin auto)                                                    |
-| `lazy`          | boolean      | false       | Lazy load via IntersectionObserver                                                          |
+| `lazy`          | boolean      | true        | Lazy load via IntersectionObserver (default: enabled)                                       |
 | `sfcs`          | SFCMeta[]    | -           | SFC Meta (Plugin auto)                                                                      |
 | `file`          | string       | -           | SFC file name (Plugin auto)                                                                 |
 | `markdownFile`  | string       | -           | Current MarknDown file name (Plugin auto)                                                   |

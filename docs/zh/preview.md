@@ -19,13 +19,13 @@ resolveAlias
 
 ## 懒加载
 
-使用 `lazy` prop 延迟渲染，直到组件滚动到视口附近：
+懒加载**默认开启** — 延迟渲染直到组件滚动到视口附近。首屏内容可用 `:lazy="false"` 关闭：
 
 ```md
-<ViewSfc lazy src="../components/c-button.vue" title="懒加载" description="仅在可见时渲染"></ViewSfc>
+<ViewSfc src="../components/c-button.vue" title="懒加载" description="仅在可见时渲染"></ViewSfc>
 ```
 
-<ViewSfc lazy src="../components/c-button.vue" title="懒加载" description="仅在可见时渲染"></ViewSfc>
+<ViewSfc src="../components/c-button.vue" title="懒加载" description="仅在可见时渲染"></ViewSfc>
 
 ## 或使用 `:::` 标签
 

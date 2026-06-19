@@ -32,6 +32,7 @@ describe("ViewSFC", () => {
 
 	it("renders preview slot", () => {
 		const wrapper = mount(ViewSFC, {
+			props: { lazy: false },
 			slots: {
 				preview: '<div class="my-preview">Preview Content</div>'
 			}
