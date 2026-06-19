@@ -131,7 +131,7 @@
 	});
 </script>
 
-<style scope lang="scss">
+<style scoped lang="scss">
 	.vsfcComponent {
 		border: none;
 		border-radius: 4px;

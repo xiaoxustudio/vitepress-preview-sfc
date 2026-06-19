@@ -93,9 +93,6 @@
 		h,
 		ref,
 		unref,
-		isRef,
-		isReactive,
-		toRaw,
 		nextTick,
 		onMounted,
 		onUnmounted,
@@ -126,12 +123,6 @@
 	});
 
 	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
-
-	const unwrappedToast = deepUnwrap(config.toast);
-	const unwrappedCopySuccess = deepUnwrap(config.copyTextSuccess);
-	const unwrappedCopyError = deepUnwrap(config.copyTextError);
-	const unwrappedShowCodeText = deepUnwrap(config.showCodeText);
-	const unwrappedCopyCodeText = deepUnwrap(config.copyCodeText);
 
 	const componentId = `vsfc-${Math.random().toString(36).slice(2, 9)}`;
 	const codeSectionId = `${componentId}-code`;
@@ -249,48 +240,38 @@
 		}
 	};
 
-	function deepUnwrap(obj: any, seen = new WeakSet()) {
-		if (obj === null || typeof obj !== "object") return obj;
-		if (seen.has(obj)) return obj;
-		seen.add(obj);
-		if (isRef(obj)) return deepUnwrap(unref(obj), seen);
-		if (isReactive(obj)) return deepUnwrap(toRaw(obj), seen);
-		return obj;
-	}
-
 	const onCopy = () => {
+		const t = unref(config.toast);
+		const msgSuccess = unref(config.copyTextSuccess);
+		const msgError = unref(config.copyTextError);
 		try {
 			navigator.clipboard
 				.writeText(props.code)
 				.then(() => {
-					toast.success(unwrappedToast, unwrappedCopySuccess);
+					toast.success(t, msgSuccess);
 				})
 				.catch(() => {
-					toast.error(unwrappedToast, unwrappedCopyError);
+					toast.error(t, msgError);
 				});
 		} catch {
-			toast.error(unwrappedToast, unwrappedCopyError);
+			toast.error(t, msgError);
 		}
 	};
 
-	const defaultButtons = [
+	const btnGroup = computed<ViewSfcBtn[]>(() => [
+		...props.buttonGroup,
 		{
 			key: "code",
 			title: h(CodeSvg),
-			tip: unwrappedShowCodeText,
+			tip: unref(config.showCodeText),
 			onClick: onCollapse
 		},
 		{
 			key: "copy",
-			tip: unwrappedCopyCodeText,
+			tip: unref(config.copyCodeText),
 			title: h(CopySvg),
 			onClick: onCopy
 		}
-	];
-
-	const btnGroup = computed<ViewSfcBtn[]>(() => [
-		...props.buttonGroup,
-		...defaultButtons
 	]);
 
 	const emits = defineEmits<ViewSfcEmits>();

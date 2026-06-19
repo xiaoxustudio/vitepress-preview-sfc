@@ -1,4 +1,4 @@
-import { shallowRef, ref, type Component } from "vue";
+import { shallowRef, ref, reactive, type Component } from "vue";
 import ToastComponent from "@/components/Toast.vue";
 import TooltipComponent from "./components/Tooltip.vue";
 import { defaultLocales, detectLocale, type LocaleMessages } from "./locales";
@@ -9,11 +9,11 @@ export const ViewSfcConfigFn = () => {
 	const copyTextError = ref("");
 	const showCodeText = ref("");
 	const copyCodeText = ref("");
-	const accessibility = {
+	const accessibility = reactive({
 		btnGroupLabel: "",
 		codeRegionLabel: "",
 		collapseBtnLabel: ""
-	};
+	});
 	const currentLocale = ref(detectLocale());
 	const userLocales: Record<string, LocaleMessages> = { ...defaultLocales };
 

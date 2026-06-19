@@ -1,5 +1,5 @@
 <template>
-	<ToastComponent :v-bind="$attrs">
+	<ToastComponent v-bind="$attrs">
 		<template #message="{ message }"> msg: {{ message }} </template>
 	</ToastComponent>
 </template>
