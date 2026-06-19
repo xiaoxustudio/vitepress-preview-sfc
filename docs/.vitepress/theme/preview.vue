@@ -46,7 +46,8 @@
 <script setup lang="ts">
 	import ViewSfc, {
 		ViewSfcConfigFn,
-		ViewSfcTagSymbol
+		ViewSfcTagSymbol,
+		defaultLocales
 	} from "@vitepress-preview-sfc/components";
 	import { SFCMeta, SFCPrototype } from "@vitepress-preview-sfc/core";
 	import toastComponent from "./toast.vue";
@@ -67,10 +68,13 @@
 	//  using a function to prevent contamination of the original object
 	const defaultViewSfcConfig = ViewSfcConfigFn();
 
+	// register custom toast/tooltip components
+	defaultViewSfcConfig.toast.value = toastComponent;
+	defaultViewSfcConfig.tooltip.value = tooltipComponent;
+
 	provide(ViewSfcTagSymbol, defaultViewSfcConfig);
 
-	const lang = ref("zh"); // lang
-	const mode = ref(0); // mode
+	const mode = ref(0);
 
 	const sfcs = attr.sfcs as SFCMeta[];
 
@@ -96,28 +100,13 @@
 		console.log("state changed:", state);
 
 	onMounted(() => {
-		defaultViewSfcConfig.toast.value = toastComponent;
-		defaultViewSfcConfig.tooltip.value = tooltipComponent;
-
 		vsfc.value?.btnGroup.unshift({
 			key: "change",
 			title: "change-lang",
 			onClick() {
-				lang.value = lang.value === "en" ? "zh" : "en";
-				defaultViewSfcConfig.collapseText.value =
-					lang.value === "en" ? "Collapse" : "收起";
-				defaultViewSfcConfig.copyTextSuccess.value =
-					lang.value === "en" ? "Copy Success" : "复制成功";
-				defaultViewSfcConfig.copyTextError.value =
-					lang.value === "en" ? "Copy Error" : "复制失败";
-				defaultViewSfcConfig.accessibility.collapseBtnLabel =
-					lang.value === "en" ? "Collapse code" : "收起代码";
-				defaultViewSfcConfig.accessibility.btnGroupLabel =
-					lang.value === "en"
-						? "Code preview controls"
-						: "代码预览控制区";
-				defaultViewSfcConfig.accessibility.codeRegionLabel =
-					lang.value === "en" ? "Source code viewer" : "源代码查看器";
+				const next =
+					defaultViewSfcConfig.locale.value === "en" ? "zh" : "en";
+				defaultViewSfcConfig.setLocale(next);
 			}
 		});
 		vsfc.value.btnGroup.unshift({
