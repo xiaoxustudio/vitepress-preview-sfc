@@ -66,8 +66,7 @@ export const checksArr = (config: IConfig) => {
 	}
 	return regexs;
 };
-export const scriptSetup =
-	/<\s*script\s+(setup|lang='ts'|lang="ts")?\s*(setup|lang='ts'|lang="ts")?\s*>/;
+export const scriptSetup = /<\s*script\b[^>]*\bsetup\b[^>]*>/i;
 export const matchAttr = /(\w+)\s*=\s*["']([^"']+)["']/g;
 
 export const getAttr = () => /(\w+)\s*=\s*["']([^"']+)["']/;

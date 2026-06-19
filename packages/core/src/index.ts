@@ -7,14 +7,18 @@ const defaultConfig: IConfig = {
 	codeViewUseSlot: false
 };
 
-export default function (md: MarkdownIt, options?: any) {
+export default function (md: MarkdownIt, options?: Partial<IConfig>) {
 	const defaultHtmlInlineRender = md.renderer.rules.html_inline!;
 
 	const config = { ...defaultConfig, ...options };
 	if (Array.isArray(config.alias)) {
-		config.alias = [...new Set(config.alias.concat(defaultConfig.alias))];
+		config.alias = [
+			...new Set(config.alias.concat(defaultConfig.alias))
+		] as string[];
 	} else {
-		config.alias = [...new Set([config.alias, defaultConfig.alias])];
+		config.alias = [
+			...new Set([config.alias, defaultConfig.alias])
+		] as string[];
 	}
 
 	for (const alias of config.alias) {

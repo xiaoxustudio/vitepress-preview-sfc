@@ -47,6 +47,8 @@ describe("ViewSfcConfigFn", () => {
 			collapseText: "折りたたむ",
 			copyTextSuccess: "コピー成功",
 			copyTextError: "コピー失敗",
+			showCodeText: "コードを表示",
+			copyCodeText: "コードをコピー",
 			accessibility: {
 				btnGroupLabel: "コードプレビューコントロール",
 				codeRegionLabel: "ソースコードビューア",

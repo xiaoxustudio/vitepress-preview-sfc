@@ -126,6 +126,8 @@
 	const unwrappedToast = deepUnwrap(config.toast);
 	const unwrappedCopySuccess = deepUnwrap(config.copyTextSuccess);
 	const unwrappedCopyError = deepUnwrap(config.copyTextError);
+	const unwrappedShowCodeText = deepUnwrap(config.showCodeText);
+	const unwrappedCopyCodeText = deepUnwrap(config.copyCodeText);
 
 	const componentId = `vsfc-${Math.random().toString(36).slice(2, 9)}`;
 	const codeSectionId = `${componentId}-code`;
@@ -153,6 +155,10 @@
 							pendingElements.delete(entry.target);
 						}
 					}
+					if (pendingElements.size === 0) {
+						sharedObserver?.disconnect();
+						sharedObserver = null;
+					}
 				},
 				{ rootMargin: "200px" }
 			);
@@ -162,6 +168,10 @@
 		return () => {
 			sharedObserver?.unobserve(el);
 			pendingElements.delete(el);
+			if (pendingElements.size === 0) {
+				sharedObserver?.disconnect();
+				sharedObserver = null;
+			}
 		};
 	}
 
@@ -260,10 +270,15 @@
 		{
 			key: "code",
 			title: h(CodeSvg),
-			tip: "Show Code",
+			tip: unwrappedShowCodeText,
 			onClick: onCollapse
 		},
-		{ key: "copy", tip: "Copy Code", title: h(CopySvg), onClick: onCopy }
+		{
+			key: "copy",
+			tip: unwrappedCopyCodeText,
+			title: h(CopySvg),
+			onClick: onCopy
+		}
 	];
 
 	const btnGroup = computed<ViewSfcBtn[]>(() => [

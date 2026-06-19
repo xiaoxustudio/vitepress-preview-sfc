@@ -27,6 +27,8 @@
 		}
 	},
 	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"watch": "tsdown -c tsdown.config.ts -w",
 		"build": "tsdown -c tsdown.config.ts"
 	},

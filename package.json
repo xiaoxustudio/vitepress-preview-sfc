@@ -19,8 +19,8 @@
 		"comp:build": "pnpm run -C packages/components build",
 		"core:dev-watch": "pnpm run -C packages/core watch",
 		"core:build": "pnpm run -C packages/core build",
-		"test": "vitest run",
-		"test:watch": "vitest",
+		"test": "pnpm -r --filter @vitepress-preview-sfc/core --filter @vitepress-preview-sfc/components run test",
+		"test:watch": "pnpm -r --filter @vitepress-preview-sfc/core --filter @vitepress-preview-sfc/components run test:watch",
 		"docs:dev": "pnpm core:build && pnpm comp:build && vitepress dev docs",
 		"docs:dev-no-comp": "pnpm core:build && vitepress dev docs",
 		"docs:dev-no-core": "pnpm comp:build && vitepress dev docs",
@@ -66,8 +66,9 @@
 		"prettier": "^3.6.2",
 		"sass-embedded": "^1.100.0",
 		"twoslash": "^0.3.4",
+		"vite": "^8.0.0",
 		"vitepress": "^1.6.4",
-		"vitest": "^2.1.9",
+		"vitest": "^4.1.0",
 		"vue": "^3.5.18"
 	},
 	"lint-staged": {

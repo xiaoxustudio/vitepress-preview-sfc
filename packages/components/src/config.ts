@@ -7,6 +7,8 @@ export const ViewSfcConfigFn = () => {
 	const collapseText = ref("");
 	const copyTextSuccess = ref("");
 	const copyTextError = ref("");
+	const showCodeText = ref("");
+	const copyCodeText = ref("");
 	const accessibility = {
 		btnGroupLabel: "",
 		codeRegionLabel: "",
@@ -21,6 +23,8 @@ export const ViewSfcConfigFn = () => {
 		collapseText.value = msgs.collapseText;
 		copyTextSuccess.value = msgs.copyTextSuccess;
 		copyTextError.value = msgs.copyTextError;
+		showCodeText.value = msgs.showCodeText;
+		copyCodeText.value = msgs.copyCodeText;
 		accessibility.btnGroupLabel = msgs.accessibility.btnGroupLabel;
 		accessibility.codeRegionLabel = msgs.accessibility.codeRegionLabel;
 		accessibility.collapseBtnLabel = msgs.accessibility.collapseBtnLabel;
@@ -32,6 +36,8 @@ export const ViewSfcConfigFn = () => {
 		collapseText,
 		copyTextSuccess,
 		copyTextError,
+		showCodeText,
+		copyCodeText,
 		toast: shallowRef<Component>(ToastComponent),
 		tooltip: shallowRef<Component>(TooltipComponent),
 		accessibility,

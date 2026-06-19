@@ -8,8 +8,6 @@
 
 		"module": "commonjs",
 
-		"moduleResolution": "node",
-
 		"experimentalDecorators": true,
 		"esModuleInterop": true,
 		"emitDecoratorMetadata": true,
@@ -28,10 +26,8 @@
 
 		"outDir": "lib",
 
-		"baseUrl": "./",
-
-		"paths": { "*": ["src/*"] }
+		"paths": { "*": ["./src/*"] }
 	},
 
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules/**/*"]
 }

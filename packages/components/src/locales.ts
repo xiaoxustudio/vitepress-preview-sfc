@@ -2,6 +2,8 @@ export interface LocaleMessages {
 	collapseText: string;
 	copyTextSuccess: string;
 	copyTextError: string;
+	showCodeText: string;
+	copyCodeText: string;
 	accessibility: {
 		btnGroupLabel: string;
 		codeRegionLabel: string;
@@ -15,6 +17,8 @@ const zh: LocaleMessages = {
 	collapseText: "收起",
 	copyTextSuccess: "复制成功",
 	copyTextError: "复制失败",
+	showCodeText: "显示代码",
+	copyCodeText: "复制代码",
 	accessibility: {
 		btnGroupLabel: "代码预览控制区",
 		codeRegionLabel: "源代码查看器",
@@ -26,6 +30,8 @@ const en: LocaleMessages = {
 	collapseText: "Collapse",
 	copyTextSuccess: "Copy Success",
 	copyTextError: "Copy Error",
+	showCodeText: "Show Code",
+	copyCodeText: "Copy Code",
 	accessibility: {
 		btnGroupLabel: "Code preview controls",
 		codeRegionLabel: "Source code viewer",
