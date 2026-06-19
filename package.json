@@ -49,7 +49,7 @@
 	"dependencies": {
 		"@vitepress-preview-sfc/components": "workspace:./packages/components",
 		"@vitepress-preview-sfc/core": "workspace:./packages/core",
-		"tsdown": "^0.13.0",
+		"tsdown": "^0.22.3",
 		"typescript": "^5.8.3"
 	},
 	"peerDependencyRules": {},
