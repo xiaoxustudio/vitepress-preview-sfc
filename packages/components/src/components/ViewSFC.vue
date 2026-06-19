@@ -55,12 +55,11 @@
 			</div>
 
 			<div
-				ref="showSourceCodeParentRef"
+				ref="codeSectionRef"
 				:id="codeSectionId"
 				role="region"
 				:aria-label="config.accessibility.codeRegionLabel"
-				:class="[$style.code, { [$style.closed]: !isCodeActive }]"
-				:style="{ height: showSourceCodeHeight }"
+				:class="[$style.code, { [$style.open]: isCodeActive }]"
 			>
 				<component :is="VNodeForShowSourceCode" />
 				<button
@@ -88,7 +87,6 @@
 		isReactive,
 		toRaw,
 		nextTick,
-		watch,
 		type VNode
 	} from "vue";
 	import CodeSvg from "@/assets/code.vue";
@@ -118,9 +116,8 @@
 
 	const componentId = `vsfc-${Math.random().toString(36).slice(2, 9)}`;
 	const codeSectionId = `${componentId}-code`;
+	const codeSectionRef = ref<HTMLElement | null>(null);
 
-	const showSourceCodeParentRef = ref<HTMLDivElement | null>(null);
-	const showSourceCodeHeight = ref("0px");
 	const showSourceCode = computed(() => props.htmlCode);
 
 	const VNodeForShowSourceCode = computed<VNode>(() => {
@@ -142,39 +139,30 @@
 					});
 	});
 
-	const isCodeActive = ref(false); // 是否显示代码
-
-	const calculateHeight = () => {
-		if (!showSourceCodeParentRef.value) return;
-
-		if (isCodeActive.value) {
-			// 强制重排获取最新scrollHeight
-			showSourceCodeParentRef.value.style.display = "none";
-			showSourceCodeParentRef.value.offsetHeight;
-			showSourceCodeParentRef.value.style.display = "";
-
-			showSourceCodeHeight.value = `${showSourceCodeParentRef.value.scrollHeight}px`;
-		} else {
-			showSourceCodeHeight.value = "0px";
-		}
-	};
-
-	watch(
-		isCodeActive,
-		() =>
-			nextTick(() =>
-				nextTick(() => {
-					emits("codeActive", isCodeActive.value);
-					calculateHeight();
-				})
-			),
-		{
-			flush: "post"
-		}
-	);
+	const isCodeActive = ref(false);
 
 	const onCollapse = () => {
-		isCodeActive.value = !isCodeActive.value;
+		const el = codeSectionRef.value;
+		if (!el) return;
+
+		if (isCodeActive.value) {
+			const height = el.scrollHeight;
+			el.style.maxHeight = `${height}px`;
+			el.offsetHeight;
+			el.style.maxHeight = "0px";
+			isCodeActive.value = false;
+			emits("codeActive", false);
+		} else {
+			el.style.maxHeight = "none";
+			nextTick(() => {
+				const height = el.scrollHeight;
+				el.style.maxHeight = "0px";
+				el.offsetHeight;
+				el.style.maxHeight = `${height}px`;
+				isCodeActive.value = true;
+				emits("codeActive", true);
+			});
+		}
 	};
 
 	function deepUnwrap(obj: any) {

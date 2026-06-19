@@ -39,9 +39,25 @@ describe("ViewSFC", () => {
 		expect(wrapper.find(".my-preview").exists()).toBe(true);
 	});
 
-	it("shows code toggle button", () => {
+	it("shows code toggle and collapse buttons", () => {
 		const wrapper = mount(ViewSFC);
 		const buttons = wrapper.findAll("button");
-		expect(buttons.length).toBeGreaterThanOrEqual(1);
+		expect(buttons.length).toBeGreaterThanOrEqual(2);
+	});
+
+	it("toggles code visibility when clicking code button", async () => {
+		const wrapper = mount(ViewSFC);
+		const codeBtn = wrapper.findAll("button")[0];
+		await codeBtn.trigger("click");
+		expect(wrapper.emitted("codeActive")).toBeTruthy();
+		expect(wrapper.emitted("codeActive")![0]).toEqual([true]);
+	});
+
+	it("has accessible button labels", () => {
+		const wrapper = mount(ViewSFC);
+		const buttons = wrapper.findAll("button");
+		buttons.forEach((btn) => {
+			expect(btn.attributes("aria-label")).toBeTruthy();
+		});
 	});
 });

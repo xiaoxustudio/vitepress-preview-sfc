@@ -38,7 +38,8 @@
 
 		.code {
 			padding: 0 12px;
-			transition: height var(--view-sfc-duration-time) ease-in-out;
+			max-height: 0;
+			transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 			margin-bottom: 0;
 			overflow: hidden;
 			box-sizing: border-box;
@@ -78,18 +79,15 @@
 				}
 			}
 
-			&.closed {
-				div[class*="language-"] {
-					margin: 0 !important;
-				}
-				pre {
-					padding: 0 !important;
-				}
+			&.open {
+				max-height: 10000px;
 			}
 		}
 
 		.closeBtn {
-			background-color: var(--view-sfc-bg);
+			width: 100%;
+			background: none;
+			border: none;
 			border-radius: 4px;
 			display: flex;
 			align-items: center;
