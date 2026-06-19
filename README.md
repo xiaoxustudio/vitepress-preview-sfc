@@ -119,10 +119,36 @@ and `Preview` 、 `ViewSfc` will both be used as preview components for parsing.
 | `description`   | string       | Description | Description of the component                                                                |
 | `buttonGroup`   | ViewSfcBtn[] | -           | Button group of the component (default `collapse`,`copy` btn)                               |
 | `extension`     | string       | -           | Extension of the component (Plugin auto)                                                    |
+| `lazy`          | boolean      | false       | Lazy load via IntersectionObserver                                                          |
 | `sfcs`          | SFCMeta[]    | -           | SFC Meta (Plugin auto)                                                                      |
 | `file`          | string       | -           | SFC file name (Plugin auto)                                                                 |
 | `markdownFile`  | string       | -           | Current MarknDown file name (Plugin auto)                                                   |
 | `markdownTitle` | string       | -           | Current MarknDown Title (Plugin auto)                                                       |
+
+### i18n
+
+Built-in `en`/`zh` locale support. Auto-detects from `<html lang>`. Switch programmatically:
+
+```ts
+config.setLocale("zh"); // switch to Chinese
+config.setLocale("en"); // switch to English
+```
+
+Register custom locales:
+
+```ts
+config.locales.jp = {
+	collapseText: "折りたたむ",
+	copyTextSuccess: "コピー成功",
+	copyTextError: "コピー失敗",
+	accessibility: {
+		btnGroupLabel: "...",
+		codeRegionLabel: "...",
+		collapseBtnLabel: "..."
+	}
+};
+config.setLocale("jp");
+```
 
 #### ViewSfcBtn
 

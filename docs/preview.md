@@ -17,6 +17,16 @@ Custom component rendering
 resolveAlias
 <ViewSfc src="@@/button.vue" title="ViewSfc Render" description="a component description" />
 
+## Lazy loading
+
+Use the `lazy` prop to defer rendering until the component scrolls near the viewport:
+
+```md
+<ViewSfc lazy src="./components/c-button.vue" title="Lazy Loaded" description="only renders when visible"></ViewSfc>
+```
+
+<ViewSfc lazy src="./components/c-button.vue" title="Lazy Loaded" description="only renders when visible"></ViewSfc>
+
 ## or use `:::` tag
 
 ```

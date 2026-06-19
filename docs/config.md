@@ -1,60 +1,45 @@
-# Configuration options
+# Configuration
 
-The configuration of VitePress Preview SFC is defined by the IConfig interface, which provides two main options to customize the behavior of the plugin. These options allow you to control component aliases and path resolution, making it easier to integrate the plugin into your existing workflow.
+The configuration of VitePress Preview SFC is defined by the `IConfig` interface (for the markdown-it plugin) and `ViewSfcConfig` (for the Vue component).
+
+## Plugin options (core)
 
 ```ts
 export interface IConfig {
 	alias: string | string[];
 	resolveAlias?: string | Record<string, string>;
+	codeViewUseSlot?: boolean;
 }
 ```
 
-The alias option is the primary method for customizing how the preview component is recognized in Markdown files. By default, the plugin uses "ViewSfc" as the component name, but you can extend this setting by adding additional aliases to match the naming conventions of your project.
+| Option            | Type                               | Description                                       |
+| ----------------- | ---------------------------------- | ------------------------------------------------- |
+| `alias`           | `string \| string[]`               | Custom component tag names (default: `"ViewSfc"`) |
+| `resolveAlias`    | `string \| Record<string, string>` | Path resolution aliases for component sources     |
+| `codeViewUseSlot` | `boolean`                          | Render code view via slot instead of `v-html`     |
 
-By default, the plugin registers ViewSfc as a component alias. This means that you can use either of the following syntaxes in Markdown:
+<ViewSfc src="./components/button.ts.vue" title="Example" description="rendered with default alias"></ViewSfc>
 
-```md
-<ViewSfc src="./components/button.vue"></ViewSfc>
-```
+### Sub-pages
 
-Or use container grammar:
+- [alias](./config/alias) — custom component tag names
+- [resolveAlias](./config/resolveAlias) — path resolution
+- [codeViewUseSlot](./config/codeViewUseSlot) — slot-based code rendering
 
-```md
-:::ViewSfc
-src=./components/button.vue
-:::
-```
+## Component options (ViewSfc props)
 
-Other configurations can be found in the following text.
+| Prop          | Type           | Default | Description                              |
+| ------------- | -------------- | ------- | ---------------------------------------- |
+| `title`       | `string`       | `""`    | Component title                          |
+| `description` | `string`       | `""`    | Component description (HTML)             |
+| `src`         | `string`       | `""`    | Source file path                         |
+| `code`        | `string`       | `""`    | Raw source code                          |
+| `htmlCode`    | `string`       | `""`    | Highlighted HTML code                    |
+| `extension`   | `string`       | `""`    | File extension badge                     |
+| `lazy`        | `boolean`      | `false` | Enable IntersectionObserver lazy loading |
+| `buttonGroup` | `ViewSfcBtn[]` | `[]`    | Custom action buttons                    |
 
-### End
+### Sub-pages
 
-a simple example of how to configure the plugin in a VitePress project:
-
-```ts
-import { defineConfig } from "vitepress";
-import previewSfcCore from "@vitepress-preview-sfc/core";
-import path from "path";
-
-export default defineConfig({
-	// ...other configuration options
-	markdown: {
-		config: (md) => {
-			md.use(previewSfcCore, {
-				// matching component name
-				alias: ["Preview", "Demo", "Example"],
-
-				// resolve alias
-				resolveAlias: {
-					"@/components": path.resolve(
-						__dirname,
-						"../src/components"
-					),
-					"@/ui": path.resolve(__dirname, "../src/ui"),
-					"@theme/": path.resolve(__dirname, "./theme")
-				}
-			});
-		}
-	}
-});
-```
+- [i18n / Locale](./config/i18n) — built-in internationalization
+- [lazy](./config/lazy) — lazy loading for performance

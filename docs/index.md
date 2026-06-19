@@ -16,6 +16,12 @@ features:
       details: Lightweight and easy to use
     - title: Flexible
       details: Flexible and customizable
-    - title: Pertinence
-      details: vue SFC preview
+    - title: Vue SFC Preview
+      details: Real-time preview of Vue single-file components
+    - title: i18n Ready
+      details: Built-in internationalization with auto-detection
+    - title: Lazy Loading
+      details: IntersectionObserver-based lazy rendering
+    - title: Accessible
+      details: ARIA labels, keyboard navigation, screen reader support
 ---

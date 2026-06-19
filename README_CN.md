@@ -114,10 +114,36 @@ export default defineConfig({
 | `description`   | string       | Description | 描述                                               |
 | `buttonGroup`   | ViewSfcBtn[] | -           | 按钮组（默认展开、复制按钮）                       |
 | `extension`     | string       | -           | 扩展名（自动解析，无需手动输入）                   |
+| `lazy`          | boolean      | false       | 启用 IntersectionObserver 懒加载                   |
 | `sfcs`          | SFCMeta[]    | -           | SFC Meta （自动解析，无需手动输入）                |
 | `file`          | string       | -           | SFC 文件名称 （自动解析，无需手动输入）            |
 | `markdownFile`  | string       | -           | 当前 MarknDown 文件名称 （自动解析，无需手动输入） |
 | `markdownTitle` | string       | -           | 当前 MarknDown 标题 （自动解析，无需手动输入）     |
+
+### 国际化
+
+内置 `en`/`zh` 双语支持。自动从 `<html lang>` 检测。可手动切换：
+
+```ts
+config.setLocale("zh"); // 切换到中文
+config.setLocale("en"); // 切换到英文
+```
+
+注册自定义语言：
+
+```ts
+config.locales.jp = {
+	collapseText: "折りたたむ",
+	copyTextSuccess: "コピー成功",
+	copyTextError: "コピー失敗",
+	accessibility: {
+		btnGroupLabel: "...",
+		codeRegionLabel: "...",
+		collapseBtnLabel: "..."
+	}
+};
+config.setLocale("jp");
+```
 
 #### ViewSfcBtn
 

@@ -31,7 +31,12 @@ export default defineConfig({
 				items: [
 					{ text: "alias", link: "/config/alias" },
 					{ text: "resolveAlias", link: "/config/resolveAlias" },
-					{ text: "codeViewUseSlot", link: "/config/codeViewUseSlot" }
+					{
+						text: "codeViewUseSlot",
+						link: "/config/codeViewUseSlot"
+					},
+					{ text: "i18n / Locale", link: "/config/i18n" },
+					{ text: "lazy", link: "/config/lazy" }
 				]
 			}
 		],
@@ -111,6 +116,14 @@ export default defineConfig({
 							{
 								text: "codeViewUseSlot",
 								link: "/zh/config/codeViewUseSlot"
+							},
+							{
+								text: "i18n / 国际化",
+								link: "/zh/config/i18n"
+							},
+							{
+								text: "lazy / 懒加载",
+								link: "/zh/config/lazy"
 							}
 						]
 					}

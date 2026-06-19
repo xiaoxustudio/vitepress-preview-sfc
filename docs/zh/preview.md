@@ -17,6 +17,16 @@
 resolveAlias
 <ViewSfc src="@@/button.vue" title="ViewSfc 渲染" description="组件描述" />
 
+## 懒加载
+
+使用 `lazy` prop 延迟渲染，直到组件滚动到视口附近：
+
+```md
+<ViewSfc lazy src="../components/c-button.vue" title="懒加载" description="仅在可见时渲染"></ViewSfc>
+```
+
+<ViewSfc lazy src="../components/c-button.vue" title="懒加载" description="仅在可见时渲染"></ViewSfc>
+
 ## 或使用 `:::` 标签
 
 ```
