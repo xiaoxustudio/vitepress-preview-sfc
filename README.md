@@ -115,8 +115,8 @@ export default defineConfig({
 | `lazy`          | boolean      | true        | Lazy load via IntersectionObserver (default: enabled)                                       |
 | `sfcs`          | SFCMeta[]    | -           | SFC Meta (Plugin auto)                                                                      |
 | `file`          | string       | -           | SFC file name (Plugin auto)                                                                 |
-| `markdownFile`  | string       | -           | Current MarknDown file name (Plugin auto)                                                   |
-| `markdownTitle` | string       | -           | Current MarknDown Title (Plugin auto)                                                       |
+| `markdownFile`  | string       | -           | Current Markdown file name (Plugin auto)                                                    |
+| `markdownTitle` | string       | -           | Current Markdown Title (Plugin auto)                                                        |
 
 ### i18n
 

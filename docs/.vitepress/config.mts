@@ -2,6 +2,7 @@ import { defineConfig } from "vitepress";
 import VueJsx from "@vitejs/plugin-vue-jsx";
 import previewSfcCore from "@vitepress-preview-sfc/core";
 import path from "path";
+import type { PluginOption } from "vite";
 import Shiki from "@shikijs/markdown-it";
 import { transformerTwoslash } from "@shikijs/vitepress-twoslash";
 
@@ -36,8 +37,10 @@ export default defineConfig({
 			{
 				text: "Guide",
 				items: [
-					{ text: "Guide", link: "/guide" },
-					{ text: "Preview", link: "/preview" }
+					{ text: "Getting Started", link: "/guide" },
+					{ text: "Examples", link: "/preview" },
+					{ text: "API Reference", link: "/api" },
+					{ text: "Customization", link: "/customization" }
 				]
 			},
 			{
@@ -69,7 +72,8 @@ export default defineConfig({
 		}
 	},
 	vite: {
-		plugins: [VueJsx()],
+		/* @TODO Vite8 和 当前的VitePress 类型不兼容 */
+		plugins: [VueJsx()] as any,
 		css: {
 			preprocessorOptions: {
 				scss: { api: "modern-compiler" }
@@ -100,14 +104,16 @@ export default defineConfig({
 			themeConfig: {
 				nav: [
 					{ text: "首页", link: "/zh/" },
-					{ text: "开始", link: "/zh/guide" }
+					{ text: "指南", link: "/zh/guide" }
 				],
 				sidebar: [
 					{
-						text: "开始",
+						text: "指南",
 						items: [
-							{ text: "开始", link: "/zh/guide" },
-							{ text: "预览", link: "/zh/preview" }
+							{ text: "快速开始", link: "/zh/guide" },
+							{ text: "示例", link: "/zh/preview" },
+							{ text: "API 参考", link: "/zh/api" },
+							{ text: "自定义", link: "/zh/customization" }
 						]
 					},
 					{
