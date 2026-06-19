@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { defaultLocales, detectLocale } from "./locales";
+import { defaultLocales, detectLocale } from "../src/locales";
 
 describe("defaultLocales", () => {
 	it("provides zh locale", () => {

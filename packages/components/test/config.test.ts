@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { ViewSfcConfigFn } from "./config";
+import { ViewSfcConfigFn } from "../src/config";
 
 describe("ViewSfcConfigFn", () => {
 	it("defaults to en locale in Node.js", () => {

@@ -8,8 +8,8 @@ import {
 	hasVueRefImport,
 	escapeHtml,
 	transformSrc
-} from "./utils";
-import type { IConfig } from "./types";
+} from "../src/utils";
+import type { IConfig } from "../src/types";
 
 describe("checksArr", () => {
 	it("generates regex patterns for single alias", () => {

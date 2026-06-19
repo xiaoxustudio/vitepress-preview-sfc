@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { transformAttributes } from "./container";
+import { transformAttributes } from "../src/container";
 
 describe("transformAttributes", () => {
 	it("parses quoted value with double quotes", () => {

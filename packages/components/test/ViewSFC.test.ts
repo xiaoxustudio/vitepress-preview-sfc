@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import ViewSFC from "./ViewSFC.vue";
+import ViewSFC from "../src/components/ViewSFC.vue";
 
 describe("ViewSFC", () => {
 	it("renders without props", () => {

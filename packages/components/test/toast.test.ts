@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import ToastComponent from "./Toast.vue";
+import ToastComponent from "../src/components/Toast.vue";
 
 // We need to re-import toast after each SSR guard test
 const getToast = async () => {
 	// Dynamic import to get fresh module
-	const mod = await import("./toast");
+	const mod = await import("../src/components/toast");
 	return mod.default;
 };
 
