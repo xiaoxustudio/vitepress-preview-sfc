@@ -1,6 +1,0 @@
----
-"@vitepress-preview-sfc/components": minor
-"@vitepress-preview-sfc/core": minor
----
-
-chore: add project references and typecheck scripts

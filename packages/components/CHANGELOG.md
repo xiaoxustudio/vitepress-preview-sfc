@@ -1,5 +1,13 @@
 # @vitepress-preview-sfc/components
 
+## 2.1.0
+
+### Minor Changes
+
+- 6ecfb68: chore: add project references and typecheck scripts
+- 8d07268: chore: remove VSCode extension recommendation
+- 7a4b087: chore: update deps and fix typos
+
 ## 2.0.1
 
 ### Patch Changes
