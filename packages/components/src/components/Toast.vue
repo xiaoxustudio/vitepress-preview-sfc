@@ -4,6 +4,8 @@
 			v-if="visible"
 			class="toast"
 			:class="toastClass"
+			role="alert"
+			aria-live="polite"
 			@mouseenter="pauseTimer"
 			@mouseleave="resumeTimer"
 			@click="handleClick"
@@ -12,9 +14,14 @@
 				<slot v-if="$slots.message" name="message" :message></slot>
 				<span v-else>{{ message }}</span>
 			</div>
-			<div v-if="closable" class="toast-close" @click.stop="close">
+			<button
+				v-if="closable"
+				class="toast-close"
+				aria-label="Close notification"
+				@click.stop="close"
+			>
 				&times;
-			</div>
+			</button>
 		</div>
 	</transition>
 </template>

@@ -13,6 +13,7 @@
 						class="tooltip"
 						:class="`tooltip-${placement}`"
 						:style="tooltipStyle"
+						role="tooltip"
 						ref="tooltipRef"
 					>
 						<div class="tooltip-content">

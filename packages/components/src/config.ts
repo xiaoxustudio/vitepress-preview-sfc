@@ -8,7 +8,12 @@ export const ViewSfcConfigFn = () => {
 		copyTextSuccess: ref("复制成功"),
 		copyTextError: ref("复制失败"),
 		toast: shallowRef<Component>(ToastComponent),
-		tooltip: shallowRef<Component>(TooltipComponent)
+		tooltip: shallowRef<Component>(TooltipComponent),
+		accessibility: {
+			btnGroupLabel: "Code preview controls",
+			codeRegionLabel: "Source code viewer",
+			collapseBtnLabel: "Collapse code"
+		}
 	};
 };
 

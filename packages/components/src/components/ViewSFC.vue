@@ -18,7 +18,11 @@
 				v-html="props.description"
 			></div>
 
-			<div :class="$style['btn-group']">
+			<div
+				:class="$style['btn-group']"
+				role="toolbar"
+				:aria-label="config.accessibility.btnGroupLabel"
+			>
 				<component
 					:is="config.tooltip.value"
 					v-for="v in btnGroup"
@@ -33,6 +37,13 @@
 									isCodeActive && v.key === 'code'
 							}
 						]"
+						:aria-label="v.tip"
+						:aria-pressed="
+							v.key === 'code' ? isCodeActive : undefined
+						"
+						:aria-controls="
+							v.key === 'code' ? codeSectionId : undefined
+						"
 						@click="v.onClick"
 					>
 						<span v-if="typeof v.title === 'string'">{{
@@ -45,13 +56,20 @@
 
 			<div
 				ref="showSourceCodeParentRef"
+				:id="codeSectionId"
+				role="region"
+				:aria-label="config.accessibility.codeRegionLabel"
 				:class="[$style.code, { [$style.closed]: !isCodeActive }]"
 				:style="{ height: showSourceCodeHeight }"
 			>
 				<component :is="VNodeForShowSourceCode" />
-				<div :class="$style.closeBtn" @click="onCollapse">
+				<button
+					:class="$style.closeBtn"
+					@click="onCollapse"
+					:aria-label="config.accessibility.collapseBtnLabel"
+				>
 					{{ config.collapseText }}
-				</div>
+				</button>
 				<div
 					:class="$style['code-extension']"
 					:data-ext="props.extension"
@@ -97,6 +115,9 @@
 	});
 
 	const config = inject(ViewSfcTagSymbol, ViewSfcConfig);
+
+	const componentId = `vsfc-${Math.random().toString(36).slice(2, 9)}`;
+	const codeSectionId = `${componentId}-code`;
 
 	const showSourceCodeParentRef = ref<HTMLDivElement | null>(null);
 	const showSourceCodeHeight = ref("0px");

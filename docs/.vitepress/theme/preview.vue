@@ -110,6 +110,14 @@
 					lang.value === "en" ? "Copy Success" : "复制成功";
 				defaultViewSfcConfig.copyTextError.value =
 					lang.value === "en" ? "Copy Error" : "复制失败";
+				defaultViewSfcConfig.accessibility.collapseBtnLabel =
+					lang.value === "en" ? "Collapse code" : "收起代码";
+				defaultViewSfcConfig.accessibility.btnGroupLabel =
+					lang.value === "en"
+						? "Code preview controls"
+						: "代码预览控制区";
+				defaultViewSfcConfig.accessibility.codeRegionLabel =
+					lang.value === "en" ? "Source code viewer" : "源代码查看器";
 			}
 		});
 		vsfc.value.btnGroup.unshift({
