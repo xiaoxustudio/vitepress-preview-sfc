@@ -1,4 +1,4 @@
-import type { StateBlock, Token } from "markdown-it/index.js";
+import type { StateBlock, Token } from "markdown-it";
 import type { MarkdownIt } from "./types";
 
 export default function registerContainer(
@@ -131,12 +131,13 @@ export default function registerContainer(
 
 function transformAttributes(str: string[]) {
 	const arrs = [];
+	const attrRegex = /(\w+)\s*=\s*(?:"([^"]*)"|'([^']*)'|(\S+))/;
 	for (let i = 0; i < str.length; i++) {
 		const line = str[i].trim();
-		// 处理k=v
-		if (/([^\s]+)\s*=([^\n]+)/.test(line)) {
-			const e = /([^\s]+)\s*=([^\n]+)/.exec(line) as RegExpExecArray;
-			arrs.push({ [e[1]]: e[2].trim() });
+		const match = attrRegex.exec(line);
+		if (match) {
+			const value = match[2] ?? match[3] ?? match[4] ?? "";
+			arrs.push({ [match[1]]: value.trim() });
 		}
 	}
 	return arrs;

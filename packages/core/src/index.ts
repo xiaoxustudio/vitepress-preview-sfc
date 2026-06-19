@@ -30,7 +30,20 @@ export default function (md: MarkdownIt, options?: any) {
 	) => {
 		const token = tokens[idx];
 		if (checksArr(config).some((v) => v.test(token.content))) {
-			return transformPreview(md, env, token, config);
+			try {
+				return transformPreview(md, env, token, config);
+			} catch (e) {
+				console.error(
+					`[vitepress-preview-sfc] Error rendering preview: ${e instanceof Error ? e.message : e}`
+				);
+				return defaultHtmlInlineRender(
+					tokens,
+					idx,
+					mdOptions,
+					env,
+					self
+				);
+			}
 		}
 		return defaultHtmlInlineRender(tokens, idx, mdOptions, env, self);
 	};

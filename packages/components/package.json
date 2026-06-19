@@ -30,7 +30,9 @@
 		"access": "public"
 	},
 	"license": "MIT",
-	"dependencies": {},
+	"peerDependencies": {
+		"vue": "^3.4.0"
+	},
 	"devDependencies": {
 		"vue": "^3.5.17",
 		"@vitejs/plugin-vue": "^6.0.0",

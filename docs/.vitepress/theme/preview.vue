@@ -165,7 +165,7 @@
 		text-align: center;
 
 		&:hover {
-			border: 1px solidrgb(76, 86, 97) y;
+			border: 1px solid rgb(76, 86, 97);
 		}
 
 		&.active {

@@ -180,7 +180,13 @@ function toTransformAttributes(
 					}
 				}
 			}
-			sfcMeta.code = readFileSync(sfcMeta.absoluteSrc, "utf-8");
+			try {
+				sfcMeta.code = readFileSync(sfcMeta.absoluteSrc, "utf-8");
+			} catch (e) {
+				throw new Error(
+					`[vitepress-preview-sfc] Failed to read SFC file: ${sfcMeta.absoluteSrc}. ${e instanceof Error ? e.message : ""}`
+				);
+			}
 			sfcMeta.suffixName = sfcMeta.src.substring(
 				sfcMeta.src.lastIndexOf(".") + 1
 			);

@@ -8,12 +8,22 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.cts",
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.js"
+			"import": {
+				"types": "./dist/index.d.mts",
+				"default": "./dist/index.mjs"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.js"
+			}
 		},
 		"./types": {
-			"types": "./dist/types.d.cts"
+			"import": {
+				"types": "./dist/types.d.mts"
+			},
+			"require": {
+				"types": "./dist/types.d.cts"
+			}
 		}
 	},
 	"scripts": {
@@ -40,6 +50,9 @@
 	],
 	"author": "xuran",
 	"license": "MIT",
+	"peerDependencies": {
+		"vue": "^3.4.0"
+	},
 	"devDependencies": {
 		"@types/markdown-it": "^14.1.2",
 		"@vitejs/plugin-vue": "^6.0.1",

@@ -1,10 +1,16 @@
-import { computed, createApp, type App, type Component } from "vue";
+import { createApp, type App, type Component } from "vue";
 import type { ToastOptions } from "@/types";
 
-let toastApp: App | null = null;
+let toastIdCounter = 0;
+const toastApps = new Map<number, App>();
 let toastContainer: HTMLElement | null = null;
 
+function isBrowser(): boolean {
+	return typeof document !== "undefined" && typeof window !== "undefined";
+}
+
 const createToastContainer = () => {
+	if (!isBrowser()) return;
 	if (toastContainer) return;
 
 	toastContainer = document.createElement("div");
@@ -12,12 +18,14 @@ const createToastContainer = () => {
 	document.body.appendChild(toastContainer);
 };
 
-const showToast = computed(() => (Comp: Component, options: ToastOptions) => {
+function showToast(Comp: Component, options: ToastOptions) {
+	if (!isBrowser()) return;
+
 	createToastContainer();
 
 	if (!toastContainer) return;
 
-	const toastId = Date.now() + Date.now();
+	const toastId = ++toastIdCounter;
 	const toastElement = document.createElement("div");
 	toastContainer.appendChild(toastElement);
 
@@ -25,21 +33,25 @@ const showToast = computed(() => (Comp: Component, options: ToastOptions) => {
 		...options,
 		id: toastId,
 		onClose: () => {
-			toastApp?.unmount();
+			const app = toastApps.get(toastId);
+			if (app) {
+				app.unmount();
+				toastApps.delete(toastId);
+			}
 			toastElement.remove();
 
-			// 如果容器中没有子元素，移除容器
 			if (toastContainer && toastContainer.children.length === 0) {
 				toastContainer.remove();
 				toastContainer = null;
 			}
 		}
 	};
-	toastApp = createApp(Comp, props);
-	toastApp.mount(toastElement);
+	const app = createApp(Comp, props);
+	toastApps.set(toastId, app);
+	app.mount(toastElement);
 
 	return toastId;
-});
+}
 
 const toast = {
 	show(
@@ -47,7 +59,7 @@ const toast = {
 		message: string,
 		options?: Omit<ToastOptions, "message">
 	) {
-		return showToast.value(Comp, {
+		return showToast(Comp, {
 			message,
 			...options
 		});
@@ -58,7 +70,7 @@ const toast = {
 		message: string,
 		options?: Omit<ToastOptions, "message" | "type">
 	) {
-		return showToast.value(Comp, {
+		return showToast(Comp, {
 			message,
 			type: "success",
 			...options
@@ -70,7 +82,7 @@ const toast = {
 		message: string,
 		options?: Omit<ToastOptions, "message" | "type">
 	) {
-		return showToast.value(Comp, {
+		return showToast(Comp, {
 			message,
 			type: "error",
 			...options
@@ -82,7 +94,7 @@ const toast = {
 		message: string,
 		options?: Omit<ToastOptions, "message" | "type">
 	) {
-		return showToast.value(Comp, {
+		return showToast(Comp, {
 			message,
 			type: "warning",
 			...options
@@ -94,7 +106,7 @@ const toast = {
 		message: string,
 		options?: Omit<ToastOptions, "message" | "type">
 	) {
-		return showToast.value(Comp, {
+		return showToast(Comp, {
 			message,
 			type: "info",
 			...options

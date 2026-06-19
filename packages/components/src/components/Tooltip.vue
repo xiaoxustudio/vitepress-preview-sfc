@@ -68,7 +68,7 @@
 			const tooltipRef = ref<HTMLDivElement | null>(null);
 			const isVisible = ref(false);
 			const tooltipPosition = ref({ top: 0, left: 0 });
-			let timeoutId: number;
+			let timeoutId: ReturnType<typeof setTimeout>;
 			let isMouseOverTrigger = false; // 跟踪鼠标是否在触发元素上
 
 			// 计算提示框样式
