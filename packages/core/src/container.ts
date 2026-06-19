@@ -131,7 +131,7 @@ export default function registerContainer(
 
 function transformAttributes(str: string[]) {
 	const arrs = [];
-	const attrRegex = /(\w+)\s*=\s*(?:"([^"]*)"|'([^']*)'|(\S+))/;
+	const attrRegex = /(\w+)\s*=\s*(?:"([^"]*)"|'([^']*)'|(.+))/;
 	for (let i = 0; i < str.length; i++) {
 		const line = str[i].trim();
 		const match = attrRegex.exec(line);
